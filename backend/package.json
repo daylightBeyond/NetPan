@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development && nodemon ./src/main.js",
+    "prod": "pm2 start ./src/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.10",
+    "dotenv": "^16.3.1",
+    "ffmpeg": "^0.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "koa-body": "^6.0.1",
+    "koa-redis": "^4.0.1",
+    "koa-router": "^12.0.1",
+    "koa2": "^2.0.0-alpha.7",
+    "koa2-cors": "^2.0.6",
+    "log4js": "^6.9.1",
+    "multiparty": "^4.2.3",
+    "mysql2": "^3.6.3",
+    "nodemailer": "^6.9.7",
+    "redis": "^3.1.2",
+    "sharp": "^0.32.6"
+  }
+}
