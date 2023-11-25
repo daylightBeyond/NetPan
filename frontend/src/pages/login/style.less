@@ -1,0 +1,85 @@
+.login-body {
+  height: 100vh;
+  width: 100vw;
+  background: url("@/assets/login_bg.jpg");
+  background-size: cover;
+  display: flex;
+
+  .bg {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    background-size: 800px;
+    background-repeat: no-repeat;
+    background-image: url("@/assets/login_img.png");
+  }
+
+  .checkCode-panel {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .checkCode-image {
+      margin-left: 5px;
+    }
+  }
+
+  .login-panel {
+    width: 430px;
+    margin-right: 15%;
+    margin-top: calc((100vh - 500px) / 2);
+
+    .login-register {
+      padding: 25px;
+      background-color: #fff;
+      border-radius: 5px;
+
+      .login-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .send-email-panel {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .send-email-btn {
+          margin-left: 5px;
+          height: 100%;
+        }
+      }
+
+      .rememberme-panel {
+        width: 100%;
+      }
+
+      .no-account {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin: 4px 0;
+      }
+
+      .op-btn {
+        width: 100%;
+      }
+    }
+  }
+
+  .check-code-panel {
+    width: 100%;
+    display: flex;
+
+    .check-code {
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
+
+  svg {
+    color: #a8abb2;
+  }
+}

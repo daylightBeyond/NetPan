@@ -1,0 +1,61 @@
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  // 入口文件
+  entry: './src/index.js',
+  // 输出文件
+  output: {
+    path: path.join(__dirname, './dist'),
+    filename: 'bundle.js'
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, 'src'),
+    }
+  },
+  devServer: {
+    static: path.join(__dirname, './public'),
+    port: 3002,
+    open: true,
+    hot: true
+  },
+  devtool: 'source-map',
+
+  // loader
+  module: {
+    // rules 必须包含两个属性：test 和 use
+    rules: [
+      {
+        test: /\.(js|jsx)/, // 识别哪些文件会被转换
+        exclude: /node_modules/,
+        use: { // 定义出在进行转换时，应该使用哪个 loader
+          loader: 'babel-loader',
+        }
+      },
+      {
+        test: /\.less/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+      },
+      {
+        test: /\.css/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.html/,
+        use: {
+          loader: 'html-loader',
+        }
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      // 新的
+      filename: 'index.html',
+      // 以 public/index.html 为模板创建文件
+      // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
+      template: path.resolve(__dirname, './public/index.html')
+    })
+  ]
+}
