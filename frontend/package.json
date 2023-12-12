@@ -24,8 +24,8 @@
     "zustand": "^4.4.6"
   },
   "scripts": {
-    "start": "webpack serve --mode development --config webpack.config.dev.js",
-    "build": "webpack -mode production --config webpack.config.prod.js",
+    "start": "webpack serve --config webpack.config.dev.js",
+    "build": "webpack --config webpack.config.prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
