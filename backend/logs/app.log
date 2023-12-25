@@ -1,0 +1,3326 @@
+[2023-12-13T21:11:28.560] [INFO] default - 开始生成验证码
+[2023-12-13T21:11:28.576] [INFO] default - 验证码生成结束 WJqS
+[2023-12-13T21:11:38.255] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-12T13:07:56.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-12T13:07:56.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-13T21:11:38.316] [INFO] default - 校验图片验证码---开始
+[2023-12-13T21:11:38.317] [INFO] default - 获取redis验证码 WJqS
+[2023-12-13T21:11:38.317] [INFO] default - 校验图片验证码---结束
+[2023-12-13T21:11:38.317] [INFO] default - 开始登录
+[2023-12-13T21:11:38.324] [INFO] default - 更新用户信息
+[2023-12-13T21:11:38.325] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-13T13:11:38.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-13T13:11:38.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-13T21:11:38.358] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-13T21:11:38.358] [INFO] default - 登录方法结束
+[2023-12-13T21:14:04.176] [INFO] default - 获取用户头像---开始
+[2023-12-13T21:14:04.219] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:09:14.593] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:09:14.617] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:09:20.458] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:09:20.472] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:10:51.007] [INFO] default - 开始生成验证码
+[2023-12-13T22:10:51.012] [INFO] default - 验证码生成结束 IN8f
+[2023-12-13T22:10:58.954] [INFO] default - 开始生成验证码
+[2023-12-13T22:10:58.955] [INFO] default - 验证码生成结束 rN9t
+[2023-12-13T22:11:21.955] [INFO] default - 开始生成验证码
+[2023-12-13T22:11:21.956] [INFO] default - 验证码生成结束 kJEc
+[2023-12-13T22:14:40.766] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:14:40.814] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:15:16.556] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:15:16.571] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:16:46.929] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:16:46.945] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:16:59.081] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:16:59.098] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:18:07.539] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:18:07.553] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:22:41.997] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:22:42.011] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:26:10.339] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:26:10.352] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:26:35.711] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:26:35.733] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:26:50.738] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:26:50.755] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:27:01.393] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:27:01.412] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:35:06.737] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:35:06.761] [INFO] default - 获取用户头像---结束
+[2023-12-13T22:42:53.491] [INFO] default - 获取用户头像---开始
+[2023-12-13T22:42:53.503] [INFO] default - 获取用户头像---结束
+[2023-12-15T20:09:19.105] [INFO] default - 开始生成验证码
+[2023-12-15T20:09:19.110] [INFO] default - 验证码生成结束 wFBn
+[2023-12-15T20:09:21.570] [INFO] default - 开始生成验证码
+[2023-12-15T20:09:21.573] [INFO] default - 验证码生成结束 cP7p
+[2023-12-15T20:09:22.555] [INFO] default - 开始生成验证码
+[2023-12-15T20:09:22.558] [INFO] default - 验证码生成结束 uXZJ
+[2023-12-15T20:09:29.431] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-13T13:11:38.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-13T13:11:38.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-15T20:09:29.493] [INFO] default - 校验图片验证码---开始
+[2023-12-15T20:09:29.495] [INFO] default - 获取redis验证码 uXZJ
+[2023-12-15T20:09:29.495] [INFO] default - 校验图片验证码---结束
+[2023-12-15T20:09:29.495] [INFO] default - 开始登录
+[2023-12-15T20:09:29.501] [INFO] default - 更新用户信息
+[2023-12-15T20:09:29.503] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:09:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:09:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-15T20:09:29.523] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-15T20:09:29.523] [INFO] default - 登录方法结束
+[2023-12-15T20:09:29.574] [INFO] default - 获取用户头像---开始
+[2023-12-15T20:09:29.597] [INFO] default - 获取用户头像---结束
+[2023-12-15T20:13:58.847] [INFO] default - 获取用户头像---开始
+[2023-12-15T20:13:58.868] [INFO] default - 获取用户头像---结束
+[2023-12-15T20:23:38.887] [INFO] default - 开始生成验证码
+[2023-12-15T20:23:38.891] [INFO] default - 验证码生成结束 T0Km
+[2023-12-15T20:23:44.877] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:09:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:09:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-15T20:23:44.930] [INFO] default - 校验图片验证码---开始
+[2023-12-15T20:23:44.931] [INFO] default - 获取redis验证码 T0Km
+[2023-12-15T20:23:44.931] [INFO] default - 校验图片验证码---结束
+[2023-12-15T20:23:44.931] [INFO] default - 开始登录
+[2023-12-15T20:23:44.938] [INFO] default - 更新用户信息
+[2023-12-15T20:23:44.943] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:23:44.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:23:44.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-15T20:23:44.948] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-15T20:23:44.950] [INFO] default - 登录方法结束
+[2023-12-15T20:23:45.022] [INFO] default - 获取用户头像---开始
+[2023-12-15T20:23:45.034] [INFO] default - 获取用户头像---结束
+[2023-12-15T20:24:45.731] [INFO] default - 获取用户头像---开始
+[2023-12-15T20:24:45.747] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:08:36.296] [INFO] default - 开始生成验证码
+[2023-12-15T22:08:36.301] [INFO] default - 验证码生成结束 aubP
+[2023-12-15T22:08:39.008] [INFO] default - 开始生成验证码
+[2023-12-15T22:08:39.010] [INFO] default - 验证码生成结束 TpK3
+[2023-12-15T22:08:42.595] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:23:44.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T12:23:44.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-15T22:08:42.645] [INFO] default - 校验图片验证码---开始
+[2023-12-15T22:08:42.646] [INFO] default - 获取redis验证码 TpK3
+[2023-12-15T22:08:42.646] [INFO] default - 校验图片验证码---结束
+[2023-12-15T22:08:42.646] [INFO] default - 开始登录
+[2023-12-15T22:08:42.648] [INFO] default - 更新用户信息
+[2023-12-15T22:08:42.649] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T14:08:42.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T14:08:42.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-15T22:08:42.656] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-15T22:08:42.657] [INFO] default - 登录方法结束
+[2023-12-15T22:08:42.715] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:08:42.730] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:08:59.039] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:08:59.055] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:10:05.169] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:10:05.186] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:10:57.128] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:10:57.141] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:11:38.281] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:11:38.295] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:17:37.227] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:17:37.241] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:18:00.387] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:18:00.407] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:27:01.244] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:27:01.256] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:28:13.293] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:28:13.309] [INFO] default - 获取用户头像---结束
+[2023-12-15T22:44:08.827] [INFO] default - 获取用户头像---开始
+[2023-12-15T22:44:08.841] [INFO] default - 获取用户头像---结束
+[2023-12-16T11:31:55.244] [INFO] default - 开始生成验证码
+[2023-12-16T11:31:55.246] [INFO] default - 验证码生成结束 TCuA
+[2023-12-16T12:46:39.882] [INFO] default - 开始生成验证码
+[2023-12-16T12:46:39.889] [INFO] default - 验证码生成结束 YyCc
+[2023-12-16T12:46:43.631] [INFO] default - 开始生成验证码
+[2023-12-16T12:46:43.634] [INFO] default - 验证码生成结束 IB7J
+[2023-12-16T12:46:49.509] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T14:08:42.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-15T14:08:42.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T12:46:49.570] [INFO] default - 校验图片验证码---开始
+[2023-12-16T12:46:49.571] [INFO] default - 获取redis验证码 IB7J
+[2023-12-16T12:46:49.571] [INFO] default - 校验图片验证码---结束
+[2023-12-16T12:46:49.571] [INFO] default - 开始登录
+[2023-12-16T12:46:49.578] [INFO] default - 更新用户信息
+[2023-12-16T12:46:49.580] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T04:46:49.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T04:46:49.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T12:46:49.630] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-16T12:46:49.631] [INFO] default - 登录方法结束
+[2023-12-16T12:46:49.685] [INFO] default - 获取用户头像---开始
+[2023-12-16T12:46:49.750] [INFO] default - 获取用户头像---结束
+[2023-12-16T12:47:07.094] [INFO] default - 获取用户头像---开始
+[2023-12-16T12:47:07.113] [INFO] default - 获取用户头像---结束
+[2023-12-16T12:47:23.553] [INFO] default - 获取用户头像---开始
+[2023-12-16T12:47:23.571] [INFO] default - 获取用户头像---结束
+[2023-12-16T12:48:22.925] [INFO] default - 获取用户头像---开始
+[2023-12-16T12:48:22.942] [INFO] default - 获取用户头像---结束
+[2023-12-16T12:49:34.351] [INFO] default - 获取用户头像---开始
+[2023-12-16T12:49:34.370] [INFO] default - 获取用户头像---结束
+[2023-12-16T12:53:01.950] [INFO] default - 获取用户头像---开始
+[2023-12-16T12:53:01.967] [INFO] default - 获取用户头像---结束
+[2023-12-16T17:09:43.662] [INFO] default - 开始生成验证码
+[2023-12-16T17:09:43.669] [INFO] default - 验证码生成结束 mnps
+[2023-12-16T17:09:50.455] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T04:46:49.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T04:46:49.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T17:09:50.521] [INFO] default - 校验图片验证码---开始
+[2023-12-16T17:09:50.524] [INFO] default - 获取redis验证码 mnps
+[2023-12-16T17:09:50.524] [ERROR] default - 图片验证码校验错误 UnauthorizedError: 无效验证码
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.verifyCaptcha (/code/netpan/netpan-/backend/middlewares/user.middleware.js:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.verifyLogin (/code/netpan/netpan-/backend/middlewares/user.middleware.js:97:3)
+    at async exports.userValidator (/code/netpan/netpan-/backend/middlewares/common.middleware.js:22:3)
+    at async cors (/code/netpan/netpan-/backend/node_modules/koa2-cors/dist/index.js:91:9)
+[2023-12-16T17:09:53.000] [INFO] default - 开始生成验证码
+[2023-12-16T17:09:53.001] [INFO] default - 验证码生成结束 8DJa
+[2023-12-16T17:09:59.081] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T04:46:49.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T04:46:49.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T17:09:59.133] [INFO] default - 校验图片验证码---开始
+[2023-12-16T17:09:59.134] [INFO] default - 获取redis验证码 8DJa
+[2023-12-16T17:09:59.134] [INFO] default - 校验图片验证码---结束
+[2023-12-16T17:09:59.135] [INFO] default - 开始登录
+[2023-12-16T17:09:59.142] [INFO] default - 更新用户信息
+[2023-12-16T17:09:59.144] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T09:09:59.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T09:09:59.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T17:09:59.174] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-16T17:09:59.176] [INFO] default - 登录方法结束
+[2023-12-16T17:09:59.231] [INFO] default - 获取用户头像---开始
+[2023-12-16T17:09:59.261] [INFO] default - 获取用户头像---结束
+[2023-12-16T17:10:28.937] [INFO] default - 获取用户头像---开始
+[2023-12-16T17:10:28.957] [INFO] default - 获取用户头像---结束
+[2023-12-16T17:10:39.268] [INFO] default - 获取用户头像---开始
+[2023-12-16T17:10:39.284] [INFO] default - 获取用户头像---结束
+[2023-12-16T17:12:32.336] [INFO] default - 获取用户头像---开始
+[2023-12-16T17:12:32.359] [INFO] default - 获取用户头像---结束
+[2023-12-16T17:19:39.701] [INFO] default - 获取用户头像---开始
+[2023-12-16T17:19:39.722] [INFO] default - 获取用户头像---结束
+[2023-12-16T19:39:55.678] [INFO] default - 开始生成验证码
+[2023-12-16T19:40:04.205] [INFO] default - 验证码生成结束 fK6h
+[2023-12-16T19:54:07.098] [INFO] default - 开始生成验证码
+[2023-12-16T19:54:07.994] [INFO] default - 验证码生成结束 feG7
+[2023-12-16T20:08:08.636] [INFO] default - 开始生成验证码
+[2023-12-16T20:08:08.640] [INFO] default - 验证码生成结束 bGy2
+[2023-12-16T20:08:13.464] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T09:09:59.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T09:09:59.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T20:08:13.553] [INFO] default - 校验图片验证码---开始
+[2023-12-16T20:08:13.553] [INFO] default - 获取redis验证码 bGy2
+[2023-12-16T20:08:13.553] [INFO] default - 校验图片验证码---结束
+[2023-12-16T20:08:13.553] [INFO] default - 开始登录
+[2023-12-16T20:08:13.670] [INFO] default - 更新用户信息
+[2023-12-16T20:08:13.672] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T12:08:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T12:08:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-16T20:08:13.725] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-16T20:08:13.726] [INFO] default - 登录方法结束
+[2023-12-16T20:08:13.792] [INFO] default - 获取用户头像---开始
+[2023-12-16T20:08:14.220] [INFO] default - 获取用户头像---结束
+[2023-12-16T20:13:17.076] [INFO] default - 获取用户头像---开始
+[2023-12-16T20:13:17.127] [INFO] default - 获取用户头像---结束
+[2023-12-16T20:13:54.957] [INFO] default - 获取用户头像---开始
+[2023-12-16T20:13:54.996] [INFO] default - 获取用户头像---结束
+[2023-12-16T20:14:10.735] [INFO] default - 获取用户头像---开始
+[2023-12-16T20:14:10.773] [INFO] default - 获取用户头像---结束
+[2023-12-16T20:14:17.020] [INFO] default - 获取用户头像---开始
+[2023-12-16T20:14:17.032] [INFO] default - 获取用户头像---结束
+[2023-12-16T20:19:55.134] [INFO] default - 获取用户头像---开始
+[2023-12-16T20:19:55.222] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:02:24.730] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:02:24.768] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:02:28.091] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:02:28.092] [ERROR] default - 异常错误: Error: WHERE parameter "user_id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:1743:13)
+    at /code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:1734:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:1732:35)
+    at MySQLQueryGenerator.getWhereConditions (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:2075:19)
+    at MySQLQueryGenerator.selectQuery (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:988:28)
+    at MySQLQueryInterface.select (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-interface.js:407:59)
+    at Function.findAll (/code/netpan/netpan-/backend/node_modules/sequelize/lib/model.js:1140:47)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Function.findOne (/code/netpan/netpan-/backend/node_modules/sequelize/lib/model.js:1240:12)
+[2023-12-16T21:03:37.307] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:03:37.338] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:03:39.277] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:03:39.278] [ERROR] default - 异常错误: Error: WHERE parameter "user_id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:1743:13)
+    at /code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:1734:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:1732:35)
+    at MySQLQueryGenerator.getWhereConditions (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:2075:19)
+    at MySQLQueryGenerator.selectQuery (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-generator.js:988:28)
+    at MySQLQueryInterface.select (/code/netpan/netpan-/backend/node_modules/sequelize/lib/dialects/abstract/query-interface.js:407:59)
+    at Function.findAll (/code/netpan/netpan-/backend/node_modules/sequelize/lib/model.js:1140:47)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Function.findOne (/code/netpan/netpan-/backend/node_modules/sequelize/lib/model.js:1240:12)
+[2023-12-16T21:03:48.773] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:03:48.803] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:03:50.338] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:03:50.352] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:06:56.224] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:06:56.281] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:09:56.855] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:09:57.013] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:10:00.692] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:10:00.702] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:11:49.389] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:11:49.433] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:11:51.545] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:11:51.638] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:13:13.600] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:13:13.664] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:13:16.150] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:13:16.167] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:39:16.447] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:39:16.495] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:39:21.539] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:39:21.721] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:44:46.091] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:44:46.129] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:44:48.585] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:44:48.711] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:45:23.415] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:45:23.460] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:45:25.121] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:45:25.142] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:46:06.052] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:46:06.174] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:46:10.673] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:46:10.685] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:46:30.999] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:46:31.013] [INFO] default - 获取用户头像---结束
+[2023-12-16T21:46:35.888] [INFO] default - 获取用户头像---开始
+[2023-12-16T21:46:35.918] [INFO] default - 获取用户头像---结束
+[2023-12-17T19:50:03.303] [INFO] default - 开始生成验证码
+[2023-12-17T19:50:03.309] [INFO] default - 验证码生成结束 Pn4e
+[2023-12-17T19:50:23.822] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T12:08:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-16T12:08:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-17T19:50:23.897] [INFO] default - 校验图片验证码---开始
+[2023-12-17T19:50:23.898] [INFO] default - 获取redis验证码 Pn4e
+[2023-12-17T19:50:23.898] [INFO] default - 校验图片验证码---结束
+[2023-12-17T19:50:23.899] [INFO] default - 开始登录
+[2023-12-17T19:50:23.912] [INFO] default - 更新用户信息
+[2023-12-17T19:50:23.915] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-17T11:50:23.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-17T11:50:23.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-17T19:50:23.945] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-17T19:50:23.945] [INFO] default - 登录方法结束
+[2023-12-17T19:50:24.007] [INFO] default - 获取用户头像---开始
+[2023-12-17T19:50:24.052] [INFO] default - 获取用户头像---结束
+[2023-12-17T19:50:34.079] [INFO] default - 获取用户头像---开始
+[2023-12-17T19:50:34.100] [INFO] default - 获取用户头像---结束
+[2023-12-17T19:52:03.454] [INFO] default - 获取用户头像---开始
+[2023-12-17T19:52:03.474] [INFO] default - 获取用户头像---结束
+[2023-12-18T20:16:24.051] [INFO] default - 开始生成验证码
+[2023-12-18T20:16:24.055] [INFO] default - 验证码生成结束 cvEn
+[2023-12-18T20:19:03.606] [INFO] default - 开始生成验证码
+[2023-12-18T20:19:03.608] [INFO] default - 验证码生成结束 tPFF
+[2023-12-18T20:19:08.442] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-17T11:50:23.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-17T11:50:23.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T20:19:08.511] [INFO] default - 校验图片验证码---开始
+[2023-12-18T20:19:08.511] [INFO] default - 获取redis验证码 tPFF
+[2023-12-18T20:19:08.512] [ERROR] default - 图片验证码校验错误 UnauthorizedError: 无效验证码
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.verifyCaptcha (/code/netpan/netpan-/backend/middlewares/user.middleware.js:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.verifyLogin (/code/netpan/netpan-/backend/middlewares/user.middleware.js:97:3)
+    at async exports.userValidator (/code/netpan/netpan-/backend/middlewares/common.middleware.js:22:3)
+    at async cors (/code/netpan/netpan-/backend/node_modules/koa2-cors/dist/index.js:91:9)
+[2023-12-18T20:19:10.553] [INFO] default - 开始生成验证码
+[2023-12-18T20:19:10.555] [INFO] default - 验证码生成结束 rKrT
+[2023-12-18T20:19:13.147] [INFO] default - 开始生成验证码
+[2023-12-18T20:19:13.149] [INFO] default - 验证码生成结束 pgkV
+[2023-12-18T20:19:18.278] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-17T11:50:23.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-17T11:50:23.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T20:19:18.334] [INFO] default - 校验图片验证码---开始
+[2023-12-18T20:19:18.334] [INFO] default - 获取redis验证码 pgkV
+[2023-12-18T20:19:18.334] [INFO] default - 校验图片验证码---结束
+[2023-12-18T20:19:18.334] [INFO] default - 开始登录
+[2023-12-18T20:19:18.343] [INFO] default - 更新用户信息
+[2023-12-18T20:19:18.345] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T12:19:18.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T12:19:18.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T20:19:18.416] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-18T20:19:18.416] [INFO] default - 登录方法结束
+[2023-12-18T20:19:18.480] [INFO] default - 获取用户头像---开始
+[2023-12-18T20:19:18.508] [INFO] default - 获取用户头像---结束
+[2023-12-18T20:19:43.134] [INFO] default - 获取用户头像---开始
+[2023-12-18T20:19:43.155] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:01:54.875] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:01:54.907] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:04:55.379] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:04:55.403] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:04:58.108] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:04:58.121] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:12:27.628] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:12:27.645] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:12:34.832] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:12:34.847] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:12:38.375] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:12:38.390] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:13:16.092] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:13:16.111] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:13:23.402] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:13:23.414] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:19:40.050] [ERROR] default - 无效的token JsonWebTokenError: jwt must be provided
+    at Object.module.exports [as verify] (/code/netpan/netpan-/backend/node_modules/jsonwebtoken/verify.js:60:17)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:88:22)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:19:40.051] [ERROR] default - 异常错误: UnauthorizedError: 无效的token，请重新登录
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:98:18)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:21:55.849] [ERROR] default - 无效的token JsonWebTokenError: jwt must be provided
+    at Object.module.exports [as verify] (/code/netpan/netpan-/backend/node_modules/jsonwebtoken/verify.js:60:17)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:87:22)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:21:55.851] [ERROR] default - 异常错误: UnauthorizedError: 无效的token，请重新登录
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:97:18)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:23:31.752] [ERROR] default - 无效的token JsonWebTokenError: jwt must be provided
+    at Object.module.exports [as verify] (/code/netpan/netpan-/backend/node_modules/jsonwebtoken/verify.js:60:17)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:87:22)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:23:31.752] [ERROR] default - 异常错误: UnauthorizedError: 无效的token，请重新登录
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:97:18)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:23:37.561] [INFO] default - 开始生成验证码
+[2023-12-18T21:23:37.566] [INFO] default - 验证码生成结束 4nKB
+[2023-12-18T21:23:44.942] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T12:19:18.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T12:19:18.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T21:23:45.005] [INFO] default - 校验图片验证码---开始
+[2023-12-18T21:23:45.007] [INFO] default - 获取redis验证码 4nKB
+[2023-12-18T21:23:45.007] [INFO] default - 校验图片验证码---结束
+[2023-12-18T21:23:45.007] [INFO] default - 开始登录
+[2023-12-18T21:23:45.013] [INFO] default - 更新用户信息
+[2023-12-18T21:23:45.014] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:23:45.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:23:45.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T21:23:45.020] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-18T21:23:45.022] [INFO] default - 登录方法结束
+[2023-12-18T21:23:45.105] [ERROR] default - 无效的token JsonWebTokenError: jwt must be provided
+    at Object.module.exports [as verify] (/code/netpan/netpan-/backend/node_modules/jsonwebtoken/verify.js:60:17)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:87:22)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:23:45.106] [ERROR] default - 异常错误: UnauthorizedError: 无效的token，请重新登录
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:97:18)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:34:56.524] [ERROR] default - 无效的token JsonWebTokenError: jwt must be provided
+    at Object.module.exports [as verify] (/code/netpan/netpan-/backend/node_modules/jsonwebtoken/verify.js:60:17)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:87:22)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:34:56.526] [ERROR] default - 异常错误: UnauthorizedError: 无效的token，请重新登录
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:97:18)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+    at /code/netpan/netpan-/backend/node_modules/koa-body/lib/index.js:115:16
+[2023-12-18T21:35:00.402] [INFO] default - 开始生成验证码
+[2023-12-18T21:35:00.408] [INFO] default - 验证码生成结束 Sm3Y
+[2023-12-18T21:35:13.455] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:23:45.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:23:45.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T21:35:13.518] [INFO] default - 校验图片验证码---开始
+[2023-12-18T21:35:13.518] [INFO] default - 获取redis验证码 Sm3Y
+[2023-12-18T21:35:13.518] [INFO] default - 校验图片验证码---结束
+[2023-12-18T21:35:13.519] [INFO] default - 开始登录
+[2023-12-18T21:35:13.524] [INFO] default - 更新用户信息
+[2023-12-18T21:35:13.526] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:35:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:35:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: null,
+    avatarType: null
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T21:35:13.530] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-18T21:35:13.530] [INFO] default - 登录方法结束
+[2023-12-18T21:35:13.618] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:35:13.618] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:35:13.633] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:36:00.709] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:36:00.709] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:36:00.729] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:40:34.337] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:40:34.337] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:40:34.352] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:40:58.638] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:40:58.638] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:40:58.656] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:41:00.649] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:41:00.650] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:41:00.664] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:41:10.380] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:41:10.380] [INFO] default - 更新用户头像---开始
+[2023-12-18T21:41:10.380] [ERROR] default - 上传文件失败 TypeError: Cannot destructure property 'avatar' of 'ctx.request.files' as it is undefined.
+    at updateUserAvatar (/code/netpan/netpan-/backend/controllers/user.controller.js:386:15)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:101:9)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+[2023-12-18T21:43:43.354] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:43:43.355] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:43:43.371] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:43:47.055] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:43:47.055] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:43:47.066] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:43:53.396] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:43:53.396] [INFO] default - 更新用户头像---开始
+[2023-12-18T21:43:53.396] [ERROR] default - 上传文件失败 TypeError: Cannot destructure property 'avatar' of 'ctx.request.files' as it is undefined.
+    at updateUserAvatar (/code/netpan/netpan-/backend/controllers/user.controller.js:386:15)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:101:9)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+[2023-12-18T21:44:55.152] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:44:55.152] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:44:55.167] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:44:57.743] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:44:57.743] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:44:57.754] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:45:01.008] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:45:01.008] [INFO] default - 更新用户头像---开始
+[2023-12-18T21:45:01.008] [ERROR] default - 上传文件失败 TypeError: Cannot destructure property 'avatar' of 'ctx.request.files' as it is undefined.
+    at updateUserAvatar (/code/netpan/netpan-/backend/controllers/user.controller.js:386:15)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:101:9)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+[2023-12-18T21:45:12.874] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:45:12.874] [INFO] default - 更新用户头像---开始
+[2023-12-18T21:45:12.875] [ERROR] default - 上传文件失败 TypeError: Cannot destructure property 'avatar' of 'ctx.request.files' as it is undefined.
+    at updateUserAvatar (/code/netpan/netpan-/backend/controllers/user.controller.js:386:15)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at exports.authMiddleware (/code/netpan/netpan-/backend/middlewares/common.middleware.js:101:9)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:423:16
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-compose/index.js:42:32)
+    at /code/netpan/netpan-/backend/node_modules/koa-compose/index.js:34:12
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa-router/lib/router.js:428:31)
+    at dispatch (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:44:32)
+    at next (/code/netpan/netpan-/backend/node_modules/koa2/node_modules/koa-compose/index.js:45:18)
+[2023-12-18T21:55:04.710] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:55:04.710] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:55:04.733] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:55:10.811] [ERROR] default - 异常错误: [Error: ENOENT: no such file or directory, open '/app/netpan/temp_uploads/abaeea331f568c28cfa2ae500.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/netpan/temp_uploads/abaeea331f568c28cfa2ae500.jpg'
+}
+[2023-12-18T21:55:45.826] [ERROR] default - 异常错误: [Error: ENOENT: no such file or directory, open '/app/netpan/temp_uploads/abaeea331f568c28cfa2ae501.jpg'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/netpan/temp_uploads/abaeea331f568c28cfa2ae501.jpg'
+}
+[2023-12-18T21:56:48.082] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:56:48.082] [INFO] default - 更新用户头像---开始
+[2023-12-18T21:56:48.082] [INFO] default - 文件夹不存在, 已创建成功
+[2023-12-18T21:56:48.085] [INFO] default - 开始更新数据库
+[2023-12-18T21:56:48.088] [INFO] default - 更新用户头像---结束
+[2023-12-18T21:57:39.386] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702906513,
+  exp: 1702992913
+}
+[2023-12-18T21:57:39.386] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:57:39.403] [INFO] default - 获取用户头像---结束
+[2023-12-18T21:57:47.236] [INFO] default - 开始生成验证码
+[2023-12-18T21:57:47.242] [INFO] default - 验证码生成结束 wJum
+[2023-12-18T21:57:52.581] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:35:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:35:13.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T21:57:52.638] [INFO] default - 校验图片验证码---开始
+[2023-12-18T21:57:52.638] [INFO] default - 获取redis验证码 wJum
+[2023-12-18T21:57:52.638] [INFO] default - 校验图片验证码---结束
+[2023-12-18T21:57:52.638] [INFO] default - 开始登录
+[2023-12-18T21:57:52.642] [INFO] default - 更新用户信息
+[2023-12-18T21:57:52.643] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:57:52.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:57:52.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T21:57:52.646] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-18T21:57:52.646] [INFO] default - 登录方法结束
+[2023-12-18T21:57:52.723] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702907872,
+  exp: 1702994272
+}
+[2023-12-18T21:57:52.723] [INFO] default - 获取用户头像---开始
+[2023-12-18T21:57:52.736] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:08:25.591] [INFO] default - 开始生成验证码
+[2023-12-18T22:08:25.594] [INFO] default - 验证码生成结束 22AJ
+[2023-12-18T22:08:34.777] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:57:52.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T13:57:52.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T22:08:34.827] [INFO] default - 校验图片验证码---开始
+[2023-12-18T22:08:34.827] [INFO] default - 获取redis验证码 22AJ
+[2023-12-18T22:08:34.827] [INFO] default - 校验图片验证码---结束
+[2023-12-18T22:08:34.827] [INFO] default - 开始登录
+[2023-12-18T22:08:34.830] [INFO] default - 更新用户信息
+[2023-12-18T22:08:34.831] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T14:08:34.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T14:08:34.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-18T22:08:34.833] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-18T22:08:34.833] [INFO] default - 登录方法结束
+[2023-12-18T22:08:34.895] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:08:34.895] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:08:34.911] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:45:51.833] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:45:51.834] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:45:51.851] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:51:03.125] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:51:03.125] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:51:03.141] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:51:51.633] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:51:51.633] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:51:51.651] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:52:26.221] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:52:26.221] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:52:26.240] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:52:50.714] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:52:50.714] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:52:50.736] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:53:43.307] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:53:43.307] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:53:43.327] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:54:15.121] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:54:15.122] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:54:15.141] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:56:35.912] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:56:35.912] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:56:35.934] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:56:40.939] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:56:40.940] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:56:40.965] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:56:53.999] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:56:53.999] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:56:54.015] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:56:56.781] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:56:56.781] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:56:56.794] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:57:16.261] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:57:16.261] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:57:16.277] [INFO] default - 获取用户头像---结束
+[2023-12-18T22:57:18.262] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702908514,
+  exp: 1702994914
+}
+[2023-12-18T22:57:18.262] [INFO] default - 获取用户头像---开始
+[2023-12-18T22:57:18.281] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:13:22.936] [INFO] default - 开始生成验证码
+[2023-12-19T21:13:22.940] [INFO] default - 验证码生成结束 PzAD
+[2023-12-19T21:13:28.969] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T14:08:34.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-18T14:08:34.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-19T21:13:29.031] [INFO] default - 校验图片验证码---开始
+[2023-12-19T21:13:29.031] [INFO] default - 获取redis验证码 PzAD
+[2023-12-19T21:13:29.031] [INFO] default - 校验图片验证码---结束
+[2023-12-19T21:13:29.031] [INFO] default - 开始登录
+[2023-12-19T21:13:29.038] [INFO] default - 更新用户信息
+[2023-12-19T21:13:29.039] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-19T13:13:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-19T13:13:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-19T21:13:29.056] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-19T21:13:29.058] [INFO] default - 登录方法结束
+[2023-12-19T21:13:29.125] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:13:29.125] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:13:29.170] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:13:32.827] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:13:32.827] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:13:32.839] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:13:40.950] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:13:40.950] [INFO] default - 更新用户头像---开始
+[2023-12-19T21:13:40.950] [INFO] default - 文件夹存在
+[2023-12-19T21:13:40.951] [INFO] default - 开始更新数据库
+[2023-12-19T21:13:40.955] [INFO] default - 更新用户头像---结束
+[2023-12-19T21:14:16.485] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:14:16.491] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:14:16.509] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:14:20.791] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:14:20.791] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:14:20.806] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:14:25.009] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:14:25.009] [INFO] default - 更新用户头像---开始
+[2023-12-19T21:14:25.012] [INFO] default - 文件夹存在
+[2023-12-19T21:14:25.021] [INFO] default - 开始更新数据库
+[2023-12-19T21:14:25.026] [INFO] default - 更新用户头像---结束
+[2023-12-19T21:14:25.033] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:14:25.034] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:14:25.048] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:15:48.472] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:15:48.472] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:15:48.490] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:16:33.395] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:16:33.395] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:16:33.419] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:31:00.915] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:31:00.916] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:31:00.942] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:31:46.921] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:31:46.921] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:31:46.940] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:32:09.637] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:32:09.638] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:32:09.657] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:34:35.957] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:34:35.957] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:34:35.977] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:37:30.410] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:37:30.410] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:37:30.426] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:40:34.470] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:40:34.471] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:40:34.489] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:40:57.899] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:40:57.899] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:40:57.915] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:14.077] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:14.077] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:14.096] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:20.038] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:20.038] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:20.054] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:32.173] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:32.173] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:32.191] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:38.903] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:38.903] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:38.920] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:44.679] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:44.679] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:44.691] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:50.962] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:50.962] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:50.975] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:41:57.753] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:41:57.753] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:41:57.767] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:42:09.439] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:42:09.439] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:42:09.455] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:42:19.721] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:42:19.721] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:42:19.741] [INFO] default - 获取用户头像---结束
+[2023-12-19T21:45:36.211] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T21:45:36.211] [INFO] default - 获取用户头像---开始
+[2023-12-19T21:45:36.230] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:43:04.559] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:43:04.559] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:43:04.576] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:45:56.850] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:45:56.850] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:45:56.866] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:46:07.518] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:46:07.519] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:46:07.540] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:46:17.679] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:46:17.680] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:46:17.695] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:46:38.275] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:46:38.275] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:46:38.292] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:47:30.098] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:47:30.098] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:47:30.114] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:48:00.815] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:48:00.815] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:48:00.832] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:48:10.697] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:48:10.697] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:48:10.711] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:48:54.224] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:48:54.224] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:48:54.239] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:50:04.248] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:50:04.248] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:50:04.263] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:51:30.116] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:51:30.116] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:51:30.135] [INFO] default - 获取用户头像---结束
+[2023-12-19T22:51:40.593] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1702991609,
+  exp: 1703078009
+}
+[2023-12-19T22:51:40.594] [INFO] default - 获取用户头像---开始
+[2023-12-19T22:51:40.608] [INFO] default - 获取用户头像---结束
+[2023-12-20T20:48:03.473] [INFO] default - 开始生成验证码
+[2023-12-20T20:48:03.476] [INFO] default - 验证码生成结束 XND3
+[2023-12-20T20:48:10.381] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-19T13:13:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-19T13:13:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-20T20:48:10.447] [INFO] default - 校验图片验证码---开始
+[2023-12-20T20:48:10.447] [INFO] default - 获取redis验证码 XND3
+[2023-12-20T20:48:10.448] [INFO] default - 校验图片验证码---结束
+[2023-12-20T20:48:10.448] [INFO] default - 开始登录
+[2023-12-20T20:48:10.455] [INFO] default - 更新用户信息
+[2023-12-20T20:48:10.456] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-20T12:48:10.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-20T12:48:10.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-20T20:48:10.484] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-20T20:48:10.484] [INFO] default - 登录方法结束
+[2023-12-20T20:48:10.557] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T20:48:10.557] [INFO] default - 获取用户头像---开始
+[2023-12-20T20:48:10.602] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:06:07.512] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:06:07.512] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:06:07.533] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:14:44.535] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:14:44.535] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:14:44.564] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:20:39.945] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:20:39.947] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:20:39.973] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:24:48.399] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:24:48.399] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:24:48.417] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:25:07.233] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:25:07.233] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:25:07.260] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:28:19.902] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:28:19.902] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:28:19.924] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:29:13.171] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:29:13.171] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:29:13.191] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:29:16.912] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:29:16.912] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:29:16.925] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:30:00.910] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:30:00.910] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:30:00.925] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:30:42.152] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:30:42.152] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:30:42.169] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:40:45.961] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:40:45.961] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:40:45.980] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:41:20.641] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:41:20.642] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:41:20.659] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:42:23.143] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:42:23.143] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:42:23.160] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:44:03.485] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:44:03.485] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:44:03.507] [INFO] default - 获取用户头像---结束
+[2023-12-20T21:50:26.127] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703076490,
+  exp: 1703162890
+}
+[2023-12-20T21:50:26.127] [INFO] default - 获取用户头像---开始
+[2023-12-20T21:50:26.143] [INFO] default - 获取用户头像---结束
+[2023-12-25T20:33:47.237] [INFO] default - 开始生成验证码
+[2023-12-25T20:33:47.240] [INFO] default - 验证码生成结束 LP5X
+[2023-12-25T20:33:58.902] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-20T12:48:10.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-20T12:48:10.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T20:33:58.967] [INFO] default - 校验图片验证码---开始
+[2023-12-25T20:33:58.970] [INFO] default - 获取redis验证码 LP5X
+[2023-12-25T20:33:58.970] [INFO] default - 校验图片验证码---结束
+[2023-12-25T20:33:58.970] [INFO] default - 开始登录
+[2023-12-25T20:33:58.983] [INFO] default - 更新用户信息
+[2023-12-25T20:33:58.985] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T20:33:59.007] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-25T20:33:59.008] [INFO] default - 登录方法结束
+[2023-12-25T20:33:59.112] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703507638,
+  exp: 1703594038
+}
+[2023-12-25T20:33:59.113] [INFO] default - 获取用户头像---开始
+[2023-12-25T20:33:59.169] [INFO] default - 获取用户头像---结束
+[2023-12-25T20:35:03.994] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703507638,
+  exp: 1703594038
+}
+[2023-12-25T20:35:03.994] [INFO] default - 获取用户头像---开始
+[2023-12-25T20:35:04.017] [INFO] default - 获取用户头像---结束
+[2023-12-25T20:58:45.130] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703507638,
+  exp: 1703594038
+}
+[2023-12-25T20:58:45.130] [INFO] default - 获取用户头像---开始
+[2023-12-25T20:58:45.160] [INFO] default - 获取用户头像---结束
+[2023-12-25T21:02:02.007] [INFO] default - 开始生成验证码
+[2023-12-25T21:02:02.009] [INFO] default - 验证码生成结束 RXlU
+[2023-12-25T21:02:10.763] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:02:10.814] [INFO] default - 校验图片验证码---开始
+[2023-12-25T21:02:10.814] [INFO] default - 获取redis验证码 RXlU
+[2023-12-25T21:02:10.814] [ERROR] default - 图片验证码校验错误 UnauthorizedError: 无效验证码
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.verifyCaptcha (/code/netpan/netpan-/backend/middlewares/user.middleware.js:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.verifyLogin (/code/netpan/netpan-/backend/middlewares/user.middleware.js:97:3)
+    at async exports.userValidator (/code/netpan/netpan-/backend/middlewares/common.middleware.js:22:3)
+    at async cors (/code/netpan/netpan-/backend/node_modules/koa2-cors/dist/index.js:91:9)
+[2023-12-25T21:02:14.743] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:02:14.793] [INFO] default - 校验图片验证码---开始
+[2023-12-25T21:02:14.794] [INFO] default - 获取redis验证码 RXlU
+[2023-12-25T21:02:14.794] [ERROR] default - 图片验证码校验错误 UnauthorizedError: 无效验证码
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.verifyCaptcha (/code/netpan/netpan-/backend/middlewares/user.middleware.js:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.verifyLogin (/code/netpan/netpan-/backend/middlewares/user.middleware.js:97:3)
+    at async exports.userValidator (/code/netpan/netpan-/backend/middlewares/common.middleware.js:22:3)
+    at async cors (/code/netpan/netpan-/backend/node_modules/koa2-cors/dist/index.js:91:9)
+[2023-12-25T21:03:09.856] [INFO] default - 开始生成验证码
+[2023-12-25T21:03:09.859] [INFO] default - 验证码生成结束 wI9r
+[2023-12-25T21:03:12.638] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:03:12.689] [INFO] default - 校验图片验证码---开始
+[2023-12-25T21:03:12.690] [INFO] default - 获取redis验证码 wI9r
+[2023-12-25T21:03:12.691] [ERROR] default - 图片验证码校验错误 UnauthorizedError: 无效验证码
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.verifyCaptcha (/code/netpan/netpan-/backend/middlewares/user.middleware.js:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.verifyLogin (/code/netpan/netpan-/backend/middlewares/user.middleware.js:97:3)
+    at async exports.userValidator (/code/netpan/netpan-/backend/middlewares/common.middleware.js:22:3)
+    at async cors (/code/netpan/netpan-/backend/node_modules/koa2-cors/dist/index.js:91:9)
+[2023-12-25T21:03:20.728] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:03:20.780] [INFO] default - 校验图片验证码---开始
+[2023-12-25T21:03:20.782] [INFO] default - 获取redis验证码 wI9r
+[2023-12-25T21:03:20.782] [ERROR] default - 图片验证码校验错误 UnauthorizedError: 无效验证码
+    at Object.throw (/code/netpan/netpan-/backend/node_modules/koa2/lib/context.js:91:23)
+    at exports.verifyCaptcha (/code/netpan/netpan-/backend/middlewares/user.middleware.js:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.verifyLogin (/code/netpan/netpan-/backend/middlewares/user.middleware.js:97:3)
+    at async exports.userValidator (/code/netpan/netpan-/backend/middlewares/common.middleware.js:22:3)
+    at async cors (/code/netpan/netpan-/backend/node_modules/koa2-cors/dist/index.js:91:9)
+[2023-12-25T21:03:23.120] [INFO] default - 开始生成验证码
+[2023-12-25T21:03:23.123] [INFO] default - 验证码生成结束 4nr8
+[2023-12-25T21:03:29.022] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T12:33:58.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:03:29.071] [INFO] default - 校验图片验证码---开始
+[2023-12-25T21:03:29.072] [INFO] default - 获取redis验证码 4nr8
+[2023-12-25T21:03:29.072] [INFO] default - 校验图片验证码---结束
+[2023-12-25T21:03:29.072] [INFO] default - 开始登录
+[2023-12-25T21:03:29.075] [INFO] default - 更新用户信息
+[2023-12-25T21:03:29.076] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T13:03:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T13:03:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:03:29.079] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-25T21:03:29.080] [INFO] default - 登录方法结束
+[2023-12-25T21:03:29.165] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703509409,
+  exp: 1703595809
+}
+[2023-12-25T21:03:29.166] [INFO] default - 获取用户头像---开始
+[2023-12-25T21:03:29.181] [INFO] default - 获取用户头像---结束
+[2023-12-25T21:11:53.551] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703509409,
+  exp: 1703595809
+}
+[2023-12-25T21:11:53.552] [INFO] default - 获取用户头像---开始
+[2023-12-25T21:11:53.566] [INFO] default - 获取用户头像---结束
+[2023-12-25T21:12:12.144] [INFO] default - 开始生成验证码
+[2023-12-25T21:12:12.148] [INFO] default - 验证码生成结束 Qkbk
+[2023-12-25T21:12:12.380] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703509409,
+  exp: 1703595809
+}
+[2023-12-25T21:12:12.380] [INFO] default - 获取用户头像---开始
+[2023-12-25T21:12:12.394] [INFO] default - 获取用户头像---结束
+[2023-12-25T21:12:19.251] [INFO] default - verifyLogin校验用户信息 UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T13:03:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T13:03:29.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:12:19.302] [INFO] default - 校验图片验证码---开始
+[2023-12-25T21:12:19.302] [INFO] default - 获取redis验证码 Qkbk
+[2023-12-25T21:12:19.303] [INFO] default - 校验图片验证码---结束
+[2023-12-25T21:12:19.303] [INFO] default - 开始登录
+[2023-12-25T21:12:19.305] [INFO] default - 更新用户信息
+[2023-12-25T21:12:19.306] [INFO] default - 查询用户信息： UserInfo {
+  dataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T13:12:19.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  _previousDataValues: {
+    userId: 'd3a20dced8',
+    username: 'hehe',
+    email: '382185442@qq.com',
+    password: '$2a$10$sPUVI6Lw9VikrxktDBBJPOnQZVmPkQOyK6GjsrTYz4bQZJX2J8LZ6',
+    joinTime: 2023-12-03T12:21:31.000Z,
+    lastLoginTime: 2023-12-25T13:12:19.000Z,
+    status: 1,
+    useSpace: 0,
+    totalSpace: 1073741824,
+    admin: 0,
+    avatarPath: '/app/netpan/staticfile/d3a20dced8/d3a20dced8.jpg',
+    avatarType: '.jpg'
+  },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [
+      'userId',     'username',
+      'email',      'password',
+      'joinTime',   'lastLoginTime',
+      'status',     'useSpace',
+      'totalSpace', 'admin',
+      'avatarPath', 'avatarType'
+    ]
+  },
+  isNewRecord: false
+}
+[2023-12-25T21:12:19.308] [INFO] default - 用户上传文件总大小fileSizeSum 10
+[2023-12-25T21:12:19.308] [INFO] default - 登录方法结束
+[2023-12-25T21:12:19.389] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703509939,
+  exp: 1703596339
+}
+[2023-12-25T21:12:19.389] [INFO] default - 获取用户头像---开始
+[2023-12-25T21:12:19.401] [INFO] default - 获取用户头像---结束
+[2023-12-25T21:12:26.443] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703509939,
+  exp: 1703596339
+}
+[2023-12-25T21:12:26.444] [INFO] default - 获取用户头像---开始
+[2023-12-25T21:12:26.455] [INFO] default - 获取用户头像---结束
+[2023-12-25T21:12:27.976] [INFO] default - jwt鉴权 {
+  userId: 'd3a20dced8',
+  username: 'hehe',
+  iat: 1703509939,
+  exp: 1703596339
+}
+[2023-12-25T21:12:27.976] [INFO] default - 获取用户头像---开始
+[2023-12-25T21:12:27.987] [INFO] default - 获取用户头像---结束

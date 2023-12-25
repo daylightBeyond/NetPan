@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 
-const Login = lazy(() => import('@/pages/login/Login.jsx'));
+const Login = lazy(() => import('@/pages/Login/Login.jsx'));
 const FrameWork = lazy(() => import('@/pages/FrameWork/FrameWork.jsx'));
 const Main = lazy(() => import('@/pages/Main/Main.jsx'));
 const Share = lazy(() => import("@/pages/Share/Share.jsx"));
@@ -13,7 +13,7 @@ const routes = [
     element: <Navigate replace to='/login' />,
   },
   {
-    path: '/login',
+    path: '/Login',
     element: <Login />,
   },
   {

@@ -67,15 +67,3 @@ export const getAvatar = (param) => {
   });
 };
 
-// 更新用户头像
-export const updateUserAvatar = (param) => {
-  return request({
-    method: 'post',
-    url: '/updateUserAvatar',
-    data: param,
-    showLoading: true,
-    headers: {
-      'Content-Type': 'multer/form-data'
-    }
-  });
-};

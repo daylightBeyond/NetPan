@@ -127,10 +127,10 @@ const Login = () => {
         localStorage.removeItem('rememberme');
       }
       login(params).then(res => {
-        // console.log('登录返回', res);
         if (res.success) {
           message.success(res.message || '登录成功');
           sessionStorage.setItem('userInfo', JSON.stringify(res.data));
+          sessionStorage.setItem('token', res.data.token);
           navigate('/main/all', {
             // 这里加上state是因为使用useLocation解析匹配动态路由展示页面
             state: {

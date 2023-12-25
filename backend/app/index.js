@@ -7,6 +7,7 @@ const router = require('../router/index');
 const logger = require('../utils/logger');
 // 引入封装的redis工具方法
 const redisUtils = require('../utils/redisUtil');
+const { UPLOAD_TEMP_FOLDER } = require('../constants/constants');
 // 同步数据库表
 sequelize.sync()
   .then(() => {
@@ -28,7 +29,16 @@ app.context.redisUtils = redisUtils;
 // 配置跨域
 app.use(cors());
 // 配置前端请求
-app.use(koaBody());
+// 下面是文件上传时的配置
+app.use(koaBody({
+  multipart: true, // 支持文件上传
+  formidable: {
+    maxFieldSize: 15 * 1024 * 1024, // 设置上传文件的最大大小为 15MB
+    uploadDir: UPLOAD_TEMP_FOLDER, // 上传文件的存储目录 '/app/netpan/temp_uploads'
+    keepExtensions: true, // 保留扩展名
+    multiparty: true, // 允许上传多个文件
+  }
+}));
 
 // 挂载路由
 app.use(router.routes()).use(router.allowedMethods());

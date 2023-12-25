@@ -1,8 +1,13 @@
-import React, { memo, Suspense } from 'react';
-import { Outlet, Router, Routes, Route, useRoutes } from "react-router-dom";
+import React, { lazy, memo, Suspense } from 'react';
+import { Outlet, Router, Routes, Route, useRoutes, Navigate } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import routes from "./router";
 
+const Login = lazy(() => import('@/pages/Login/Login.jsx'));
+const FrameWork = lazy(() => import('@/pages/FrameWork/FrameWork.jsx'));
+const Main = lazy(() => import('@/pages/Main/Main.jsx'));
+const Share = lazy(() => import("@/pages/Share/Share.jsx"));
+const Recycle = lazy(() => import("@/pages/Recycle/Recycle.jsx"));
 function  MetaRoute({ path, element, meta }) {
   if (meta) {
     return (
@@ -27,12 +32,11 @@ function MetaRouteElement({ meta, ...props }) {
 
 function App() {
   const element = useRoutes(routes);
-  // const element = useRoutes(routes.map(route => MetaRoute(route)))
 
   return (
     <ConfigProvider>
       <Suspense fallback={<div>loading...</div>}>
-        {element}
+        {/*{element}*/}
         {/*<Routes>*/}
         {/*  {routes.map((route) => (*/}
         {/*    <Route*/}
@@ -44,6 +48,14 @@ function App() {
         {/*    />*/}
         {/*  ))}*/}
         {/*</Routes>*/}
+
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/main" element={<FrameWork />}>
+            <Route path=":category" element={<Main />}/>
+          </Route>
+        </Routes>
 
       </Suspense>
     </ConfigProvider>

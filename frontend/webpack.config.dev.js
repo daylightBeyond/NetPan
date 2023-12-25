@@ -1,4 +1,5 @@
 const path = require('path');
+const { HotModuleReplacementPlugin } = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -52,6 +53,7 @@ module.exports = {
       // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
       template: path.resolve(__dirname, './public/index.html')
     }),
+    new HotModuleReplacementPlugin(),
   ],
   devServer: {
     static: path.join(__dirname, './public'),
@@ -60,7 +62,7 @@ module.exports = {
     hot: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:7090',
+        target: 'http://192.168.136.130:7090',
         // 如果不希望传递/api，则需要重写路径
         // pathRewrite: { '^/api': '/api' },
         changeOrigin: true, // 控制请求头中的 host 域，默认为 false

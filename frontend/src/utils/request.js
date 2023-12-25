@@ -1,9 +1,6 @@
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
 import { Spin, message } from 'antd';
 import { getToken } from '@/utils/auth.js';
-
-// const navigate = useNavigate();
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -28,6 +25,7 @@ const instance = axios.create({
   baseURL,
   timeout: 10 * 1000, // 10s 就会超时
   headers: {
+    isToken: true,
     'Content-Type': contentTypeJson
   }
 });
@@ -54,7 +52,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    // console.log('响应拦截器返回', response);
+    console.log('响应拦截器返回', response);
     const { errorCallback, showError = true, responseType } = response.config;
     if(loading) {
       loading.close();
@@ -73,8 +71,7 @@ instance.interceptors.response.use(
       return responseData;
     } else if(code === 901) {
       // 登录超时
-      // navigate('login', { replace: true });
-      // router.push('/login?redirectUrl=' + encodeURI(router.currentRoute.value.path));
+      // router.push('/Login?redirectUrl=' + encodeURI(router.currentRoute.value.path));
       return Promise.reject({ showError: false, msg: '登录超时' });
     } else {
       // 其他错误
@@ -85,7 +82,7 @@ instance.interceptors.response.use(
     }
   },
   (error) => {
-    // console.log('响应返回的错误', error);
+    console.log('响应返回的错误', error);
     const { response } = error;
     const { data } = response;
     const errorMsg = data?.err?.message || data.errorMsg || data.msg;
@@ -93,7 +90,6 @@ instance.interceptors.response.use(
       message.error(errorMsg);
     }
     return Promise.reject(error);
-
 
     let { message: msg } = error;
     if (msg == "Network Error") {

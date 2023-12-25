@@ -224,7 +224,7 @@ class UserController {
       // 以 username, password 进行加密生成 token，JWT_SECRET 是秘钥，expiresIn 设置有效期
       const token = jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: JWT_EXPIRE });
       await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:token`, token, REDIS_KEY_EXPIRE_DAY);
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:info`, res, REDIS_KEY_EXPIRE_SEVEN_DAY);
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, res, REDIS_KEY_EXPIRE_SEVEN_DAY);
 
       // 查询用户上传文件的总大小
       const fileSizeSum = await FileModel.sum('fileSize', { where: { userId } });
@@ -409,31 +409,19 @@ class UserController {
         success: true,
         message: '头像上传成功'
       };
-      const userInfo = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:info`);
+      const userInfo = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:userInfo`);
       console.log('userInfo', userInfo);
 
-      if(userInfo['avatar_path'] && targetPath !== userInfo['avatar_path'] ) {
-        console.log('userInfo[avatar_path]', userInfo['avatar_path']);
-        fs.unlinkSync(userInfo['avatar_path']);
+      if(userInfo['avatarPath'] && targetPath !== userInfo['avatarPath'] ) {
+        console.log('userInfo[avatarPath]', userInfo['avatarPath']);
+        fs.unlinkSync(userInfo['avatarPath']);
       }
 
       logger.info('开始更新数据库');
       UserModel.update({ avatarPath: targetPath, avatarType: fileExt }, { where: { userId } });
-      // const updateField = {
-      //   avatar_path: targetPath,
-      //   avatar_type: fileExt
-      // };
-      // // 这里根据 userId 更新 avatar_path, avatar_type两个字段
-      // updateUserInfoByAny(updateField, 'user_id', userId, (err, result) => {
-      //   if(err) {
-      //     ctx.logger.error('更新数据库字段异常', error);
-      //     return;
-      //   }
-      //   console.log('reuslt', result);
-      // });
-      userInfo['avatar_path'] = targetPath;
-      userInfo['avatar_type'] = fileExt;
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:info`, userInfo, REDIS_KEY_EXPIRE_SEVEN_DAY);
+      userInfo['avatarPath'] = targetPath;
+      userInfo['avatarType'] = fileExt;
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_SEVEN_DAY);
 
     } catch (err) {
       return handleException(ctx, err, '上传文件失败');
@@ -449,7 +437,6 @@ class UserController {
       // console.log('user', ctx.state.user);
       // const { user } = ctx.state.user;
       UserModel.update({ password }, { where: { userId } });
-      // await updateUserInfo({ key: 'password', value: password, updatedName: 'user_id', updatedValue: userId });
       ctx.body = {
         code: 200,
         success: true,

@@ -61,9 +61,7 @@ router.post('/login', userValidator, verifyLogin, verifyCaptcha, login);
 router.post('/resetPassword', userValidator, bcryptPassword, resetPassword);
 
 // 获取用户头像 (不需要校验登录)
-// router.post('/getAvatar/:userId', auth, getAvatar);
-// router.post('/getAvatar', authMiddleware, getAvatar);
-router.post('/getAvatar', getAvatar);
+router.post('/getAvatar', authMiddleware, getAvatar);
 
 // 获取用户网盘空间
 router.get('/getUseSpace', authMiddleware, getUseSpace);

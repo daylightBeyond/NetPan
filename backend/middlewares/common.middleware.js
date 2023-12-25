@@ -39,12 +39,10 @@ exports.verifyUser = async (ctx, next) => {
     if(res.length) {
       logger.error('用户名已经存在', res);
       ctx.throw(401, '用户名已经存在');
-      // return;
     }
   } catch (err) {
     logger.error('获取用户信息错误', err);
     ctx.throw(401, '获取用户信息错误');
-    // return;
   }
 
   await next();
@@ -83,11 +81,11 @@ exports.verifyEmail = async (ctx, next) => {
 exports.authMiddleware = async (ctx, next) => {
   const { authorization = '' } = ctx.request.header;
   const token = authorization.replace('Bearer ', '');
-  // logger.info('token', token);
+  console.log('token', token);
   try {
     // user 包含了payload信息(userId, user_name, password)
     const user = jwt.verify(token, JWT_SECRET);
-    // logger.info('jwt鉴权', user);
+    logger.info('jwt鉴权', user);
     ctx.state.user = user;
   } catch (err) {
     switch (err.name) {

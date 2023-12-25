@@ -1,24 +1,34 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Button, Popover, Dropdown, Avatar } from 'antd';
-import { useNavigate, useLocation, useH } from 'react-router-dom';
+import { Button, Popover, Dropdown } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useMergeState from "@/hooks/useMergeState";
+import useMainStore from '@/store/mainStore.js';
 import menus from '../../constants/router-constants.js';
+import Avatar from '../../components/Avatar/Avatar.jsx';
+import UpdateAvatar from "./UpdateAvatar.jsx";
+import UpdatePassword from "./UpdatePassword.jsx";
+import Uploader from "./Uploader.jsx";
 import './style.less';
 
-const FrameWork = (props) => {
+const FrameWork = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const avatarRef = useRef(null);
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo') || {});
 
   const [state, setState] = useMergeState({
     currentMenu: {}, // 当前动态路由菜单
     currentPath: {}, // 当前路径
     showUploader: false, // 控制上传区域是否显示
+    avatarVisible: false, // 控制更新头像弹窗
+    passwordVisible: false, // 控制更新密码弹窗
+
   });
 
-  const { currentMenu, currentPath, showUploader } = state;
+  const { currentMenu, currentPath, showUploader, avatarVisible, passwordVisible } = state;
+  const getUserAvatar = useMainStore(state => state.getUserAvatar);
 
   useEffect(() => {
     console.log('location', location)
@@ -34,7 +44,6 @@ const FrameWork = (props) => {
     if(!data.path || data.menuCode == currentMenu.menuCode) {
       return;
     }
-    console.log('asasd')
     // navigate(data.path);
     navigate(data.path, {
       state: {
@@ -57,6 +66,10 @@ const FrameWork = (props) => {
     });
   };
 
+  const reloadAvatar = () => {
+    getUserAvatar({ userId: userInfo.userId });
+  };
+
   const dropdownItem = [
     { key: '1', label: '修改头像' },
     { key: '2', label: '修改密码' },
@@ -64,12 +77,11 @@ const FrameWork = (props) => {
   ];
 
   const updateAvatar = () => {
-    console.log('111')
+    setState({ avatarVisible: true });
   };
 
   const updatePassword = () => {
-    console.log('222')
-
+    setState({ passwordVisible: true });
   };
 
   const exit = () => {
@@ -77,9 +89,20 @@ const FrameWork = (props) => {
 
   }
 
+  const funcMap = {
+    '1': updateAvatar,
+    '2': updatePassword,
+    '3': exit,
+  }
+
   const handleDropDown = (val) => {
     console.log('val', val);
-  }
+    funcMap[val.key]()
+  };
+
+  const changeState = (state) => {
+    setState(state);
+  };
 
   return (
     <div className="framework">
@@ -90,17 +113,24 @@ const FrameWork = (props) => {
           <div className="name">Net云盘</div>
         </div>
         <div className="right-panel">
-          <Popover>
+          <Popover
+            // open={showUploader}
+            trigger="click"
+            // onOpenChange={}
+            placement="bottom"
+            content={<Uploader />}
+            overlayStyle={{ marginTop: '25px', padding: 0, width: '800px' }}
+          >
             <span className="iconfont icon-transfer"></span>
-            {/*<Uploader ref="uploaderRef" @uploadCallback="uploadCallbackHandler"/>*/}
           </Popover>
 
           <Dropdown
             menu={{ items: dropdownItem, onClick: handleDropDown }}
+            placement="bottom"
           >
             <div className='user-info'>
               <div className="avatar">
-                <Avatar />
+                <Avatar userId={userInfo.userId}/>
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>
@@ -150,6 +180,21 @@ const FrameWork = (props) => {
           <Outlet></Outlet>
         </div>
       </div>
+
+      {avatarVisible &&  (
+        <UpdateAvatar
+          open={avatarVisible}
+          changeState={(state) => changeState(state)}
+          updateAvatar={reloadAvatar}
+        />
+      )}
+      {passwordVisible && (
+        <UpdatePassword
+          open={passwordVisible}
+          changeState={(state) => changeState(state)}
+          userId={userInfo.userId}
+        />
+      )}
     </div>
   );
 }
