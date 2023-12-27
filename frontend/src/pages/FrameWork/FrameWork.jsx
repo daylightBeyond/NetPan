@@ -1,22 +1,22 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { Button, Popover, Dropdown } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useMergeState from "@/hooks/useMergeState";
 import useMainStore from '@/store/mainStore.js';
-import menus from '../../constants/router-constants.js';
+import { menus } from '../../constants/router-constants.js';
 import Avatar from '../../components/Avatar/Avatar.jsx';
 import UpdateAvatar from "./UpdateAvatar.jsx";
 import UpdatePassword from "./UpdatePassword.jsx";
 import Uploader from "./Uploader.jsx";
-import './style.less';
+// import './style.less';
 
 const FrameWork = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const avatarRef = useRef(null);
-  const userInfo = JSON.parse(sessionStorage.getItem('userInfo') || {});
+  const userInfo = JSON.parse(sessionStorage.getItem('userInfo')) || {};
 
   const [state, setState] = useMergeState({
     currentMenu: {}, // 当前动态路由菜单
@@ -24,7 +24,6 @@ const FrameWork = () => {
     showUploader: false, // 控制上传区域是否显示
     avatarVisible: false, // 控制更新头像弹窗
     passwordVisible: false, // 控制更新密码弹窗
-
   });
 
   const { currentMenu, currentPath, showUploader, avatarVisible, passwordVisible } = state;
@@ -130,7 +129,8 @@ const FrameWork = () => {
           >
             <div className='user-info'>
               <div className="avatar">
-                <Avatar userId={userInfo.userId}/>
+                {/* <Avatar userId={userInfo.userId}/> */}
+                touxiang
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>
@@ -177,7 +177,7 @@ const FrameWork = () => {
           </div>
         </div>
         <div className="body-content">
-          <Outlet></Outlet>
+          <Outlet />
         </div>
       </div>
 

@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Upload, Button, Input, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import {} from '@/servers/main.js';
+// import {} from '@/servers/main.js';
 import '@/assets/file.list.less';
 
 const Main = (props) => {
-  useEffect(() => {
-
-  }, []);
+  const params = useParams();
+  console.log('params', params);
+  // useEffect(() => {
+  //
+  // }, []);
   return (
     <>
       <div className="top">
@@ -47,7 +50,7 @@ const Main = (props) => {
         </div>
       </div>
       <div className="file-list">
-        文件列表
+        {params.category}
       </div>
     </>
   );

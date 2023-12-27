@@ -1,4 +1,4 @@
-const menus = [
+export const menus = [
   {
     icon: "cloude",
     name: "首页",
@@ -94,4 +94,70 @@ const menus = [
   },
 ];
 
-export default menus;
+export const subMenus = {
+  main: [
+    {
+      icon: "all",
+      name: "全部",
+      category: "al1",
+      path: "/main/all",
+    },
+    {
+      icon: "video",
+      name: "视频",
+      category: "video",
+      path: "/main/video",
+    },
+    {
+      icon: "music",
+      name: "音频",
+      category: "music",
+      path: "/main/music",
+    },
+    {
+      icon: "image",
+      name: "图片",
+      category: "image",
+      path: "/main/image",
+    },
+    {
+      icon: "doc",
+      name: "文档",
+      category: "doc",
+      path: "/main/doc",
+    },
+    {
+      icon: "more",
+      name: "其他",
+      category: "others",
+      path: "/main/others",
+    },
+  ],
+  share: [
+    {
+      name: "分享记录",
+      path: "/myshare",
+    },
+  ],
+  recycle: [
+    {
+      name: "删除的文件",
+      path: "/recycle",
+    },
+  ],
+  settings: [
+    {
+      name: "用户文件",
+      path: "/settings/fileList",
+    },
+    {
+      name: "用户管理",
+      path: "/settings/userList",
+    },
+    {
+      name: "系统设置",
+      path: "/settings/sysSetting",
+    },
+  ]
+}
+

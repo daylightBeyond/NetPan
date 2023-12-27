@@ -43,7 +43,7 @@ const Login = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    changeCheckCode();
+    // changeCheckCode();
 
     const remembermeJson = localStorage.getItem('rememberme');
     if (remembermeJson) {
@@ -126,6 +126,8 @@ const Login = () => {
       } else if (localStorage.getItem('rememberme')){
         localStorage.removeItem('rememberme');
       }
+      navigate('/main/all');
+      return;
       login(params).then(res => {
         if (res.success) {
           message.success(res.message || '登录成功');
