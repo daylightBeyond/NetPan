@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Form, message } from 'antd';
-import useMainStore from '@/store/mainStore.js';
+import useHomeStore from '@/store/homeStore.js';
 import { updateUserAvatar } from '@/servers/main.js';
 import AvatarUpload from "@/components/Avatar/AvatarUpload.jsx";
 
@@ -8,8 +8,8 @@ const { Item } = Form;
 const UpdateAvatar = (props) => {
   const { changeState, open, updateAvatar } = props;
 
-  // const imgUrl = useMainStore(state => state.imgUrl);
-  const getUserAvatar = useMainStore(state => state.getUserAvatar);
+  // const imgUrl = useHomeStore(state => state.imgUrl);
+  const getUserAvatar = useHomeStore(state => state.getUserAvatar);
 
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);

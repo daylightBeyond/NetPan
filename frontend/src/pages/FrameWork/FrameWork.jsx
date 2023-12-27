@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { Button, Popover, Dropdown } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useMergeState from "@/hooks/useMergeState";
-import useMainStore from '@/store/mainStore.js';
+import useHomeStore from '@/store/homeStore.js';
 import { menus } from '../../constants/router-constants.js';
 import Avatar from '../../components/Avatar/Avatar.jsx';
 import UpdateAvatar from "./UpdateAvatar.jsx";
@@ -21,13 +21,17 @@ const FrameWork = () => {
   const [state, setState] = useMergeState({
     currentMenu: {}, // 当前动态路由菜单
     currentPath: {}, // 当前路径
-    showUploader: false, // 控制上传区域是否显示
+    // showUploader: false, // 控制上传区域是否显示
     avatarVisible: false, // 控制更新头像弹窗
     passwordVisible: false, // 控制更新密码弹窗
   });
 
-  const { currentMenu, currentPath, showUploader, avatarVisible, passwordVisible } = state;
-  const getUserAvatar = useMainStore(state => state.getUserAvatar);
+  const { currentMenu, currentPath, avatarVisible, passwordVisible } = state;
+  // store的变量和方法
+  const showUploader = useHomeStore(state => state.showUploader);
+  const setShowUploader = useHomeStore(state => state.setShowUploader);
+  const getUserAvatar = useHomeStore(state => state.getUserAvatar);
+  const addFile = useHomeStore(state => state.addFile);
 
   useEffect(() => {
     console.log('location', location)
@@ -103,6 +107,10 @@ const FrameWork = () => {
     setState(state);
   };
 
+  // const addFile = (data) => {
+  //
+  // };
+
   return (
     <div className="framework">
       {/* 头部 */}
@@ -113,10 +121,10 @@ const FrameWork = () => {
         </div>
         <div className="right-panel">
           <Popover
-            // open={showUploader}
+            open={showUploader}
             trigger="click"
-            // onOpenChange={}
             placement="bottom"
+            onClick={() => {setShowUploader(!showUploader)}}
             content={<Uploader />}
             overlayStyle={{ marginTop: '25px', padding: 0, width: '800px' }}
           >
@@ -129,8 +137,8 @@ const FrameWork = () => {
           >
             <div className='user-info'>
               <div className="avatar">
-                {/* <Avatar userId={userInfo.userId}/> */}
-                touxiang
+                 <Avatar userId={userInfo.userId}/>
+                {/*touxiang*/}
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>

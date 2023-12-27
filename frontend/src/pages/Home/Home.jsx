@@ -2,21 +2,46 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Upload, Button, Input, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import useMergeState from "@/hooks/useMergeState";
+import useHomeStore from '@/store/homeStore.js';
 // import {} from '@/servers/main.js';
 import '@/assets/file.list.less';
 
-const Main = (props) => {
+const Home = (props) => {
+  console.log('home--props', props);
   const params = useParams();
   console.log('params', params);
-  // useEffect(() => {
-  //
-  // }, []);
+
+  const [state, setState] = useMergeState({
+    currentFolder: { fileId: 0 },
+  });
+
+  const { currentFolder } = state;
+
+  // store的变量和方法
+  const showUploader = useHomeStore(state => state.showUploader);
+  const setShowUploader = useHomeStore(state => state.setShowUploader);
+  const getUserAvatar = useHomeStore(state => state.getUserAvatar);
+  const setFileData = useHomeStore(state => state.setFileData);
+
+  const customRequest = (options) => {
+    console.log('options', options);
+    const { file } = options;
+    setFileData({ file, filePid: currentFolder.fileId });
+  };
+
+  const uploadProps = {
+    multiple: true,
+    showUploadList: false,
+    customRequest
+  };
+
   return (
     <>
       <div className="top">
         <div className="top-op">
           <div className="btn">
-            <Upload>
+            <Upload {...uploadProps}>
               <Button style={{ backgroundColor: '#409eff' }}>
                 <span className="iconfont icon-upload">
                   上传
@@ -56,4 +81,4 @@ const Main = (props) => {
   );
 };
 
-export default Main;
+export default Home;

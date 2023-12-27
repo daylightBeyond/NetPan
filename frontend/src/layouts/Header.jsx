@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown, Popover } from "antd";
 import Uploader from "../pages/FrameWork/Uploader.jsx";
 import useMergeState from "@/hooks/useMergeState";
-import useMainStore from '@/store/mainStore.js';
+import useHomeStore from '@/store/homeStore.js';
 const Header = () => {
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo')) || {};
   const [state, setState] = useMergeState({
@@ -14,7 +14,7 @@ const Header = () => {
   });
 
   const { currentMenu, currentPath, showUploader, avatarVisible, passwordVisible } = state;
-  const getUserAvatar = useMainStore(state => state.getUserAvatar);
+  const getUserAvatar = useHomeStore(state => state.getUserAvatar);
 
   const dropdownItem = [
     { key: '1', label: '修改头像' },

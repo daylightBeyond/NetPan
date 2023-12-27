@@ -3,7 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 
 const Login = lazy(() => import('@/pages/Login/Login.jsx'));
 const FrameWork = lazy(() => import('@/pages/FrameWork/FrameWork.jsx'));
-const Main = lazy(() => import('@/pages/Main/Main.jsx'));
+const Home = lazy(() => import('@/pages/Home/Home.jsx'));
 const Share = lazy(() => import("@/pages/Share/Share.jsx"));
 const Recycle = lazy(() => import("@/pages/Recycle/Recycle.jsx"));
 const SysSetting = lazy(() => import("@/pages/Settings/SysSetting.jsx"));
@@ -35,7 +35,7 @@ const routes = [
           needLogin: true,
           menuCode: "main",
         },
-        element: <Main />,
+        element: <Home />,
       },
     ]
   },
