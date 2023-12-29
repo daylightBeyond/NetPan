@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import { Progress } from 'antd';
-import useMergeState from "@/hooks/useMergeState";
 import useHomeStore from '@/store/homeStore.js';
+import useUploadFileStore from "@/store/uploadFileStore";
 import './style.less';
 
 const Uploader = (props) => {
   console.log('上传区域props', props);
   // store的变量和方法
   const fileData = useHomeStore(state => state.fileData);
+  // const fileList = useHomeStore(state => state.fileList);
   const setFileData = useHomeStore(state => state.setFileData);
+
+  const fileList = useUploadFileStore(state => state.fileList);
   const addFile = () => {
-    const { fileId, filePid } = fileData;
-    console.log('fileId', fileId);
+    const { file, filePid } = fileData;
+    console.log('file', file);
     console.log('filePid', filePid);
   };
 
@@ -26,8 +29,15 @@ const Uploader = (props) => {
         <span className="tips">（仅展示本次上传任务）</span>
       </div>
 
+      {/* 文件列表区域 */}
       <div className="file-list">
-        aaa
+        {fileList.length ? (
+          fileList.map((item, index) => {
+            return (
+              <div>{index}</div>
+            )
+          })
+        ) : (<span>暂无数据</span>)}
       </div>
     </div>
   );

@@ -24,10 +24,10 @@ const useHomeStore = create((set, get) => ({
     set({ showUploader: data });
   },
   // 上传文件
-  setFileData: (payload) => {
-    console.log('上传文件',payload);
-    set({ fileData: payload, showUploader: true});
-  }
+  setFileData: (fileData) => {
+    console.log('上传文件',fileData);
+    set({ fileData, showUploader: true});
+  },
 }));
 
 export default useHomeStore;

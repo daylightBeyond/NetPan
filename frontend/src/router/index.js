@@ -13,20 +13,20 @@ const FileList = lazy(() => import("@/pages/Settings/FileList.jsx"));
 const routes = [
   {
     path: '/',
-    element: <Navigate to='/login' replace />,
+    element: <Navigate to='login' replace />,
   },
   {
-    path: '/Login',
+    path: 'login',
     element: <Login />,
   },
   {
-    path: '/main',
+    path: 'main',
     name: "framework",
     element: <FrameWork />,
     children: [
       {
         path: '',
-        element: <Navigate to='/all' replace />
+        element: <Navigate to='all' replace />
       },
       {
         path: ':category',
@@ -40,7 +40,7 @@ const routes = [
     ]
   },
   {
-    path: "/myshare",
+    path: "myshare",
     name: "我的分享",
     element: <FrameWork />,
     children: [
@@ -56,7 +56,7 @@ const routes = [
     ]
   },
   {
-    path: "/recycle",
+    path: "recycle",
     name: "回收站",
     element: <FrameWork />,
     children: [
@@ -65,14 +65,14 @@ const routes = [
         name: '要删除的文件',
         meta: {
           needLogin: true,
-          menuCode: "share",
+          menuCode: "recycle",
         },
         element: <Recycle />
       },
     ]
   },
   {
-    path: "/settings",
+    path: "settings",
     name: "设置",
     element: <FrameWork />,
     children: [
@@ -81,7 +81,7 @@ const routes = [
         name: '系统设置',
         meta: {
           needLogin: true,
-          menuCode: "share",
+          menuCode: "settings",
         },
         element: <SysSetting />
       },

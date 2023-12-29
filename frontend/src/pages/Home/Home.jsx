@@ -4,11 +4,11 @@ import { Upload, Button, Input, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import useMergeState from "@/hooks/useMergeState";
 import useHomeStore from '@/store/homeStore.js';
+import useUploadFileStore from "@/store/uploadFileStore.js";
 // import {} from '@/servers/main.js';
 import '@/assets/file.list.less';
 
 const Home = (props) => {
-  console.log('home--props', props);
   const params = useParams();
   console.log('params', params);
 
@@ -24,10 +24,16 @@ const Home = (props) => {
   const getUserAvatar = useHomeStore(state => state.getUserAvatar);
   const setFileData = useHomeStore(state => state.setFileData);
 
+  const addFile = useUploadFileStore(state => state.addFile);
+
+  /*
+   * 由于Home组件和Uploader组件无任何关联，但是又需要点上传的时候触发 Uploader组件的方法，
+   * 单靠组件间传值不方便处理，最好的方法是用状态管理
+   */
   const customRequest = (options) => {
     console.log('options', options);
     const { file } = options;
-    setFileData({ file, filePid: currentFolder.fileId });
+    addFile({ file, filePid: currentFolder.fileId });
   };
 
   const uploadProps = {

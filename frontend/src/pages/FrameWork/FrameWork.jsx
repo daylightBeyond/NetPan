@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { Button, Popover, Dropdown } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useMergeState from "@/hooks/useMergeState";
 import useHomeStore from '@/store/homeStore.js';
-import { menus } from '../../constants/router-constants.js';
+import { menus } from '@/constants/router-constants.js';
 import Avatar from '../../components/Avatar/Avatar.jsx';
 import UpdateAvatar from "./UpdateAvatar.jsx";
 import UpdatePassword from "./UpdatePassword.jsx";
@@ -15,12 +15,11 @@ const FrameWork = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const avatarRef = useRef(null);
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo')) || {};
 
   const [state, setState] = useMergeState({
     currentMenu: {}, // 当前动态路由菜单
-    currentPath: {}, // 当前路径
+    currentPath: '/main/all', // 当前路径
     // showUploader: false, // 控制上传区域是否显示
     avatarVisible: false, // 控制更新头像弹窗
     passwordVisible: false, // 控制更新密码弹窗
@@ -31,7 +30,7 @@ const FrameWork = () => {
   const showUploader = useHomeStore(state => state.showUploader);
   const setShowUploader = useHomeStore(state => state.setShowUploader);
   const getUserAvatar = useHomeStore(state => state.getUserAvatar);
-  const addFile = useHomeStore(state => state.addFile);
+  const setFileData = useHomeStore(state => state.setFileData);
 
   useEffect(() => {
     console.log('location', location)
@@ -49,6 +48,7 @@ const FrameWork = () => {
     }
     // navigate(data.path);
     navigate(data.path, {
+      replace: true,
       state: {
         needLogin: true,
         menuCode: data.menuCode || currentMenu.menuCode,
@@ -137,8 +137,8 @@ const FrameWork = () => {
           >
             <div className='user-info'>
               <div className="avatar">
-                 <Avatar userId={userInfo.userId}/>
-                {/*touxiang*/}
+                 {/* <Avatar userId={userInfo.userId}/> */}
+                touxiang
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>
@@ -207,4 +207,4 @@ const FrameWork = () => {
   );
 }
 
-export default FrameWork;
+export default memo(FrameWork);
