@@ -4,6 +4,7 @@ import { Button, Popover, Dropdown } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useMergeState from "@/hooks/useMergeState";
 import useHomeStore from '@/store/homeStore.js';
+import useUploadFileStore from "@/store/uploadFileStore";
 import { menus } from '@/constants/router-constants.js';
 import Avatar from '../../components/Avatar/Avatar.jsx';
 import UpdateAvatar from "./UpdateAvatar.jsx";
@@ -11,7 +12,7 @@ import UpdatePassword from "./UpdatePassword.jsx";
 import Uploader from "./Uploader.jsx";
 // import './style.less';
 
-const FrameWork = () => {
+const FrameWork = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,12 +27,12 @@ const FrameWork = () => {
   });
 
   const { currentMenu, currentPath, avatarVisible, passwordVisible } = state;
-  // store的变量和方法
-  const showUploader = useHomeStore(state => state.showUploader);
-  const setShowUploader = useHomeStore(state => state.setShowUploader);
+  // useHomeStore
   const getUserAvatar = useHomeStore(state => state.getUserAvatar);
-  const setFileData = useHomeStore(state => state.setFileData);
 
+  // useUploadFileStore
+  const showUploader = useUploadFileStore(state => state.showUploader);
+  const setShowUploader = useUploadFileStore(state => state.setShowUploader);
   useEffect(() => {
     console.log('location', location)
 
@@ -41,9 +42,9 @@ const FrameWork = () => {
   }, [location]);
 
   const jump = (data) => {
-    console.log('jump--data', data);
-    console.log('jump--currentMenu', currentMenu);
-    if(!data.path || data.menuCode == currentMenu.menuCode) {
+    // console.log('jump--data', data);
+    // console.log('jump--currentMenu', currentMenu);
+    if (!data.path || data.menuCode == currentMenu.menuCode) {
       return;
     }
     // navigate(data.path);
@@ -57,12 +58,12 @@ const FrameWork = () => {
   };
 
   const setMenu = (menuCode, path) => {
-    console.log('setMenu--menuCode', menuCode);
-    console.log('setMenu--path', path);
+    // console.log('setMenu--menuCode', menuCode);
+    // console.log('setMenu--path', path);
     const menu = menus.find(item => {
       return item.menuCode === menuCode;
     });
-    console.log('menu', menu);
+    // console.log('menu', menu);
     setState({
       currentMenu: menu,
       currentPath: path
@@ -107,10 +108,6 @@ const FrameWork = () => {
     setState(state);
   };
 
-  // const addFile = (data) => {
-  //
-  // };
-
   return (
     <div className="framework">
       {/* 头部 */}
@@ -124,7 +121,9 @@ const FrameWork = () => {
             open={showUploader}
             trigger="click"
             placement="bottom"
-            onClick={() => {setShowUploader(!showUploader)}}
+            onClick={() => {
+              setShowUploader(!showUploader)
+            }}
             content={<Uploader />}
             overlayStyle={{ marginTop: '25px', padding: 0, width: '800px' }}
           >
@@ -137,8 +136,8 @@ const FrameWork = () => {
           >
             <div className='user-info'>
               <div className="avatar">
-                 {/* <Avatar userId={userInfo.userId}/> */}
-                touxiang
+                 <Avatar userId={userInfo.userId}/>
+                {/*touxiang*/}
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>
@@ -185,11 +184,11 @@ const FrameWork = () => {
           </div>
         </div>
         <div className="body-content">
-          <Outlet />
+          <Outlet/>
         </div>
       </div>
 
-      {avatarVisible &&  (
+      {avatarVisible && (
         <UpdateAvatar
           open={avatarVisible}
           changeState={(state) => changeState(state)}
@@ -205,6 +204,6 @@ const FrameWork = () => {
       )}
     </div>
   );
-}
+};
 
 export default memo(FrameWork);

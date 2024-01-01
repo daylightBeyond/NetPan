@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Form, message, Input } from 'antd';
-import { updatePassword } from '@/servers/main.js'
+import { updatePassword } from '@/servers/home.js'
 import verify from "@/utils/verify";
 
 const { Item } = Form;

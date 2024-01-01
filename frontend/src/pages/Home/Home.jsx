@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Upload, Button, Input, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import useBus, { BusContext, useListener } from "../../hooks/useBus";
+import { useEventBus } from '../../hooks/useEventBus';
+import { usePubSub } from '../../hooks/usePubSub';
+
 import useMergeState from "@/hooks/useMergeState";
 import useHomeStore from '@/store/homeStore.js';
 import useUploadFileStore from "@/store/uploadFileStore.js";
-// import {} from '@/servers/main.js';
 import '@/assets/file.list.less';
 
-const Home = (props) => {
+const Home = () => {
   const params = useParams();
   console.log('params', params);
 
@@ -19,12 +22,8 @@ const Home = (props) => {
   const { currentFolder } = state;
 
   // store的变量和方法
-  const showUploader = useHomeStore(state => state.showUploader);
-  const setShowUploader = useHomeStore(state => state.setShowUploader);
-  const getUserAvatar = useHomeStore(state => state.getUserAvatar);
-  const setFileData = useHomeStore(state => state.setFileData);
-
   const addFile = useUploadFileStore(state => state.addFile);
+  const setShowUploader = useUploadFileStore(state => state.setShowUploader);
 
   /*
    * 由于Home组件和Uploader组件无任何关联，但是又需要点上传的时候触发 Uploader组件的方法，
@@ -34,6 +33,7 @@ const Home = (props) => {
     console.log('options', options);
     const { file } = options;
     addFile({ file, filePid: currentFolder.fileId });
+    setShowUploader(true);
   };
 
   const uploadProps = {

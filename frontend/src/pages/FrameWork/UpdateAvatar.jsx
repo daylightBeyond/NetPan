@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, message } from 'antd';
 import useHomeStore from '@/store/homeStore.js';
-import { updateUserAvatar } from '@/servers/main.js';
+import { updateUserAvatar } from '@/servers/home.js';
 import AvatarUpload from "@/components/Avatar/AvatarUpload.jsx";
 
 const { Item } = Form;

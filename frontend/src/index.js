@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
+import { Provider as BusProvider } from './hooks/useBus';
+import { EventBusProvider } from './hooks/useEventBus';
+import { PubSubProvider } from './hooks/usePubSub';
 import 'antd/dist/reset.css';
 import './index.css';
 // 引入图标
@@ -12,9 +15,11 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <HashRouter>
-    <App />
-  </HashRouter>
+  <BusProvider>
+    <HashRouter>
+      <App />
+    </HashRouter>
+  </BusProvider>
 );
 
 reportWebVitals();
