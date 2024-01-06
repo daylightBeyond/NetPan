@@ -14,7 +14,7 @@ const useUploadFileStore = create((set, get) => ({
   // 删除的文件列表
   delList: [],
   // 文件切片的大小
-  chunkSize: 5 * 1024 * 1024, // 5MB
+  chunkSize: 1 * 1024 * 1024, // 5MB
   setShowUploader: (data) => {
     console.log('切换', data);
     set({ showUploader: data });
@@ -109,6 +109,7 @@ const useUploadFileStore = create((set, get) => ({
           console.log(`${file.name}, ${currentChunk}分片解析完成，开始第${currentChunk + 1}`);
           let percent = Math.floor((currentChunk / chunks) * 100);
           resultFile.md5Progress = percent;
+          console.log('percent', percent);
           loadNext();
         } else {
           let md5 = spark.end();

@@ -33,7 +33,7 @@ const UpdatePassword = (props) => {
   return (
     <Modal
       title="更新头像"
-      width="25%"
+      width="400px"
       // confirmLoading={loading}
       open={open}
       onOk={handleOk}

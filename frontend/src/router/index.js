@@ -20,7 +20,7 @@ const routes = [
     element: <Login />,
   },
   {
-    path: 'main',
+    path: 'home',
     name: "framework",
     element: <FrameWork />,
     children: [

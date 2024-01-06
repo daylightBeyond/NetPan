@@ -2,45 +2,45 @@ export const menus = [
   {
     icon: "cloude",
     name: "首页",
-    path: "/main/all",
-    menuCode: "main",
+    path: "/home/all",
+    menuCode: "home",
     allShow: true,
     children: [
       {
         icon: "all",
         name: "全部",
         category: "al1",
-        path: "/main/all",
+        path: "/home/all",
       },
       {
         icon: "video",
         name: "视频",
         category: "video",
-        path: "/main/video",
+        path: "/home/video",
       },
       {
         icon: "music",
         name: "音频",
         category: "music",
-        path: "/main/music",
+        path: "/home/music",
       },
       {
         icon: "image",
         name: "图片",
         category: "image",
-        path: "/main/image",
+        path: "/home/image",
       },
       {
         icon: "doc",
         name: "文档",
         category: "doc",
-        path: "/main/doc",
+        path: "/home/doc",
       },
       {
         icon: "more",
         name: "其他",
         category: "others",
-        path: "/main/others",
+        path: "/home/others",
       },
     ],
   },
@@ -95,42 +95,42 @@ export const menus = [
 ];
 
 export const subMenus = {
-  main: [
+  home: [
     {
       icon: "all",
       name: "全部",
       category: "al1",
-      path: "/main/all",
+      path: "/home/all",
     },
     {
       icon: "video",
       name: "视频",
       category: "video",
-      path: "/main/video",
+      path: "/home/video",
     },
     {
       icon: "music",
       name: "音频",
       category: "music",
-      path: "/main/music",
+      path: "/home/music",
     },
     {
       icon: "image",
       name: "图片",
       category: "image",
-      path: "/main/image",
+      path: "/home/image",
     },
     {
       icon: "doc",
       name: "文档",
       category: "doc",
-      path: "/main/doc",
+      path: "/home/doc",
     },
     {
       icon: "more",
       name: "其他",
       category: "others",
-      path: "/main/others",
+      path: "/home/others",
     },
   ],
   share: [

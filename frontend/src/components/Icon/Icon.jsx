@@ -1,6 +1,8 @@
 import React from 'react';
+import { getImage } from '@/servers/home';
+import './style.less';
 
-const fileTUpeMap = {
+const fileTypeMap = {
   0: { desc: '目录', icon: 'folder' },
   1: { desc: '视频', icon: 'video' },
   2: { desc: '音频', icon: 'music' },
@@ -19,19 +21,42 @@ const Icon = (props) => {
     fileType,
     iconName,
     cover,
-    width = 12,
-    fit = 'cover',
+    width,
+    fit,
   } = props;
 
+  const getCover = () => {
+    // if (cover) {
+    //   // 这里调用获取封面的接口
+    //   return getImage({ cover });
+    // }
+    let icon = 'unknow_icon';
+    if (iconName) {
+      icon = iconName;
+    } else {
+      const iconMap = fileTypeMap[fileType];
+      if (iconMap) {
+        icon = iconMap['icon'];
+      }
+    }
+
+    return new URL(`/src/assets/icon-image/${icon}.png`, import.meta.url).href;
+  }
 
   return (
     <span
       className="icon"
       style={{ width, height: width }}
     >
-      <img style={{ objectFit: fit }}/>
+      <img src={getCover()} style={{ objectFit: fit }} />
     </span>
   );
 };
+
+Icon.defaultProps = {
+  fileType: 0,
+  width: 12,
+  fit: 'cover'
+}
 
 export default Icon;

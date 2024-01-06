@@ -22,10 +22,13 @@ module.exports = {
     // rules 必须包含两个属性：test 和 use
     rules: [
       {
-        test: /\.(js|jsx)/, // 识别哪些文件会被转换
+        test: /\.jsx?$/, // 识别哪些文件会被转换
         exclude: /node_modules/,
         use: { // 定义出在进行转换时，应该使用哪个 loader
           loader: 'babel-loader',
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"]
+          }
         }
       },
       {
@@ -41,6 +44,19 @@ module.exports = {
         use: {
           loader: 'html-loader',
         }
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        type: 'asset',
+        // use: [{
+        //   loader: 'url-loader',
+        //   options: {
+        //     publicPath: '/src/assets',
+        //     outputPath: 'images',
+        //     limit: 1024 * 30,
+        //     fallback: 'file-loader'
+        //   }
+        // }]
       }
     ]
   },

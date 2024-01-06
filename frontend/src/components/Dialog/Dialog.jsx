@@ -48,7 +48,6 @@ const Dialog = (props) => {
       >
         {children}
       </div>
-
     </Modal>
   );
 };

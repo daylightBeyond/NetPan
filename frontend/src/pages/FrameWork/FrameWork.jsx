@@ -20,7 +20,7 @@ const FrameWork = (props) => {
 
   const [state, setState] = useMergeState({
     currentMenu: {}, // 当前动态路由菜单
-    currentPath: '/main/all', // 当前路径
+    currentPath: '/home/all', // 当前路径
     // showUploader: false, // 控制上传区域是否显示
     avatarVisible: false, // 控制更新头像弹窗
     passwordVisible: false, // 控制更新密码弹窗
@@ -136,8 +136,8 @@ const FrameWork = (props) => {
           >
             <div className='user-info'>
               <div className="avatar">
-                 <Avatar userId={userInfo.userId}/>
-                {/*touxiang*/}
+                 {/* <Avatar userId={userInfo.userId}/> */}
+                touxiang
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>

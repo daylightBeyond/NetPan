@@ -1,6 +1,7 @@
-import React, { memo, useEffect, Suspense } from 'react';
+import React, { memo, Suspense } from 'react';
 import { useRoutes } from "react-router-dom";
 import { ConfigProvider } from "antd";
+import zhCN from 'antd/lib/locale/zh_CN';
 import routes from "./router";
 import { useEventBus } from './hooks/useEventBus';
 import { Provider as BusProvider } from './hooks/useBus';
@@ -9,7 +10,7 @@ function App() {
   const element = useRoutes(routes);
 
   return (
-    <ConfigProvider>
+    <ConfigProvider locale={zhCN}>
       <Suspense fallback={<div>loading...</div>}>
         {element}
       </Suspense>
