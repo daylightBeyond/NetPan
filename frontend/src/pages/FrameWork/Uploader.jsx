@@ -1,15 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { Progress } from 'antd';
-import useHomeStore from '@/store/homeStore.js';
-import { BusContext, useListener } from '../../hooks/useBus';
-import { useEventBus } from '../../hooks/useEventBus';
-// import useListener from "../../hooks/useListener";
 import useUploadFileStore from "@/store/uploadFileStore";
-import PubSub from "pubsub-js";
 import uploadStatus from "@/constants/upload-status.js";
 import { sizeToStr } from '@/utils/utils';
 import './style.less';
-import pubSub from "../../utils/PubSub";
 
 const Uploader = (props) => {
   console.log('上传区域props', props);
@@ -39,7 +33,7 @@ const Uploader = (props) => {
                       item.status == uploadStatus.upload_seconds.value) &&
                     <Progress percent={item.uploadProgress}/>
                   }
-                  <Progress />
+                  {/*<Progress />*/}
                 </div>
                 <div className="upload-status">
                   {/* 图标 */}

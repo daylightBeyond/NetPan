@@ -14,7 +14,7 @@ const useUploadFileStore = create((set, get) => ({
   // 删除的文件列表
   delList: [],
   // 文件切片的大小
-  chunkSize: 1 * 1024 * 1024, // 5MB
+  chunkSize: 5 * 1024 * 1024, // 5MB
   setShowUploader: (data) => {
     console.log('切换', data);
     set({ showUploader: data });
@@ -60,6 +60,7 @@ const useUploadFileStore = create((set, get) => ({
     set({ fileList: [fileItem, ...fileList] });
     if (fileItem.totalSize == 0) {
       fileItem.status = uploadStatus.emptyFile.value;
+      set({ fileList: [...fileList] });
       return;
     }
     let md5FileUid = await computedMd5(fileItem);
@@ -89,7 +90,7 @@ const useUploadFileStore = create((set, get) => ({
     const blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
     const chunks = Math.ceil(file.size / chunkSize);
     let currentChunk = 0; // 当前分片
-    let spark = new SparkMd5.ArrayBuffer();
+    let spark = new SparkMd5();
     let fileReader = new FileReader();
     // 切片
     const loadNext = () => {

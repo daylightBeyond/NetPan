@@ -1,34 +1,64 @@
 import React, { memo, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Upload, Button, Input, message } from 'antd';
+import dayjs from 'dayjs';
 import Navigation from "../../components/Navigation/Navigation.jsx";
 import NPTable from "../../components/Table/NPTable.jsx";
 import ShareFile from "./ShareFile.jsx";
 import useMergeState from "@/hooks/useMergeState";
-import useHomeStore from '@/store/homeStore.js';
 import useUploadFileStore from "@/store/uploadFileStore.js";
-// 引入mock数据
-import mockFileData from "../../mocks/mockFileData";
+import { queryFile } from '../../servers/home';
 import { sizeToStr } from "../../utils/utils";
 import '@/assets/file.list.less';
 import Icon from "../../components/Icon/Icon.jsx";
 
 const Home = () => {
-  const params = useParams();
-  console.log('params', params);
+  const routeParams = useParams();
+  console.log('routeParams', routeParams);
 
   const [state, setState] = useMergeState({
     currentFolder: { fileId: 0 },
-    shareVisible: false,
+    shareVisible: false, // 分享弹窗是否显示
+    dataSource: [],
+    pageNum: 1,
+    pageSize: 10,
+    total: 1,
+    loading: false, // 查询数据加载
   });
 
-  const { currentFolder, shareVisible } = state;
+  const { currentFolder, shareVisible, dataSource, pageNum, pageSize, total } = state;
 
   const shareFileRef = useRef(null);
 
   // store的变量和方法
   const addFile = useUploadFileStore(state => state.addFile);
   const setShowUploader = useUploadFileStore(state => state.setShowUploader);
+
+  useEffect(() => {
+    queryFileList({ pageNum: 1, pageSize: 10 });
+  }, [routeParams]);
+
+  const queryFileList = (params = {}) => {
+    const queryParams = {
+      pageNum: params.pageNum || 1,
+      pageSize: params.pageSize || 10,
+      category: routeParams.category,
+      fileName: params.fileName
+    };
+    queryFile(queryParams).then(res => {
+      console.log('查询文件列表', res);
+
+      if (res.success) {
+        const { list, pageNum, pageSize, total } = res.data || {};
+        setState({
+          dataSource: list,
+          pageNum,
+          pageSize,
+          total
+        });
+      }
+    })
+  };
 
   /*
    * 由于Home组件和Uploader组件无任何关联，但是又需要点上传的时候触发 Uploader组件的方法，
@@ -68,7 +98,8 @@ const Home = () => {
             onMouseEnter={() => handleShowOp(record)}
             onMouseLeave={() => handleCancelShowOp(record)}
           >
-            {(fileType == 3 || fileType == 1) && status ? (
+            {/* status: 0:转码中 1:转码失败 2:转码成功 */}
+            {(fileType == 3 || fileType == 1) && status == 2 ? (
               <Icon cover={fileCover} width={32}/>
             ) : (
               <>
@@ -108,7 +139,8 @@ const Home = () => {
       title: "修改时间",
       key: "lastUpdateTime",
       dataIndex: "lastUpdateTime",
-      width: 200
+      width: 200,
+      render: (text) => text ? dayjs(text).format('YYYY-MM-DD HH:mm:ss') : ''
     },
     {
       title: "大小",
@@ -130,7 +162,7 @@ const Home = () => {
 
   // 展示操作按钮
   const handleShowOp = useCallback((row, index) => {
-    mockFileData.map(item => {
+    dataSource.map(item => {
       item.showOp = false;
     })
     row.showOp = true;
@@ -205,11 +237,11 @@ const Home = () => {
       </div>
       {/* 文件列表 */}
       <div className="file-list">
-        {params.category}
+        {routeParams.category}
         <NPTable
-          dataSource={mockFileData}
+          dataSource={dataSource}
           columns={columns}
-          total={mockFileData.length}
+          total={total}
           rowKey="fileId"
           options={tableOptions}
           rowSelection={{

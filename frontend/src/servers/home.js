@@ -35,11 +35,11 @@ export const logout = (param) => {
 };
 
 // 获取文件列表
-export const queryFileList = (param, callback) => {
+export const queryFile = (param, callback) => {
   return request({
-    method: 'get',
+    method: 'post',
     url: '/file/queryFile',
-    param,
+    data: param,
     ...callback
   });
 };
@@ -60,8 +60,8 @@ export const uploadFile = (param) => {
 export const getImage = (param) => {
   return request({
     method: 'get',
-    url: '/file/getImage',
-    param,
+    url: '/file/getImage/' + param,
+    responseType: 'blob'
   });
 };
 

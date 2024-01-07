@@ -43,7 +43,7 @@ const Login = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    // changeCheckCode();
+    changeCheckCode();
 
     const remembermeJson = localStorage.getItem('rememberme');
     if (remembermeJson) {
@@ -126,14 +126,14 @@ const Login = () => {
       } else if (localStorage.getItem('rememberme')){
         localStorage.removeItem('rememberme');
       }
-      navigate('/home/all',{
-        // 这里加上state是因为使用useLocation解析匹配动态路由展示页面
-        state: {
-          needLogin: true,
-          menuCode: "home",
-        },
-      });
-      return;
+      // navigate('/home/all',{
+      //   // 这里加上state是因为使用useLocation解析匹配动态路由展示页面
+      //   state: {
+      //     needLogin: true,
+      //     menuCode: "home",
+      //   },
+      // });
+      // return;
       login(params).then(res => {
         if (res.success) {
           message.success(res.message || '登录成功');

@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 const dayjs = require('dayjs');
 const ffmpeg = require('ffmpeg');
 const logger = require('./logger');
 const redisUtils = require('./redisUtil');
-const sequelize = require('../db/index'); // 引入 Sequelize 实例
 const { UserModel, FileModel } = require('../models/index');
 const { generateUUid } = require('./utils');
 const { createCover4Video, createCover4Image } = require('./scaleFilter');
@@ -17,6 +17,7 @@ const {
   IMAGE_PNG_SUFFIX,
   LENGTH_150,
   USER_FILE_FOLDER,
+  LENGTH_6
 } = require('../constants/constants');
 const { fileTypeEnums, fileStatusEnum, uploadStatusEnum } = require('../enums/fileEnum');
 const { dateTimePatternEnum } = require('../enums/dateTimePatterEnum');
@@ -62,7 +63,7 @@ const isFolderExits = function(folderPath) {
       fs.mkdirSync(parentDir, { recursive: true });
     }
     fs.mkdirSync(folderPath, { recursize: true });
-    logger.info('文件夹不存在, 已创建成功');
+    logger.info('文件夹不存在, 已创建成功', folderPath);
   }
 };
 
@@ -75,7 +76,7 @@ const isFolderExits = function(folderPath) {
 const moveFile = function(sourcePath, targetDirectory, newFilename) {
   // 检查原文件是否存在
   if (!fs.existsSync(sourcePath)) {
-    logger.error('源文件不存在--moveFile');
+    logger.info('源文件不存在--moveFile');
     return;
   }
 
@@ -83,6 +84,7 @@ const moveFile = function(sourcePath, targetDirectory, newFilename) {
   isFolderExits(targetDirectory);
 
   const targetPath = path.join(targetDirectory, newFilename);
+  logger.info('移动临时文件到目标路径', targetPath);
 
   // 关闭源文件的所有句柄
   fs.closeSync(fs.openSync(sourcePath, 'r'));
@@ -103,12 +105,14 @@ const moveFile = function(sourcePath, targetDirectory, newFilename) {
  * @param destination 目的文件
  */
 const copyFile = function(source, destination) {
+  logger.info('拷贝文件--source', source);
+  logger.info('拷贝文件--destination', destination);
   const sourcePath = path.resolve(source);
   const destinationPath = path.resolve(destination);
 
   // 检查源文件是否存在
   if (!fs.existsSync(sourcePath)) {
-    logger.error('源文件不存在--copyFile');
+    logger.info('源文件不存在--copyFile');
     return;
   }
 
@@ -120,7 +124,7 @@ const copyFile = function(source, destination) {
   // 拷贝文件
   const fileName = path.basename(sourcePath);
   const destinationFile = path.join(destinationPath, fileName);
-
+  logger.info('拷贝文件路径', destinationFile);
   fs.copyFileSync(sourcePath, destinationFile);
   logger.info('文件拷贝成功');
 };
@@ -129,7 +133,7 @@ const copyFile = function(source, destination) {
  * @description 删除文件夹下所有文件及文件夹
  */
 const deleteFolder = function(folderPath) {
-  console.log('删除文件的目录', folderPath);
+  logger.info('删除文件的目录', folderPath);
   if (fs.existsSync(folderPath)) {
     fs.readdirSync(folderPath).forEach(file => {
       const curPath = path.join(folderPath, file);
@@ -145,8 +149,7 @@ const deleteFolder = function(folderPath) {
     });
 
     // 删除空文件夹
-    // fs.rmdirSync(folderPath);
-    // fs.rmdir(folderPath, { recursice: true });
+    fs.rmdirSync(folderPath);
   }
 }
 
@@ -154,8 +157,8 @@ const deleteFolder = function(folderPath) {
  * 自动重命名
  */
 const autoRename = async (filePid, userId, fileName, delFlag) => {
-  const count = FileModel.count({ where: { filePid, userId, fileName, delFlag } });
-  console.log('查询文件数量', count);
+  const count = await FileModel.count({ where: { filePid, userId, fileName, delFlag } });
+  logger.info('查询文件数量', count);
   if (count > 0) {
     fileName = rename(fileName);
   }
@@ -167,10 +170,11 @@ const autoRename = async (filePid, userId, fileName, delFlag) => {
  * @param fileSuffix 文件后缀
  */
 const getFileTypeBySuffix = function(fileSuffix) {
-  console.log('文件后缀类型', fileSuffix);
+  const tolowerSuffix = fileSuffix.toLowerCase();
+  logger.info('文件后缀类型', tolowerSuffix);
   for (let i = 0; i < obj2Arr.length; i++) {
     const [k, v] = obj2Arr[i];
-    if (v.suffix.includes(fileSuffix)) {
+    if (v.suffix.includes(tolowerSuffix)) {
       return v;
     }
   }
@@ -183,7 +187,7 @@ const getFileTypeBySuffix = function(fileSuffix) {
  * @returns {*}
  */
 const getFileNameNoSuffix = function(fileName) {
-  console.log('取文件名，不包含后缀时--fileName', fileName);
+  logger.info('取文件名，不包含后缀时--fileName', fileName);
   const index = fileName.lastIndexOf('.');
   if (index == -1) {
     return fileName;
@@ -197,7 +201,7 @@ const getFileNameNoSuffix = function(fileName) {
  * @returns {*}
  */
 const getFileSuffix = function(fileName) {
-  console.log('取文件后缀--fileName', fileName);
+  logger.info('取文件后缀--fileName', fileName);
 
   const index = fileName.lastIndexOf('.');
   if (index == -1) {
@@ -214,7 +218,7 @@ const getFileSuffix = function(fileName) {
 const rename = function(fileName) {
   const fileNameReal = getFileNameNoSuffix(fileName);
   const suffix = getFileSuffix(fileName);
-  return fileNameReal + '_' + generateUUid() + suffix;
+  return fileNameReal + '_' + generateUUid(LENGTH_6) + suffix;
 };
 
 // 读取上传的临时文件目录大小
@@ -224,10 +228,12 @@ const getFileTempSize = function(userId, fileId) {
   let totalSize = 0;
 
   const files = fs.readdirSync(folderPath);
+  logger.info('读取临时文件', files);
   files.forEach(file => {
     const filePath = path.join(folderPath, file);
+    logger.info('临时文件路径信息', filePath);
     const stats = fs.statSync(filePath);
-
+    logger.info('获取临时文件信息stats', stats);
     if(stats.isFile) {
       totalSize += stats.size;
     } else if(stats.isDirectory) {
@@ -242,29 +248,27 @@ const getFileTempSize = function(userId, fileId) {
  * 更新用户网盘信息
  */
 const updateUserSpace = async function (userId, useSpace, totalSpace = 0) {
-  const count = UserModel.update(
-      { useSpace: sequelize.literal('useSpace' + Number(useSpace)) },
-      {
-        where: {
-          userId,
-          [sequelize.Op.and]: [
-            sequelize.literal('useSpace + ' + useSpace + ' <= totalSpace'),
-            sequelize.literal('totalSpace + ' + totalSpace + ' >= userSpace'),
-          ],
-        }
-      }
-  )
-  logger.info('更新用户的网盘空间信息', count);
-  // const count = updateUserSpaceServer(userId, useSpace, 0);
-  if (count === 0) {
+  logger.info('更新用户网盘信息参数', userId, useSpace);
+  const user = await UserModel.findByPk(userId);
+  logger.info('查询用户网盘信息', user);
+  const { useSpace: dbUseSpace, totalSpace: dbTotalSpace } = user;
+  let updateSpace = null;
+  if (dbUseSpace + useSpace <= dbTotalSpace && dbTotalSpace + totalSpace >= dbUseSpace) {
+    updateSpace = await UserModel.update(
+      { useSpace: dbUseSpace + useSpace },
+      { where: { userId } }
+    )
+  }
+  logger.info('更新用户的网盘空间信息', updateSpace);
+  if (updateSpace == null) {
     throw new Error(responseCodeEnum.CODE_904.value);
   }
   // 更新redis的使用空间
-  const userInfo = await redisUtils.get(`${REDIS_USER_FOLDER}${userId}:userInfo`);
+  const userInfo = await redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:userInfo`);
 
   userInfo['useSpace'] = userInfo['useSpace'] + useSpace;
 
-  await redisUtils.set(`${REDIS_USER_FOLDER}${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_SEVEN_DAY);
+  await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_SEVEN_DAY);
 };
 
 /**
@@ -275,92 +279,89 @@ const updateUserSpace = async function (userId, useSpace, totalSpace = 0) {
  * @param delSource 是否删除旧文件目录
  */
 const union = async function(dirPath, toFilePath, fileName, delSource, delFolder) {
-  console.log('合并文件--开始');
-  console.log('合并文件-dirPath', dirPath);
-  console.log('合并文件-toFilePath', toFilePath);
-  console.log('合并文件-fileName', fileName);
-  console.log('合并文件-delSource', delSource);
-  if (!fs.existsSync(dirPath)) {
-    throw new Error('文件目录不存在');
-  }
-
-  // 同步读取目录文件
-  const fileList = fs.readdirSync(dirPath);
-  console.log('同步读取源目录的文件夹下的文件', fileList);
-
-  fileList.sort((a, b) => parseInt(a) - parseInt(b));
-  console.log('排序后的文件', fileList);
-
-  // 构造目标文件的完整路径
-  const targetFile = path.join(toFilePath, fileName);
-  console.log('需要合并的文件', targetFile);
-  const writeFile = fs.createWriteStream(targetFile, { flags: 'a' });
-
-  try {
-    fileList.forEach((item, index) => {
-      const filePath = path.join(dirPath, item);
-      const readFile = fs.readFileSync(filePath);
-      console.log(`合并第${index}片分片`, filePath);
-
-      writeFile.write(readFile);
-    })
-    // 关闭可写流
-    writeFile.end();
-    // 删除临时目录下的文件
-    if (delSource && fs.existsSync(delFolder)) {
-      try {
-        deleteFolder(delFolder);
-      } catch (error) {
-        logger.error('删除目录失败', error);
-      }
+  logger.info('合并文件--开始');
+  logger.info('合并文件-dirPath', dirPath);
+  logger.info('合并文件-toFilePath', toFilePath);
+  logger.info('合并文件-fileName', fileName);
+  logger.info('合并文件-delSource', delSource);
+  logger.info('合并文件-delFolder', delFolder);
+  return new Promise((resolve, reject) => {
+    if (!fs.existsSync(dirPath)) {
+        throw new Error('文件目录不存在');
     }
-    console.log('合并文件--结束');
-  } catch (e) {
-    logger.error('合并文件失败：', fileName, e);
-    throw new Error('合并分片:' , fileName , ' 出错了');
-  }
+
+    // 同步读取目录文件
+    const fileList = fs.readdirSync(dirPath);
+    logger.info('同步读取源目录的文件夹下的文件', fileList);
+
+    fileList.sort((a, b) => parseInt(a) - parseInt(b));
+    logger.info('排序后的文件', fileList);
+
+    // 构造目标文件的完整路径
+    const targetFile = path.join(toFilePath, fileName);
+    logger.info('需要合并的文件的最终路径', targetFile);
+    const writeFile = fs.createWriteStream(targetFile, { flags: 'a' });
+
+    try {
+      fileList.forEach((item, index) => {
+        const filePath = path.join(dirPath, item);
+        const readFile = fs.readFileSync(filePath);
+        logger.info(`合并第${index}片分片`, filePath);
+
+        writeFile.write(readFile);
+      })
+      // 关闭可写流
+      writeFile.end();
+      // 监听writeFile的'finish'事件，表示所有数据已成功写出到磁盘
+      writeFile.on('finish', () => {
+        // 删除临时目录下的文件
+        if (delSource && fs.existsSync(delFolder)) {
+          try {
+              deleteFolder(delFolder);
+          } catch (error) {
+              logger.error('删除目录失败', error);
+          }
+        }
+        logger.info('合并文件--结束');
+        resolve(true);
+      })
+    } catch (e) {
+      logger.error('合并文件失败：', fileName, e);
+      throw new Error('合并分片:' , fileName , ' 出错了');
+      reject(false);
+    }
+  })
 };
 
 /**
- * 视频切割
+ * 视频切割成ts文件
  */
 const cutFileForVideo = function(fileId, videoFilePath) {
   // 创建同名切片目录
   const tsFolder = videoFilePath.substring(0, videoFilePath.lastIndexOf('.'));
-  console.log('ts文件目录', tsFolder);
-  if (fs.existsSync(tsFolder)) {
+  logger.info('ts文件目录', tsFolder);
+  if (!fs.existsSync(tsFolder)) {
+    logger.info('ts文件目录不存在');
     fs.mkdirSync(tsFolder);
+    logger.info('ts视频文件目录创建成功');
   }
 
-  // ts文件路径
-  const tsPath = tsFolder + '/' + TS_NAME;
+  // ffmpeg切割并转换为TS的命令
+  const cmd = `ffmpeg -y -i "${videoFilePath}" -c:v copy -c:a copy -bsf:v h264_mp4toannexb -hls_time 15 -hls_list_size 0 -hls_segment_filename "${tsFolder}/${fileId}"_%03d.ts -f hls "${tsFolder}/${M3U8_NAME}"`;
 
   return new Promise((resolve, reject) => {
     try {
-      const process = new ffmpeg(videoFilePath);
-
-      process.then((video) => {
-        video
-            .outputOptions(['-hls_time 10', '-hls_list_size 0'])
-            .output(path.join(tsPath, M3U8_NAME))
-            .on('end', () => {
-              resolve('视频转换为TS成功！');
-            })
-            .on('error', (error) => {
-              reject('视频转换为TS失败：', error);
-            })
-            .run();
-        // 删除 index.ts
-        fs.unlink(tsPath, (err) => {
-          if (err) {
-            console.log('删除 ts 文件失败', err);
-            return;
-          }
-          console.log('删除 ts 文件成功');
-        })
-      });
+      exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+          logger.error('执行ffmpeg出错', error);
+          reject(error);
+        } else {
+          logger.info('视频切割成功');
+          resolve();
+        }
+      })
     } catch (error) {
-      reject('视频转换为TS失败：', error);
+      reject('视频切割失败：', error);
     }
   });
 };
@@ -378,11 +379,9 @@ const transferFile = async function(fileId, user) {
   let fileTypeEnum = null;
   const userId = user.userId;
 
-  const fileInfo = await FileModel.findAll({ where: { fileId, userId } });
-  // const fileInfo = await selectByFileIdAndUserId(fileId, userId);
-  console.log('根据文件ID和用户ID查询文件信息', fileInfo);
+  const [fileInfo] = await FileModel.findAll({ where: { fileId, userId } });
+  logger.info('根据文件ID和用户ID查询文件信息', fileInfo);
   try {
-    // TODO 这里的fileInfo可能是数组形式，后期改
     if (fileInfo == null || !fileStatusEnum.TRANSFER.value === fileInfo.status) {
       return;
     }
@@ -393,77 +392,73 @@ const transferFile = async function(fileId, user) {
     const curUserFolderName = userId + '/' + fileId;
     // 文件目录
     const fileFolder = tempFolderName + curUserFolderName + '/chunks';
-    console.log('fileFolder', fileFolder);
+    // 需要删除的临时文件目录
+    const delFolderPath = tempFolderName + userId;
+    logger.info('fileFolder', fileFolder);
     // 文件后缀
-    const fileSuffix = getFileSuffix(fileInfo.file_name);
-    console.log('dateTimePatternEnum.YYYYMM', dateTimePatternEnum.YYYYMM);
+    const fileSuffix = getFileSuffix(fileInfo.fileName);
+    logger.info('dateTimePatternEnum.YYYYMM', dateTimePatternEnum.YYYYMM);
     const month = dayjs(fileInfo['createTime']).format(dateTimePatternEnum.YYYYMM);
 
     // 目标目录
     const targetFolderName = USER_FILE_FOLDER;
     // 目标文件目录
     const targetFolder = targetFolderName + month;
-    console.log('目标文件目录', targetFolder);
+    logger.info('创建目标文件目录--targetFolder', targetFolder);
 
     await isFolderExits(targetFolder);
-    // 真实的文件名
-    // const realFileName = curUserFolderName + fileSuffix;
     // 上传文件的文件名
     const originFileName = fileInfo['fileName'];
     // 最终文件存储目录
-    // targetFilePath = targetFolder + '/' + originFileName;
-    const targetFilePath = path.join(targetFolder, originFileName);
-    console.log('targetFilePath', targetFilePath);
+    targetFilePath = targetFolder + '/' + originFileName;
+    logger.info('targetFilePath', targetFilePath);
 
     // 合并文件
-    // union(fileFolder, targetFilePath, fileInfo['file_name'], true);
-    union(fileFolder, targetFolder, originFileName, true, curUserFolderName);
+    await union(fileFolder, targetFolder, originFileName, true, delFolderPath);
 
+    // 获取文件类型
+    fileTypeEnum = getFileTypeBySuffix(fileSuffix);
+    logger.info('文件类型', fileTypeEnum);
+    // logger.info('fileTypeEnums.VIDEO', fileTypeEnums.VIDEO);
+    // logger.info('fileTypeEnums.IMAGE', fileTypeEnums.IMAGE);
 
     // 视频文件切割
-    fileTypeEnum = getFileTypeBySuffix(fileSuffix);
-    console.log('文件类型', fileTypeEnum);
-    // console.log('fileTypeEnums.VIDEO', fileTypeEnums.VIDEO);
-    // console.log('fileTypeEnums.IMAGE', fileTypeEnums.IMAGE);
     if (fileTypeEnums.VIDEO.type === fileTypeEnum.type) {
       // 切割视频，转成 ts文件类型
       await cutFileForVideo(fileId, targetFilePath);
+      // 获取文件名，不要后缀，因为是要生成图片类型，跟视频类型不一样
+      const coverName = getFileNameNoSuffix(originFileName);
       // 视频生成缩略图
-      cover = month + '/' + curUserFolderName + IMAGE_PNG_SUFFIX;
+      cover = month + '/' + coverName + '_' + IMAGE_PNG_SUFFIX;
       const coverPath = targetFolderName + cover;
-      console.log('视频coverPath', coverPath);
-      createCover4Video(targetFilePath, LENGTH_150, coverPath);
+      logger.info('视频coverPath', coverPath);
+      await createCover4Video(targetFilePath, LENGTH_150, coverPath);
     } else if(fileTypeEnums.IMAGE.type === fileTypeEnum.type) {
       // 生成图片缩略图
       cover = month + '/' + originFileName.replace('.', '_.');
       const coverPath = targetFolderName + cover;
-      console.log('图片coverPath', coverPath);
-      const created = createCover4Image(targetFilePath, LENGTH_150, coverPath);
+      logger.info('图片coverPath', coverPath);
+      const created = await createCover4Image(targetFilePath, LENGTH_150, coverPath);
+      logger.info('是否创建缩略图', created);
+      // 如果图片文件太小生成不了缩略图，就直接将该文件复制一份，重命名
       if (!created) {
-        exports.copyFile(targetFilePath, coverPath);
+        // TODO 现在的复制文件会将该文件复制到文件命名的文件夹下，直接复制到同级别的路径下即可
+        copyFile(targetFilePath, coverPath);
       }
     }
   } catch (e) {
     logger.error('文件转码失败, 文件ID:', fileId, 'userId:', userId, e);
     transferSuccess = false;
   } finally {
-    // const targetFile = fs.readdirSync(targetFilePath);
-    // console.log('目标文件', targetFile);
-    // const size = targetFile.size;
-    // console.log('文件size', size);
     const updateInfo = {
       fileSize: fileInfo['fileSize'],
       fileCover: cover,
       status: transferSuccess ? fileStatusEnum.USING.code : fileStatusEnum.TRANSFER_FAIL.code
     };
     logger.info('更新文件info', updateInfo);
-    await FileModel.update({
-      fileSize: updateInfo, fileCover: cover, where: {
-        fileId, userId, status: fileStatusEnum.TRANSFER.code
-      }
-    });
-    // await updateFileStatusWithOldStatus(updateInfo, fileId, userId, fileStatusEnum.TRANSFER.value);
-
+    await FileModel.update(updateInfo,
+      { where: { fileId, userId, status: fileStatusEnum.TRANSFER.code } }
+    );
   }
 };
 

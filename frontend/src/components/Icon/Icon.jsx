@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useEffect, useState, useCallback } from 'react';
 import { getImage } from '@/servers/home';
 import './style.less';
 
@@ -17,6 +17,7 @@ const fileTypeMap = {
 };
 
 const Icon = (props) => {
+  console.log('Icon--props', props);
   const {
     fileType,
     iconName,
@@ -25,11 +26,20 @@ const Icon = (props) => {
     fit,
   } = props;
 
-  const getCover = () => {
-    // if (cover) {
-    //   // 这里调用获取封面的接口
-    //   return getImage({ cover });
-    // }
+  const [imgSrc, setImgSrc] = useState('');
+
+  useEffect(() => {
+    getCover();
+  }, []);
+
+  const getCover = useCallback(async () => {
+    if (cover) {
+      // 这里调用获取封面的接口
+      const res = await getImage(cover);
+      const blob = new Blob([res]);
+      setImgSrc(URL.createObjectURL(blob));
+      return;
+    }
     let icon = 'unknow_icon';
     if (iconName) {
       icon = iconName;
@@ -39,24 +49,24 @@ const Icon = (props) => {
         icon = iconMap['icon'];
       }
     }
-
-    return new URL(`/src/assets/icon-image/${icon}.png`, import.meta.url).href;
-  }
+    const img = require(`@/assets/icon-image/${icon}.png`)
+    setImgSrc(img);
+  }, []);
 
   return (
     <span
       className="icon"
       style={{ width, height: width }}
     >
-      <img src={getCover()} style={{ objectFit: fit }} />
+      <img src={imgSrc} style={{ objectFit: fit }} />
     </span>
   );
 };
 
 Icon.defaultProps = {
   fileType: 0,
-  width: 12,
+  width: 32,
   fit: 'cover'
-}
+};
 
-export default Icon;
+export default memo(Icon);

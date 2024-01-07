@@ -7,7 +7,9 @@ const redisUtils = require('../utils/redisUtil');
 const { UserModel, EmailModel, FileModel } = require('../models/index');
 const handleException = require("../utils/handleException");
 const {
-  generateUUid
+  generateUUid,
+  isEmpty,
+  pathIsOk
 } = require('../utils/utils');
 const {
   moveFile,
@@ -31,6 +33,7 @@ const {
   UPLOAD_TEMP_FOLDER,
   REDIS_USER_FOLDER,
   USER_FILE_FOLDER,
+  REDIS_KEY_EXPIRE_THIRTY_MIN
 } = require('../constants/constants');
 
 class FileController {
@@ -43,42 +46,55 @@ class FileController {
    * pageSize 分页大小
    */
   async queryFile(ctx, next) {
-    const { userId, category, fileName, filePid, pageNum, pageSize } = ctx.request.body;
-
+    logger.info('开始查询文件列表');
+    logger.info('查询文件列表请求参数', ctx.request.body);
+    const { category, fileName, pageNum, pageSize, filePid } = ctx.request.body;
+    const user = ctx.state.user;
+    const { userId } = user;
     try {
-      const fileCategoryArr = fileCategoryEnums.filter(x => x.key === category);
-      let fileCategoryObj = {};
-      if(fileCategoryArr.length) {
-        fileCategoryObj = fileCategoryArr[0];
-      }
+      const fileCategory = fileCategoryEnums[category.toUpperCase()]; // 因为前端传的category是小写
+      logger.info('fileCategory', fileCategory);
 
       const params = {
         userId,
-        fileCategory: fileCategoryObj.category,
-        fileName,
-        // filePid,
-        delFlag: fileDelFlagEnum.USING.value,
-        // sortField: 'last_update_time',
-        // pageNum: parseInt(pageNum) || 1,
-        // pageSize: parseInt(pageSize) || 10,
+        delFlag: fileDelFlagEnum.USING.code,
+      };
+      if (category && category != 'all') {
+        params.fileCategory = fileCategory.category;
+      }
+      if (fileName) {
+        params.fileName = fileName;
+      }
+      if (filePid) {
+        params.filePid = filePid;
       }
 
       const offset = (pageNum - 1) * pageSize;
 
+      const total = await FileModel.count({ where: params });
+
       const res = await FileModel.findAll({
         limit: pageSize,
         offset,
-        order: [['last_update_time', 'desc']],
+        order: [['lastUpdateTime', 'desc']],
+        subQuery: false,
         where: params
       });
-      logger.info(`查询文件${fileCategoryObj.category}列表信息:`, res);
+      logger.info(`查询文件列表信息:`, res);
+      const data = {
+        list: res,
+        pageNum,
+        pageSize,
+        total
+      };
 
       ctx.body = {
         code: 200,
         success: true,
         message: '请求成功',
-        data: res
-      }
+        data
+      };
+      logger.info('结束查询文件列表');
     } catch (err) {
       return handleException(ctx, err, '查询文件列表失败');
     }
@@ -110,7 +126,7 @@ class FileController {
     const { file } = ctx.request.files;
     let { fileName, fileId, filePid, fileMd5, chunks, chunkIndex } = ctx.request.body;
 
-    // 如果前端没传fileId
+    // 如果前端没传fileId 这里跟前端配合，前端的 fileId字段可能是 'undefined'
     if(fileId == 'null' || fileId == 'undefined') {
       // 随机生成 10 位数的 fileId
       fileId = generateUUid();
@@ -122,9 +138,9 @@ class FileController {
     const user = ctx.state.user;
     const { userId } = user;
     logger.info('userId', userId);
-    const useSpace = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}${userId}:fileSizeSum`);
+    const useSpace = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`);
     logger.info('redis获取useSpace', useSpace);
-    const totalSpace = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}${userId}:userInfo`);
+    const totalSpace = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:userInfo`);
     logger.info('redis获取totalSpace', totalSpace);
     // 创建初始文件分片的目录
     logger.info('fileId', fileId);
@@ -139,140 +155,188 @@ class FileController {
     try {
       // 当文件上传的是第一个切片时，根据文件的md5值和文件的status判断是否已经上传过了
       if (chunkIndex == 0) {
-        const dbFileList = await FileModel.findOne({ where: { fileMd5, status: fileStatusEnum.USING.code } });
+        const dbFileList = await FileModel.findAll({where: {fileMd5, status: fileStatusEnum.USING.code}});
+        logger.info('根据fileMd5和status查询是否已经上传过该文件', dbFileList);
         // 秒传
         if (dbFileList.length) {
           let dbFile = dbFileList[0];
+          // return;
+          logger.info('dbFile[fileSize]', dbFile['fileSize']);
+          logger.info('dbFile.fileSize', dbFile.fileSize);
           // 判断文件大小
-          if (dbFile['file_size'] + useSpace > totalSpace) {
+          if (dbFile['fileSize'] + useSpace > totalSpace) {
             ctx.app.emit(responseCodeEnum.CODE_904.value);
             return;
           }
+          // 文件重命名
+          fileName = await autoRename(filePid, userId, fileName, fileDelFlagEnum.USING.code);
+          logger.info('文件新名字', fileName);
           dbFile = {
-            ...dbFile,
+            // get({ plain: true }) 方法会将 Sequelize 实例转换为普通的 JavaScript 对象，
+            // 这样就不会包含 dataValues 和 _previousDataValues 这些 Sequelize 特有的属性了
+            ...dbFile.get({ plain: true }),
             fileId,
             filePid,
             userId,
             fileMd5,
+            fileName,
             createTime: curDate,
             lastUpdateTime: curDate,
             status: fileStatusEnum.USING.code,
             delFlag: fileDelFlagEnum.USING.code,
-          }
-          // dbFile['file_id'] = fileId;
-          // dbFile['file_pid'] = filePid;
-          // dbFile['user_id'] = userId;
-          // dbFile['create_time'] = curDate;
-          // dbFile['lastUpdateTime'] = curDate;
-          // dbFile['status'] = fileStatusEnum.USING.value;
-          // dbFile['del_flag'] = fileDelFlagEnum.USING.value;
-          // dbFile['file_md5'] = fileMd5;
-          // 文件重命名
-          fileName = await autoRename(filePid, userId, fileName, fileDelFlagEnum.USING.value);
-          dbFile['file_name'] = fileName;
-          // 插入这条数据
+          };
+          logger.info('秒传插入表的数据', dbFile);
+          // 插入秒传的重复数据
           await FileModel.create(dbFile);
-          // await createFileInfo(dbFile);
 
           // 更新用户使用空间
-          await updateUserSpace(userId, dbFile['file_size']);
-        }
-
-        /**
-         * 由于前端上传的文件到服务器中名字变了
-         * 需要将分片的文件按照 分片索引命名
-         */
-        await moveFile(file.filepath, fileChunkDir, chunkIndex);
-
-        // 判断磁盘空间
-        const curTempSize = getFileTempSize(userId, fileId);
-        logger.info('当前临时文件大小', curTempSize, 'byte');
-        if (file.size + curTempSize + useSpace > totalSpace) {
-            throw new Error(responseCodeEnum.CODE_904.value);
-        }
-
-        // 暂存临时目录
-        const tempFolderName = UPLOAD_TEMP_FOLDER;
-        // 当前用户上传的文件目录
-        const curUserFolderName = userId + '/' + fileId;
-
-        userFolderPath = tempFolderName + curUserFolderName;
-        logger.info('用户存储文件目录', userFolderPath);
-
-        if (chunkIndex < chunks - 1) {
-          await redisUtils.set(`${REDIS_USER_FOLDER}${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+          await updateUserSpace(userId, dbFile['fileSize']);
           ctx.body = {
             code: 200,
             success: true,
             data: {
-              status: uploadStatusEnum.UPLOADING.value,
               fileId: fileId,
-              uploadMsg: uploadStatusEnum.UPLOADING.desc
+              status: uploadStatusEnum.UPLOAD_FINISH.value,
+              uploadMsg: uploadStatusEnum.UPLOAD_FINISH.desc
             }
           };
-          return uploadStatusEnum.UPLOADING.desc;
+          fs.unlinkSync(file.filepath); // 异步删除临时文件
+          return;
         }
+      }
+      /*
+       * 由于前端上传的文件到服务器中名字变了
+       * 需要将分片的文件按照 分片索引命名
+       */
+      await moveFile(file.filepath, fileChunkDir, chunkIndex);
 
-        // 最后一片上传完成，记录数据库，异步合并分片
-        await redisUtils.set(`${REDIS_USER_FOLDER}${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+      // 判断磁盘空间
+      const curTempSize = getFileTempSize(userId, fileId);
+      logger.info('当前临时文件大小', curTempSize, 'byte');
+      // if (file.size + curTempSize + useSpace > totalSpace) {
+      //     throw new Error(responseCodeEnum.CODE_904.value);
+      // }
 
-        // 判断是否所有文件分片都已上传, 最后一个分片上传完成，记录数据库，异步合并分片
-        const month = dayjs(new Date()).format(dateTimePatternEnum.YYYYMM);
-        const fileSuffix = getFileSuffix(fileName);
+      // 暂存临时目录
+      const tempFolderName = UPLOAD_TEMP_FOLDER;
+      // 当前用户上传的文件目录
+      const curUserFolderName = userId + '/' + fileId;
 
-        // 真实文件名
-        const realFileName = curUserFolderName + fileSuffix;
-        const fileTypeEnum = getFileTypeBySuffix(fileSuffix);
-        console.log('根据后缀获取文件类型getFileTypeBySuffix', fileTypeEnum);
-        // 自动重命名
-        // fileName = autoRename(filePid, userId, fileName, fileDelFlagEnum.USING.value);
+      userFolderPath = tempFolderName + curUserFolderName;
+      logger.info('用户存储文件目录', userFolderPath);
 
-        // 合并分片
-        console.log('文件类型', fileCategoryEnums[fileTypeEnum.category.toUpperCase()]);
-
-        const insertFileInfo = {
-          fileId,
-          filePid,
-          userId,
-          fileMd5,
-          fileSize: file.size,
-          fileName,
-          filePath: USER_FILE_FOLDER + month + '/' + fileName,
-          createTime: curDate,
-          lastUpdateTime: curDate,
-          folderType: fileFolderTypeEnum.FILE.code,
-          fileCategory: fileCategoryEnums[fileTypeEnum.category.toUpperCase()].category,
-          fileType: fileTypeEnum.type,
-          status: fileStatusEnum.TRANSFER.value,
-          delFlag: fileDelFlagEnum.USING.value,
-        };
-        console.log('插入表数据', insertFileInfo);
-        // 将这条文件信息插入表中
-        await FileModel.create(insertFileInfo);
-        // await createFileInfo(insertFileInfo);
-
-        const totalSize = getFileTempSize(userId, fileId);
-        console.log('获取总使用文件大小', totalSize);
-        // 根据用户ID更新用户空间信息
-        await updateUserSpace(userId, totalSize);
-
-        // 文件转码
-        await transferFile(fileId, user);
-
+      // 分成多片时，处于中间的分片
+      if (chunkIndex < chunks - 1) {
+        await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
         ctx.body = {
           code: 200,
           success: true,
           data: {
+            status: uploadStatusEnum.UPLOADING.value,
             fileId: fileId,
-            status: uploadStatusEnum.UPLOAD_FINISH.value,
-            uploadMsg: uploadStatusEnum.UPLOAD_FINISH.desc
+            uploadMsg: uploadStatusEnum.UPLOADING.desc
           }
         };
+        return uploadStatusEnum.UPLOADING.desc;
       }
+
+      // 最后一片上传完成，记录数据库，异步合并分片
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+
+      // 判断是否所有文件分片都已上传, 最后一个分片上传完成，记录数据库，异步合并分片
+      const month = dayjs(new Date()).format(dateTimePatternEnum.YYYYMM);
+      // 根据文件名获取文件后缀再转小写
+      const fileSuffix = getFileSuffix(fileName).toLowerCase();
+      logger.info('根据文件名获取文件后缀', fileSuffix);
+
+      // 真实文件名
+      const realFileName = curUserFolderName + fileSuffix;
+      const fileTypeEnum = getFileTypeBySuffix(fileSuffix);
+      logger.info('根据后缀获取文件类型getFileTypeBySuffix', fileTypeEnum);
+      // 自动重命名
+      // fileName = autoRename(filePid, userId, fileName, fileDelFlagEnum.USING.value);
+
+      // 合并分片
+      logger.info('文件类型', fileCategoryEnums[fileTypeEnum.category.toUpperCase()]);
+
+      const insertFileInfo = {
+        fileId,
+        filePid,
+        userId,
+        fileMd5,
+        fileSize: file.size,
+        fileName,
+        filePath: month + '/' + fileName,
+        createTime: curDate,
+        lastUpdateTime: curDate,
+        folderType: fileFolderTypeEnum.FILE.code,
+        fileCategory: fileCategoryEnums[fileTypeEnum.category.toUpperCase()].category,
+        fileType: fileTypeEnum.type,
+        status: fileStatusEnum.TRANSFER.code,
+        delFlag: fileDelFlagEnum.USING.code,
+      };
+      logger.info('插入表数据', insertFileInfo);
+      // 将这条文件信息插入表中
+      await FileModel.create(insertFileInfo);
+
+      const totalSize = getFileTempSize(userId, fileId);
+      logger.info('获取总使用文件大小', totalSize);
+      // 根据用户ID更新用户空间信息
+      await updateUserSpace(userId, totalSize);
+
+      // 文件转码
+      await transferFile(fileId, user);
+
+      ctx.body = {
+        code: 200,
+        success: true,
+        data: {
+          fileId: fileId,
+          status: uploadStatusEnum.UPLOAD_FINISH.value,
+          uploadMsg: uploadStatusEnum.UPLOAD_FINISH.desc
+        }
+      };
+
     } catch (err) {
       return handleException(ctx, err, '文件上传异常');
     }
-  }
+  };
+
+  /**
+   * 获取文件封面
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async getImage(ctx) {
+    logger.info('获取文件封面请求参数', ctx.params);
+    const { imageFolder, imageName } = ctx.params;
+    // if (isEmpty(imageFolder) || isEmpty(imageName) || !pathIsOk(imageFolder) || !pathIsOk(imageName)) {
+    //   ctx.throw(401, '文件路径无效或文件名不存在');
+    //   return;
+    // }
+    try {
+      let imageSuffix = getFileSuffix(imageName).toLowerCase();
+      const filePath = USER_FILE_FOLDER + imageFolder + '/' + imageName;
+      if (!fs.existsSync(filePath)) {
+        ctx.throw(404, '图片不存在');
+        return;
+      }
+      imageSuffix = imageSuffix.replace('.' ,'');
+      const contentType = 'image/' + imageSuffix;
+      const imageData = await fs.promises.readFile(filePath);
+      // const imageData = fs.createReadStream(filePath);
+      const base64Image = imageData.toString('base64');
+      logger.info('imageData', imageData);
+      logger.info('封面图片资源类型', typeof imageData);
+      ctx.set('Content-Type', contentType);
+      ctx.set('Cache-Control', 'max-age=2592000');
+      ctx.body = Buffer.from(imageData, 'binary');
+    } catch (e) {
+      ctx.status = 500;
+      ctx.body = '获取封面异常';
+    }
+
+  };
 };
 
 module.exports = new FileController();

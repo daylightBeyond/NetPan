@@ -22,4 +22,28 @@ exports.generateRandomNumber = function generateRandomNumber() {
  */
 exports.generateUUid = function generateUUid(number = 10) {
   return uuidv4().replace(/-/g, '').substring(0, number);
+};
+
+/**
+ * 判断是否为空
+ * @param value
+ * @returns {boolean}
+ */
+exports.isEmpty = function isEmpty(value) {
+  if (value == null || value == undefined) {
+    return false;
+  }
+  return true;
+};
+
+/**
+ * 判断是否有效路径
+ * @param path
+ * @returns {boolean}
+ */
+exports.pathIsOk = function (path) {
+  if (path.startsWith('./') || path.startsWith('../')) {
+    return false;
+  }
+  return true;
 }
