@@ -95,13 +95,7 @@ const Login = () => {
     if (operateType === 0 || operateType === 2) {
       params.password = params.confirmPassword;
     }
-    //
-    // // 登录
-    // if (operateType === 1) {
-    //
-    // }
     console.log('params', params);
-    // let res = null;
     // 注册
     if (operateType === 0) {
       register(params).then(res => {
@@ -113,7 +107,6 @@ const Login = () => {
         console.log('注册异常', err);
       });
     } else if (operateType === 1) { // 登录
-      // sessionStorage.setItem('userInfo', )
       const rememberme = params.rememberme;
 
       if (rememberme) {

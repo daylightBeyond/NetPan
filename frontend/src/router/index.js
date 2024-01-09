@@ -1,14 +1,14 @@
 import React, { lazy } from "react";
-import { Navigate, useRoutes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Login = lazy(() => import('@/pages/Login/Login.jsx'));
 const FrameWork = lazy(() => import('@/pages/FrameWork/FrameWork.jsx'));
 const Home = lazy(() => import('@/pages/Home/Home.jsx'));
 const Share = lazy(() => import("@/pages/Share/Share.jsx"));
 const Recycle = lazy(() => import("@/pages/Recycle/Recycle.jsx"));
-const SysSetting = lazy(() => import("@/pages/Settings/SysSetting.jsx"));
-const UserList = lazy(() => import("@/pages/Settings/UserList.jsx"));
-const FileList = lazy(() => import("@/pages/Settings/FileList.jsx"));
+const SysSetting = lazy(() => import("@/pages/Admin/SysSetting.jsx"));
+const UserList = lazy(() => import("@/pages/Admin/UserList.jsx"));
+const FileList = lazy(() => import("@/pages/Admin/FileList.jsx"));
 
 const routes = [
   {

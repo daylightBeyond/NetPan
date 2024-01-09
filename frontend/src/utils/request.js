@@ -83,24 +83,28 @@ instance.interceptors.response.use(
   },
   (error) => {
     console.log('响应返回的错误', error);
-    const { response } = error;
-    const { data } = response;
-    const errorMsg = data?.err?.message || data.errorMsg || data.msg;
-    if (!data.success && errorMsg) {
-      message.error(errorMsg);
-    }
-    return Promise.reject(error);
+    try {
+      const { response } = error;
+      const { data } = response || {};
+      const errorMsg = data?.err?.message || data.errorMsg || data.msg;
+      if (!data.success && errorMsg) {
+        message.error(errorMsg);
+      }
+      return Promise.reject(error);
 
-    let { message: msg } = error;
-    if (msg == "Network Error") {
-      msg = "后端接口连接异常";
-    } else if (msg.includes("timeout")) {
-      msg = "系统接口请求超时";
-    } else if (msg.includes("Request failed with status code")) {
-      msg = "系统接口" + msg.substr(msg.length - 3) + "异常";
+      let { message: msg } = error;
+      if (msg == "Network Error") {
+        msg = "后端接口连接异常";
+      } else if (msg.includes("timeout")) {
+        msg = "系统接口请求超时";
+      } else if (msg.includes("Request failed with status code")) {
+        msg = "系统接口" + msg.substr(msg.length - 3) + "异常";
+      }
+      message.error(msg, 5);
+      return Promise.reject(error);
+    } catch (e) {
+      console.log('捕获异常', e);
     }
-    message.error(msg, 5);
-    return Promise.reject(error);
   }
 );
 export default instance;

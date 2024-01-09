@@ -95,7 +95,7 @@ const Home = () => {
         return (
           <div
             className="file-item"
-            onMouseEnter={() => handleShowOp(record)}
+            onMouseEnter={() => handleShowOp(record, index)}
             onMouseLeave={() => handleCancelShowOp(record)}
           >
             {/* status: 0:转码中 1:转码失败 2:转码成功 */}
