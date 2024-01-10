@@ -79,6 +79,7 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://192.168.136.130:7090',
+        // target: 'http://119.91.45.47:7090',
         // 如果不希望传递/api，则需要重写路径
         // pathRewrite: { '^/api': '/api' },
         changeOrigin: true, // 控制请求头中的 host 域，默认为 false

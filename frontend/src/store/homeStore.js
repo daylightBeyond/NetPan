@@ -7,7 +7,6 @@ const useHomeStore = create((set, get) => ({
   // 获取用户头像
   getUserAvatar: (payload) => {
     getAvatar(payload).then(res => {
-      console.log('获取用户头像', res);
       // 将后端返回的二进制流图片转换成blob
       const blob = new Blob([res]);
       set({ imgUrl: URL.createObjectURL(blob) });

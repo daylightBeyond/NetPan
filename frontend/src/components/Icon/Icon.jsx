@@ -17,7 +17,6 @@ const fileTypeMap = {
 };
 
 const Icon = (props) => {
-  console.log('Icon--props', props);
   const {
     fileType,
     iconName,
@@ -34,11 +33,14 @@ const Icon = (props) => {
 
   const getCover = useCallback(async () => {
     if (cover) {
-      // 这里调用获取封面的接口
-      const res = await getImage(cover);
-      const blob = new Blob([res]);
-      setImgSrc(URL.createObjectURL(blob));
-      return;
+      try {
+        const res = await getImage(cover);
+        const blob = new Blob([res]);
+        setImgSrc(URL.createObjectURL(blob));
+        return;
+      } catch (e) {
+        console.error('获取封面异常', e);
+      }
     }
     let icon = 'unknow_icon';
     if (iconName) {

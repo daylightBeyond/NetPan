@@ -5,16 +5,19 @@ import dayjs from 'dayjs';
 import Navigation from "../../components/Navigation/Navigation.jsx";
 import NPTable from "../../components/Table/NPTable.jsx";
 import ShareFile from "./ShareFile.jsx";
+import Icon from "../../components/Icon/Icon.jsx";
+import EditableRow from "./components/EditableRow.jsx";
+import EditableCell from "./components/EditableCell.jsx";
 import useMergeState from "@/hooks/useMergeState";
 import useUploadFileStore from "@/store/uploadFileStore.js";
 import { queryFile } from '../../servers/home';
 import { sizeToStr } from "../../utils/utils";
 import '@/assets/file.list.less';
-import Icon from "../../components/Icon/Icon.jsx";
+import './style.less';
 
 const Home = () => {
   const routeParams = useParams();
-  console.log('routeParams', routeParams);
+  // console.log('routeParams', routeParams);
 
   const [state, setState] = useMergeState({
     currentFolder: { fileId: 0 },
@@ -24,11 +27,14 @@ const Home = () => {
     pageSize: 10,
     total: 1,
     loading: false, // 查询数据加载
+
+    editing: false, // 编辑行
   });
 
-  const { currentFolder, shareVisible, dataSource, pageNum, pageSize, total } = state;
+  const { currentFolder, shareVisible, dataSource, pageNum, pageSize, total, editing } = state;
 
   const shareFileRef = useRef(null);
+  const editNameRef = useRef(null);
 
   // store的变量和方法
   const addFile = useUploadFileStore(state => state.addFile);
@@ -46,7 +52,7 @@ const Home = () => {
       fileName: params.fileName
     };
     queryFile(queryParams).then(res => {
-      console.log('查询文件列表', res);
+      // console.log('查询文件列表', res);
 
       if (res.success) {
         const { list, pageNum, pageSize, total } = res.data || {};
@@ -77,19 +83,28 @@ const Home = () => {
     customRequest
   };
 
-  const saveNameEdit = (index) => {
-
+  const saveNameEdit = (row) => {
+    const newData = [...dataSource];
+    const index = newData.indexOf((item) => row.key === item.key)
   };
 
   const cancelNameEdit = (index) => {
 
   };
 
-  const columns = [
+  const components = {
+    body: {
+      row: EditableRow,
+      cell: EditableCell
+    }
+  };
+
+  const defaultColumns = [
     {
       title: "文件名",
       key: "fileName",
       dataIndex: "fileName",
+      editable: true,
       render: (text, record, index) => {
         const { fileType, folderType, status, fileCover, showEdit, fileNameReal, showOp, fileId, fileSuffix } = record;
         return (
@@ -115,13 +130,17 @@ const Home = () => {
                 {status == 1 && <span className="transfer-status transfer-fail">转码失败</span>}
               </span>
             )}
-            {showEdit && (
-              <div className="edit-panel">
-                <Input maxLength={190} />
-                <span className={`iconfont icon-right1 ${fileNameReal ? '' : 'not-allow'}`} onClick={() => saveNameEdit(index)}></span>
-                <span className="iconfont icon-error" onClick={() => cancelNameEdit(index)}></span>
-              </div>
-            )}
+
+            <div className="edit-panel" style={{ display: showEdit ? '' : 'none' }}>
+              <Input
+                maxLength={190}
+                ref={editNameRef}
+                onPressEnter={() => saveNameEdit(index)}
+              />
+              <span className={`iconfont icon-right1 ${fileNameReal ? '' : 'not-allow'}`} onClick={() => saveNameEdit(index)}></span>
+              <span className="iconfont icon-error" onClick={() => cancelNameEdit(index)}></span>
+            </div>
+
             {showOp && fileId && status === 2 && (
               <span className="op">
                 <span className="iconfont icon-share1" onClick={() => share(record)}>分享</span>
@@ -151,6 +170,22 @@ const Home = () => {
     },
   ];
 
+  const columns = defaultColumns.map(col => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        editable: col.editable,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        handleSave: saveNameEdit
+      })
+    }
+  })
+
   const tableOptions = {
     extHeight: 50,
     selectType: 'checkbox'
@@ -159,6 +194,44 @@ const Home = () => {
   const rowSelection = {
 
   };
+
+  // 新建文件夹
+  const newFolder = () => {
+    const newData = {
+      showEdit: true,
+      fileType: 0, // 0 文件夹
+      fileId: '',
+      filePid: '0'
+    };
+    setState({ dataSource: [newData, ...dataSource] });
+  };
+  const newFolder11 = () => {
+    console.log(dataSource)
+    if (editing) {
+      return;
+    }
+
+    // const newDataSource =
+      dataSource.forEach((element) => element.showEdit = false);
+    setState({ editing: true });
+    // newDataSource.unshift({
+    //   showEdit: true,
+    //   fileType: 0, // 0 文件夹
+    //   fileId: '',
+    //   filePid: '0'
+    // });
+    dataSource.unshift({
+      showEdit: true,
+      fileType: 0, // 0 文件夹
+      fileId: '',
+      filePid: '0'
+    });
+    setState({
+      dataSource: dataSource
+    });
+    editNameRef.current.focus();
+    console.log('editNameRef', editNameRef);
+  }
 
   // 展示操作按钮
   const handleShowOp = useCallback((row, index) => {
@@ -196,7 +269,7 @@ const Home = () => {
    };
 
   return (
-    <>
+    <div className="wrapper-home">
       <div className="top">
         <div className="top-op">
           <div className="btn">
@@ -208,12 +281,12 @@ const Home = () => {
               </Button>
             </Upload>
           </div>
-          <Button style={{ backgroundColor: '#67c23a' }}>
+          <Button onClick={newFolder} style={{ backgroundColor: '#67c23a' }}>
             <span className="iconfont icon-folder-add">
               新建文件夹
             </span>
           </Button>
-          <Button style={{ backgroundColor: '#fab6b6' }}>
+          <Button danger type="primary">
             <span className="iconfont icon-del">
               批量删除
             </span>
@@ -239,6 +312,7 @@ const Home = () => {
       <div className="file-list">
         {routeParams.category}
         <NPTable
+          components={components}
           dataSource={dataSource}
           columns={columns}
           total={total}
@@ -257,7 +331,7 @@ const Home = () => {
         open={shareVisible}
         changeState={(data) => setState(data)}
       />
-    </>
+    </div>
   );
 };
 

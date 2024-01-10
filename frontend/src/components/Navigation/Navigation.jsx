@@ -9,9 +9,9 @@ const Navigation = (props) => {
   const routeParams = useParams();
   const router = useNavigate();
   const location = useLocation();
-  console.log('Navigation--routeParams', routeParams);
-  console.log('Navigation--router', router);
-  console.log('Navigation--location', location);
+  // console.log('Navigation--routeParams', routeParams);
+  // console.log('Navigation--router', router);
+  // console.log('Navigation--location', location);
 
   const [state, setState] = useMergeState({
     folderList: [],

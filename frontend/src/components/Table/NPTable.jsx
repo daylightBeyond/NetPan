@@ -9,7 +9,7 @@ import './style.less';
  * @constructor
  */
 const NPTable = (props) => {
-  console.log('自定义Table组件', props);
+  // console.log('自定义Table组件', props);
   const {
     dataSource,
     columns,
@@ -28,13 +28,13 @@ const NPTable = (props) => {
     ...rest
   } = props;
 
-  console.log('props--options', options);
-  console.log('props--total', total);
+  // console.log('props--options', options);
+  // console.log('props--total', total);
 
   // 顶部 60，内容区域距离顶部 20， 内容上下间距 15 * 2， 分页区域高度 46
   const topHeight = 60 + 20 + 30 + 46;
   const tableHeight = options.tableHeight ? options.tableHeight : window.innerHeight - topHeight - options.extHeight;
-  console.log('tableHeight', tableHeight);
+  // console.log('tableHeight', tableHeight);
 
   const getNewColumns = () => {
     let newColumns = columns;

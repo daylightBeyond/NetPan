@@ -52,7 +52,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log('响应拦截器返回', response);
+    // console.log('响应拦截器返回', response);
     const { errorCallback, showError = true, responseType } = response.config;
     if(loading) {
       loading.close();
