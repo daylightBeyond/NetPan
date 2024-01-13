@@ -8,6 +8,7 @@ import { recoveryFile, delFile } from '@/servers/recycle';
 import { sizeToStr } from '@/utils/utils';
 import '@/assets/file.list.less';
 import './style.less';
+
 const Recycle = () => {
   const [modal, contextHolder] = Modal.useModal();
   const [state, setState] = useMergeState({

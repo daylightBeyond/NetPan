@@ -61,7 +61,7 @@
     .file-name {
       margin-left: 8px;
       flex: 1;
-      width: 0;
+      //width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -85,35 +85,57 @@
       }
     }
 
+    .progress {
+      .ant-progress {
+        position: relative;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+
+        .ant-progress-outer {
+          height: unset !important;
+        }
+      }
+    }
+
     .edit-panel {
       flex: 1;
       width: 0;
       display: flex;
       align-items: center;
       margin: 0px 5px;
-    }
 
-    //.iconfont {
-    //  margin-left: 10px;
-    //  background: #0c95f7;
-    //  color: #fff;
-    //  padding: 3px 5px;
-    //  border-radius: 5px;
-    //  cursor: pointer;
-    //}
+      .iconfont {
+        margin-left: 10px;
+        background: #0c95f7;
+        color: #fff;
+        padding: 3px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-    .not-allow {
-      cursor: not-allowed;
-      background: #7cb1d7;
-      color: #ddd;
-      text-decoration: none;
+      .not-allow {
+        cursor: not-allowed;
+        background: #7cb1d7;
+        color: #ddd;
+        text-decoration: none;
+      }
     }
   }
 
   .op {
     width: 280px;
     margin-left: 15px;
+    .op-btn {
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
 
+      .btn-item {
+        cursor: pointer;
+      }
+    }
     .iconfont {
       font-size: 13px;
       margin-left: 10px;

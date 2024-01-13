@@ -62,7 +62,7 @@ const EditableCell = ({
         style={{
           paddingRight: 24,
         }}
-        onClick={toggleEdit}
+        // onClick={toggleEdit}
       >
         {children}
       </div>

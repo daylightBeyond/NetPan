@@ -136,8 +136,8 @@ const FrameWork = (props) => {
           >
             <div className='user-info'>
               <div className="avatar">
-                  {/* <Avatar userId={userInfo.userId}/> */}
-                touxiang
+                  <Avatar userId={userInfo.userId}/>
+                {/* touxiang */}
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>

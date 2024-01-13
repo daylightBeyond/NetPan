@@ -1,17 +1,24 @@
+// 内部依赖
 import React, { memo, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+// 外部依赖
 import { Upload, Button, Input, message } from 'antd';
 import dayjs from 'dayjs';
+// 组件
 import Navigation from "../../components/Navigation/Navigation.jsx";
 import NPTable from "../../components/Table/NPTable.jsx";
 import ShareFile from "./ShareFile.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
 import EditableRow from "./components/EditableRow.jsx";
 import EditableCell from "./components/EditableCell.jsx";
+// 其他
 import useMergeState from "@/hooks/useMergeState";
 import useUploadFileStore from "@/store/uploadFileStore.js";
-import { queryFile } from '../../servers/home';
+// 接口
+import { queryFile, createFolder, rename } from '../../servers/home';
+// 方法
 import { sizeToStr } from "../../utils/utils";
+// 样式
 import '@/assets/file.list.less';
 import './style.less';
 
@@ -28,10 +35,17 @@ const Home = () => {
     total: 1,
     loading: false, // 查询数据加载
 
+    selectedRowKeys: [],
+    selectedRows: [],
+
     editing: false, // 编辑行
   });
 
-  const { currentFolder, shareVisible, dataSource, pageNum, pageSize, total, editing } = state;
+  const {
+    currentFolder, shareVisible, loading,
+    dataSource, pageNum, pageSize, total, editing,
+    selectedRowKeys, selectedRows,
+  } = state;
 
   const shareFileRef = useRef(null);
   const editNameRef = useRef(null);
@@ -83,13 +97,47 @@ const Home = () => {
     customRequest
   };
 
-  const saveNameEdit = (row) => {
-    const newData = [...dataSource];
-    const index = newData.indexOf((item) => row.key === item.key)
+  const saveNameEdit = async (index) => {
+    // const newData = [...dataSource];
+    // const index = newData.indexOf((item) => row.key === item.key);
+    const { fileId, filePid, fileNameReal } = dataSource[index];
+    if (fileNameReal == '' || fileNameReal.indexOf('/') != -1) {
+      message.warning('文件名不能为空且不能含有斜杠/');
+      return;
+    }
+    let request = rename;
+    if (fileId == '') {
+      request = createFolder;
+    }
+    const params = {
+      fileId,
+      filePid,
+      fileNameReal,
+    };
+    const res = await request(params);
+    console.log('保存文件', res);
+    if (res.success) {
+      dataSource[index] = res.data;
+      setState({
+        dataSource,
+        editing: false,
+      })
+    }
   };
 
   const cancelNameEdit = (index) => {
-
+    console.log('取消', index);
+    const fileData = dataSource[index];
+    if (fileData.fileId) {
+      fileData.showEdit = false;
+    } else {
+      // dataSource.splice(index, 1);
+      dataSource.splice(index, 1);
+      setState({
+        dataSource: dataSource,
+        editing: false
+      });
+    }
   };
 
   const components = {
@@ -178,10 +226,10 @@ const Home = () => {
       ...col,
       onCell: (record) => ({
         record,
-        editable: col.editable,
+        // editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSave: saveNameEdit
+        handleSave: saveNameEdit,
       })
     }
   })
@@ -191,12 +239,22 @@ const Home = () => {
     selectType: 'checkbox'
   };
 
-  const rowSelection = {
+  const onSelectChange = (rowKeys, rows) => {
+    setState({
+      selectedRowKeys: rowKeys,
+      selectedRows: rows
+    });
+  };
 
+  const rowSelection = {
+    width: 60,
+    selectedRowKeys,
+    selectedRows,
+    onChange: onSelectChange
   };
 
   // 新建文件夹
-  const newFolder = () => {
+  const newFolder22 = () => {
     const newData = {
       showEdit: true,
       fileType: 0, // 0 文件夹
@@ -205,9 +263,9 @@ const Home = () => {
     };
     setState({ dataSource: [newData, ...dataSource] });
   };
-  const newFolder11 = () => {
+  const newFolder = () => {
     console.log(dataSource)
-    if (editing) {
+    if (!editing) {
       return;
     }
 
@@ -286,12 +344,19 @@ const Home = () => {
               新建文件夹
             </span>
           </Button>
-          <Button danger type="primary">
+          <Button type="primary" danger disabled={!selectedRowKeys.length}>
             <span className="iconfont icon-del">
               批量删除
             </span>
           </Button>
-          <Button style={{ backgroundColor: '#f3d19e' }}>
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: '#f3d19e',
+              cursor: selectedRowKeys.length ? '' : 'not-allowed'
+            }}
+            disabled={!selectedRowKeys.length}
+          >
             <span className="iconfont icon-move">
               批量移动
             </span>
@@ -310,18 +375,14 @@ const Home = () => {
       </div>
       {/* 文件列表 */}
       <div className="file-list">
-        {routeParams.category}
         <NPTable
-          components={components}
+          // components={components}
           dataSource={dataSource}
           columns={columns}
           total={total}
           rowKey="fileId"
           options={tableOptions}
-          rowSelection={{
-            width: 60,
-            onChange: selectChange
-          }}
+          rowSelection={rowSelection}
         />
       </div>
 

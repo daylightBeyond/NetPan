@@ -23,6 +23,7 @@ const Icon = (props) => {
     cover,
     width,
     fit,
+    className
   } = props;
 
   const [imgSrc, setImgSrc] = useState('');
@@ -51,13 +52,13 @@ const Icon = (props) => {
         icon = iconMap['icon'];
       }
     }
-    const img = require(`@/assets/icon-image/${icon}.png`)
+    const img = require(`@/assets/icon-image/${icon}.png`);
     setImgSrc(img);
   }, []);
 
   return (
     <span
-      className="icon"
+      className={`icon ${className}`}
       style={{ width, height: width }}
     >
       <img src={imgSrc} style={{ objectFit: fit }} />
@@ -68,7 +69,8 @@ const Icon = (props) => {
 Icon.defaultProps = {
   fileType: 0,
   width: 32,
-  fit: 'cover'
+  fit: 'cover',
+  className: ''
 };
 
 export default memo(Icon);

@@ -45,14 +45,21 @@ export const queryFile = (param, callback) => {
 };
 
 // 文件分片上传
-export const uploadFile = (param) => {
+export const uploadFile = (param, callback) => {
+  const { errorCallback, uploadProgressCallback } = callback || {};
   return request({
     method: 'post',
     url: '/file/uploadFile',
     data: param,
     headers: {
       'Content-Type': 'multer/form-data'
-    }
+    },
+    onUploadProgress: (event) => {
+      if (uploadProgressCallback) {
+        uploadProgressCallback(event);
+      }
+    },
+    errorCallback,
   });
 };
 

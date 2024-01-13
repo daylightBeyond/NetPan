@@ -23,7 +23,7 @@ let loading = null;
 const instance = axios.create({
   // 公共的请求地址前缀
   baseURL,
-  timeout: 10 * 1000, // 10s 就会超时
+  timeout: 30 * 1000, // 30s 就会超时
   headers: {
     isToken: true,
     'Content-Type': contentTypeJson
@@ -107,4 +107,45 @@ instance.interceptors.response.use(
     }
   }
 );
+
+const request = (config) => {
+  const { method, url, params, dataType, showLoading = true, responseType = responseTypeJson } = config;
+  let contentType = contentTypeForm;
+  let formData = new FormData(); // 创建form对象
+  for (let key in params) {
+    formData.append(key, params[key] === undefined ? '' : params[key]);
+  }
+  if (dataType != null && dataType == 'json') {
+    contentType = contentTypeJson;
+  };
+  const headers = {
+    'Content-Type': contentType,
+    'X-Requested-With': 'XMLHttpRequest',
+  };
+
+  return instance(formData, {
+    method,
+    url,
+    // 允许为上传处理进度事件
+    onUploadProgress: (event) => {
+      if (config.uploadProgressCallback) {
+        config.uploadProgressCallback(event);
+      }
+    },
+    responseType,
+    headers,
+    showLoading,
+    errorCallback: config.errorCallback,
+    showError: config.showError,
+  }).catch(error => {
+    console.log(error);
+    if (error.showError) {
+      message.error(error.msg);
+    }
+    return null;
+  })
+};
+
+// export default request;
+
 export default instance;
