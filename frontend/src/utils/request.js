@@ -86,7 +86,7 @@ instance.interceptors.response.use(
     try {
       const { response } = error;
       const { data } = response || {};
-      const errorMsg = data?.err?.message || data.errorMsg || data.msg;
+      const errorMsg = data.errorMsg || data?.err?.message ||  data.msg;
       if (!data.success && errorMsg) {
         message.error(errorMsg);
       }

@@ -31,9 +31,9 @@ exports.generateUUid = function generateUUid(number = 10) {
  */
 exports.isEmpty = function isEmpty(value) {
   if (value == null || value == undefined) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 };
 
 /**

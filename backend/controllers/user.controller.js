@@ -84,7 +84,7 @@ class UserController {
       data: captcha.data
     };
     logger.info('验证码生成结束', captcha.text);
-  }
+  };
 
   /**
    * 获取邮箱验证码
@@ -223,12 +223,12 @@ class UserController {
       const userId = res.userId;
       // 以 username, password 进行加密生成 token，JWT_SECRET 是秘钥，expiresIn 设置有效期
       const token = jwt.sign({ userId, username }, JWT_SECRET, { expiresIn: JWT_EXPIRE });
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:token`, token, REDIS_KEY_EXPIRE_DAY);
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, res, REDIS_KEY_EXPIRE_SEVEN_DAY);
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:token`, token, REDIS_KEY_EXPIRE_SEVEN_DAY);
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, res, REDIS_KEY_EXPIRE_DAY);
 
       // 查询用户上传文件的总大小
       const fileSizeSum = await FileModel.sum('fileSize', { where: { userId } });
-      logger.info('用户上传文件总大小fileSizeSum', fileSizeSum);
+      logger.info('登录时获取用户上传文件总大小fileSizeSum', fileSizeSum || 0);
       await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`, fileSizeSum, REDIS_KEY_EXPIRE_DAY);
 
       const body = {
@@ -339,7 +339,6 @@ class UserController {
       logger.info('根据用户id查询用户信息', res);
 
       // 查询用户上传文件的总大小
-      // const [result] = await querySumOfFileSize({ userId });
       const result = await FileModel.sum('fileSize', { where: { userId } });
       logger.info('用户上传文件总大小fileSizeSum', result);
 
@@ -402,7 +401,7 @@ class UserController {
       const targetPath = path.join(uploadDir, `${userId}${fileExt}`);
       console.log('targetPath', targetPath)
       console.log('avatar.filepath', avatar.filepath)
-      fs.promises.rename(avatar.filepath, targetPath);
+      await fs.promises.rename(avatar.filepath, targetPath);
 
       ctx.body = {
         code: 200,
@@ -418,10 +417,11 @@ class UserController {
       }
 
       logger.info('开始更新数据库');
-      UserModel.update({ avatarPath: targetPath, avatarType: fileExt }, { where: { userId } });
       userInfo['avatarPath'] = targetPath;
       userInfo['avatarType'] = fileExt;
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_SEVEN_DAY);
+      UserModel.update({ avatarPath: targetPath, avatarType: fileExt }, { where: { userId } });
+
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_DAY);
 
     } catch (err) {
       return handleException(ctx, err, '上传文件失败');

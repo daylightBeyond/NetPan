@@ -3,6 +3,7 @@ const LENGTH_4 = 4;
 const LENGTH_6 = 6;
 const LENGTH_10 = 10;
 const LENGTH_15 = 15;
+const LENGTH_50 = 50;
 const LENGTH_150 = 150;
 
 const CHECK_CODE_KEY = 'check_code_key';
@@ -25,14 +26,17 @@ const MB = 1024 * 1024; // 1 MB
 const INIT_TOTAL_SPACE = 1024; // 网盘初始的分配空间 1024 MB，用的话需要 * MB
 const REDIS_KEY_EXPIRE_ONE_MIN = 60; // 60s 即 1 min
 const REDIS_KEY_EXPIRE_SIX_MIN = REDIS_KEY_EXPIRE_ONE_MIN * 6; // 6 min
-const REDIS_KEY_EXPIRE_THIRTY_MIN = REDIS_KEY_EXPIRE_ONE_MIN * 30;
+const REDIS_KEY_EXPIRE_THIRTY_MIN = REDIS_KEY_EXPIRE_ONE_MIN * 30; // 30 min
 const REDIS_KEY_EXPIRE_DAY = REDIS_KEY_EXPIRE_ONE_MIN * 60 * 24; // 1 day
 const REDIS_KEY_EXPIRE_SEVEN_DAY = REDIS_KEY_EXPIRE_ONE_MIN * 60 * 24 * 7; // 1 day
+
 
 const REDIS_PROJECT = 'netpan';
 const REDIS_USER_FOLDER = 'netpan:user';
 const REDIS_TEMP_FOLDER = 'netpan:temp';
 const REDIS_EMAIL_FOLDER = 'netpan:email';
+const REDIS_KEY_DOWNLOAD = 'netpan:download';
+
 
 const TS_NAME = 'index.ts';
 const M3U8_NAME = 'index.m3u8';
@@ -43,6 +47,7 @@ module.exports = {
   LENGTH_6,
   LENGTH_10,
   LENGTH_15,
+  LENGTH_50,
   LENGTH_150,
   CHECK_CODE_KEY,
   CHECK_CODE_KEY_EMAIL,
@@ -66,6 +71,7 @@ module.exports = {
   REDIS_USER_FOLDER,
   REDIS_TEMP_FOLDER,
   REDIS_EMAIL_FOLDER,
+  REDIS_KEY_DOWNLOAD,
   TS_NAME,
   M3U8_NAME,
 }

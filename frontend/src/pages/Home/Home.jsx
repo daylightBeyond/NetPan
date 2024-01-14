@@ -38,7 +38,7 @@ const Home = () => {
     selectedRowKeys: [],
     selectedRows: [],
 
-    editing: false, // 编辑行
+    editing: false, // 判断是否已经有正在编辑中的行，有的话，就不让新增文件夹
   });
 
   const {
@@ -67,7 +67,6 @@ const Home = () => {
     };
     queryFile(queryParams).then(res => {
       // console.log('查询文件列表', res);
-
       if (res.success) {
         const { list, pageNum, pageSize, total } = res.data || {};
         setState({
@@ -97,11 +96,35 @@ const Home = () => {
     customRequest
   };
 
+  // 预览
+  const preview = (data) => {
+    if (data.folderType == 1) { // 目录
+
+    }
+  };
+
+  // 更改输入值的回调
+  const onNameChange = (value, fileId) => {
+    console.log('value', value)
+    console.log('fileId', fileId)
+    console.log('editRef', editNameRef)
+    if (value && value.trim()) {
+      const newDataSource = dataSource.map(item => {
+        if (item.fileId == fileId) {
+          return { ...item, fileNameReal: value.trim() };
+        }
+        return item;
+      })
+      console.log('newDataSource', newDataSource)
+
+      setState({ dataSource: newDataSource });
+    }
+  };
+
   const saveNameEdit = async (index) => {
-    // const newData = [...dataSource];
-    // const index = newData.indexOf((item) => row.key === item.key);
     const { fileId, filePid, fileNameReal } = dataSource[index];
-    if (fileNameReal == '' || fileNameReal.indexOf('/') != -1) {
+
+    if (fileNameReal == '' || fileNameReal?.indexOf('/') != -1) {
       message.warning('文件名不能为空且不能含有斜杠/');
       return;
     }
@@ -112,32 +135,39 @@ const Home = () => {
     const params = {
       fileId,
       filePid,
-      fileNameReal,
+      fileName: fileNameReal,
     };
-    const res = await request(params);
-    console.log('保存文件', res);
-    if (res.success) {
-      dataSource[index] = res.data;
-      setState({
-        dataSource,
-        editing: false,
-      })
-    }
+    request(params).then(res => {
+      console.log('保存文件', res);
+      if (res.success) {
+        res.data['showEdit'] = false;
+        dataSource[index] = res.data;
+        setState({
+          dataSource,
+          editing: false,
+        });
+        queryFileList()
+      }
+    }).catch(e => {
+      console.log('新建文件目录异常', e);
+    })
   };
 
   const cancelNameEdit = (index) => {
-    console.log('取消', index);
     const fileData = dataSource[index];
-    if (fileData.fileId) {
-      fileData.showEdit = false;
-    } else {
-      // dataSource.splice(index, 1);
-      dataSource.splice(index, 1);
+    if (fileData.fileId) { // 重命名的情况
+      dataSource[index].showEdit = false
+      setState({ dataSource: [...dataSource] });
+      // fileData.showEdit = false;
+    } else { // 新增文件夹的情况
+      const newData = dataSource.filter(x => x.fileId != fileData.fileId);
       setState({
-        dataSource: dataSource,
-        editing: false
+        dataSource: newData,
+        // editing: false
       });
     }
+
+    setState({ editing: false });
   };
 
   const components = {
@@ -147,12 +177,60 @@ const Home = () => {
     }
   };
 
-  const defaultColumns = [
+  // 分享
+  const share = (row) => {
+    console.log('share--row', row);
+    console.log('shareFileRef', shareFileRef);
+    shareFileRef.current.show(row);
+  };
+
+  // 下载文件
+  const handleDownloadFile = () => {
+
+  };
+
+  // 删除文件
+  const handleDelFile = () => {
+
+  };
+
+  // 文件重命名
+  const handleRenameFile = (index) => {
+    // 如果重命名的时候，刚好是新建文件夹，即第一行是编辑的状态
+    if (dataSource[0].fileId == '') {
+      dataSource.splice(0, 1);
+      setState({ dataSource: [...dataSource] });
+      index = index - 1;
+    }
+    dataSource.forEach(item => item.showEdit = false);
+    const currentData = dataSource[index];
+    currentData.showEdit = true;
+    // 编辑文件
+    if (currentData.folderType == 0) {
+      currentData.fileNameReal = currentData.fileName.substring(0, currentData.fileName.lastIndexOf('.'));
+      currentData.fileSuffix = currentData.fileName.substring(currentData.fileName.lastIndexOf('.'));
+    } else {
+      currentData.fileNameReal = currentData.fileName;
+      currentData.fileSuffix = '';
+    }
+    dataSource[index] = currentData;
+    setState({
+      dataSource: [...dataSource],
+      editing: true
+    })
+  };
+
+  // 移动文件
+  const handleMoveFile = () => {
+
+  };
+
+  const columns = [
     {
       title: "文件名",
       key: "fileName",
       dataIndex: "fileName",
-      editable: true,
+      // editable: true,
       render: (text, record, index) => {
         const { fileType, folderType, status, fileCover, showEdit, fileNameReal, showOp, fileId, fileSuffix } = record;
         return (
@@ -161,6 +239,7 @@ const Home = () => {
             onMouseEnter={() => handleShowOp(record, index)}
             onMouseLeave={() => handleCancelShowOp(record)}
           >
+            {/* 封面 */}
             {/* status: 0:转码中 1:转码失败 2:转码成功 */}
             {(fileType == 3 || fileType == 1) && status == 2 ? (
               <Icon cover={fileCover} width={32}/>
@@ -171,6 +250,7 @@ const Home = () => {
               </>
             )}
 
+            {/* 文件名，编辑状态下就不显示文件名 */}
             {!showEdit && (
               <span className="file-name">
                 <span onClick={() => preview(record)}>{text}</span>
@@ -179,25 +259,32 @@ const Home = () => {
               </span>
             )}
 
+            {/* 编辑时，显示编辑框 */}
             <div className="edit-panel" style={{ display: showEdit ? '' : 'none' }}>
               <Input
                 maxLength={190}
                 ref={editNameRef}
+                value={record.fileNameReal}
+                onChange={(e) => onNameChange(e.target.value, record.fileId)}
                 onPressEnter={() => saveNameEdit(index)}
+                suffix={record.fileSuffix}
               />
               <span className={`iconfont icon-right1 ${fileNameReal ? '' : 'not-allow'}`} onClick={() => saveNameEdit(index)}></span>
               <span className="iconfont icon-error" onClick={() => cancelNameEdit(index)}></span>
             </div>
 
-            {showOp && fileId && status === 2 && (
-              <span className="op">
-                <span className="iconfont icon-share1" onClick={() => share(record)}>分享</span>
-                <span className="iconfont icon-download">下载</span>
-                <span className="iconfont icon-del">删除</span>
-                <span className="iconfont icon-edit">重命名</span>
-                <span className="iconfont icon-move">移动</span>
-              </span>
-            )}
+            {/* 操作项 */}
+            <span className="op">
+              {showOp && fileId && status === 2 && (
+                <>
+                  <span className="iconfont icon-share1" onClick={() => share(record)}>分享</span>
+                  <span className="iconfont icon-download" onClick={() => handleDownloadFile(index)}>下载</span>
+                  <span className="iconfont icon-del" onClick={() => handleDelFile(record)}>删除</span>
+                  <span className="iconfont icon-edit" onClick={() => handleRenameFile(index)}>重命名</span>
+                  <span className="iconfont icon-move" onClick={() => handleMoveFile(record)}>移动</span>
+                </>
+              )}
+            </span>
           </div>
         )
       }
@@ -218,10 +305,10 @@ const Home = () => {
     },
   ];
 
-  const columns = defaultColumns.map(col => {
-    if (!col.editable) {
-      return col;
-    }
+  const columns11 = columns.map(col => {
+    // if (!col.editable) {
+    //   return col;
+    // }
     return {
       ...col,
       onCell: (record) => ({
@@ -232,7 +319,7 @@ const Home = () => {
         handleSave: saveNameEdit,
       })
     }
-  })
+  });
 
   const tableOptions = {
     extHeight: 50,
@@ -254,16 +341,26 @@ const Home = () => {
   };
 
   // 新建文件夹
-  const newFolder22 = () => {
+  const newFolder = () => {
+    console.log('editing', editing);
+    if (editing) {
+      return;
+    }
     const newData = {
-      showEdit: true,
+      showEdit: true, // 是否显示编辑状态
       fileType: 0, // 0 文件夹
+      fileNameReal: '',
       fileId: '',
       filePid: '0'
     };
-    setState({ dataSource: [newData, ...dataSource] });
+    setState({
+      dataSource: [newData, ...dataSource],
+      editing: true
+    }, () => {
+      editNameRef.current.focus();
+    });
   };
-  const newFolder = () => {
+  const newFolder11 = () => {
     console.log(dataSource)
     if (!editing) {
       return;
@@ -279,7 +376,7 @@ const Home = () => {
     //   filePid: '0'
     // });
     dataSource.unshift({
-      showEdit: true,
+      showEdit: true, // 是否显示编辑状态
       fileType: 0, // 0 文件夹
       fileId: '',
       filePid: '0'
@@ -306,25 +403,6 @@ const Home = () => {
     // 更新state，不然页面是不会出现或消失操作项
     setState(() => {});
   }, []);
-
-  const selectChange = (selectedRowKeys, selectedRows) => {
-    console.log('selectedRowKeys', selectedRowKeys);
-    console.log('selectedRows', selectedRows);
-  };
-
-  // 预览
-   const preview = (data) => {
-     if (data.folderType == 1) { // 目录
-
-     }
-   };
-
-   // 分享
-   const share = (row) => {
-     console.log('share--row', row);
-     console.log('shareFileRef', shareFileRef);
-     shareFileRef.current.show(row);
-   };
 
   return (
     <div className="wrapper-home">
@@ -364,7 +442,7 @@ const Home = () => {
           <div className="search-panel">
             <Input placeholder="输入文件名搜索"/>
           </div>
-          <div className="iconfont icon-refresh"></div>
+          <div className="iconfont icon-refresh" onClick={queryFileList}></div>
         </div>
         {/* 导航 */}
         <div className="top-navigation">

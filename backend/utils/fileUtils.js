@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
-const dayjs = require('dayjs');
-const ffmpeg = require('ffmpeg');
+const dayjs = require('dayjs');;
 const logger = require('./logger');
 const redisUtils = require('./redisUtil');
 const { UserModel, FileModel } = require('../models/index');
@@ -12,16 +11,19 @@ const {
   UPLOAD_TEMP_FOLDER,
   REDIS_USER_FOLDER,
   REDIS_KEY_EXPIRE_SEVEN_DAY,
-  TS_NAME,
-  M3U8_NAME,
+  REDIS_KEY_EXPIRE_SIX_MIN,
+  REDIS_KEY_EXPIRE_THIRTY_MIN,
+  TS_NAME, M3U8_NAME,
   IMAGE_PNG_SUFFIX,
-  LENGTH_150,
+  LENGTH_6, LENGTH_150,
   USER_FILE_FOLDER,
-  LENGTH_6
+  REDIS_TEMP_FOLDER, REDIS_KEY_EXPIRE_DAY,
+  REDIS_KEY_DOWNLOAD,
 } = require('../constants/constants');
 const { fileTypeEnums, fileStatusEnum, uploadStatusEnum } = require('../enums/fileEnum');
 const { dateTimePatternEnum } = require('../enums/dateTimePatterEnum');
 const { responseCodeEnum } = require('../enums/enums');
+const {resolve} = require("@babel/core/lib/vendor/import-meta-resolve");
 
 // 将枚举对象 fileTypeEnums 转换为数组
 const obj2Arr = Object.entries(fileTypeEnums);
@@ -221,27 +223,75 @@ const rename = function(fileName) {
   return fileNameReal + '_' + generateUUid(LENGTH_6) + suffix;
 };
 
-// 读取上传的临时文件目录大小
-const getFileTempSize = function(userId, fileId) {
-  const folderPath = UPLOAD_TEMP_FOLDER + userId + '/' + fileId;
-  logger.info('当前临时文件目录', folderPath);
-  let totalSize = 0;
+/**
+ * 暂存临时文件到redis
+ * @param userId
+ * @param fileId
+ * @param fileSize
+ */
+const saveFileTempSize = async function (userId, fileId, fileSize) {
+  const currentSize = await getFileTempSize(userId, fileId);
+  logger.info('从redis获取临时文件大小', currentSize);
+  const saveTempRedisKey = `${REDIS_TEMP_FOLDER}:${userId}:${fileId}:tempFileSize`;
+  logger.info('暂存redis文件大小的key', saveTempRedisKey);
+  await redisUtils.set(saveTempRedisKey, currentSize + fileSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+};
 
-  const files = fs.readdirSync(folderPath);
-  logger.info('读取临时文件', files);
-  files.forEach(file => {
-    const filePath = path.join(folderPath, file);
-    logger.info('临时文件路径信息', filePath);
-    const stats = fs.statSync(filePath);
-    logger.info('获取临时文件信息stats', stats);
-    if(stats.isFile) {
-      totalSize += stats.size;
-    } else if(stats.isDirectory) {
-      totalSize += getFileTempSize(userId, fileId);
+/**
+ * 获取临时文件大小
+ * @param userId
+ * @param fileId
+ * @returns {Promise}
+ */
+const getFileTempSize = async function(userId, fileId) {
+  return new Promise(async (resolve) => {
+    const currentTempRedisKey = `${REDIS_TEMP_FOLDER}:${userId}:${fileId}:tempFileSize`;
+    const currentSize = await getFileSizeFromRedis(currentTempRedisKey);
+    resolve(currentSize);
+    // return currentSize;
+  });
+
+
+
+  // const folderPath = UPLOAD_TEMP_FOLDER + userId + '/' + fileId;
+  // logger.info('当前临时文件目录', folderPath);
+  // let totalSize = 0;
+  //
+  // const files = fs.readdirSync(folderPath);
+  // logger.info('读取临时文件', files);
+  // files.forEach(file => {
+  //   const filePath = path.join(folderPath, file);
+  //   logger.info('临时文件路径信息', filePath);
+  //   const stats = fs.statSync(filePath);
+  //   logger.info('获取临时文件信息stats', stats);
+  //   if(stats.isFile) {
+  //     totalSize += stats.size;
+  //   } else if(stats.isDirectory) {
+  //     totalSize += getFileTempSize(userId, fileId);
+  //   }
+  // })
+  //
+  // return totalSize;
+};
+
+/**
+ * 从redis中获取文件大小
+ * @param key redis 键
+ * @returns {Promise}
+ */
+const getFileSizeFromRedis = function(key) {
+  logger.info('getFileSizeFromRedis--key', key);
+  return new Promise(async (resolve) => {
+    const sizeObj = await redisUtils.get(key);
+    logger.info('从redis中获取临时文件大小', sizeObj);
+    if (sizeObj == null) {
+      return resolve(0); // 只是用resolve后面的代码还是会执行
     }
+    if (sizeObj instanceof Number) {
+      return resolve(sizeObj);
+    }
+    return resolve(0);
   })
-
-  return totalSize;
 };
 
 /**
@@ -268,7 +318,7 @@ const updateUserSpace = async function (userId, useSpace, totalSpace = 0) {
 
   userInfo['useSpace'] = userInfo['useSpace'] + useSpace;
 
-  await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_SEVEN_DAY);
+  await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_DAY);
 };
 
 /**
@@ -462,6 +512,54 @@ const transferFile = async function(fileId, user) {
   }
 };
 
+/**
+ * 校验文件名
+ * @param filePid
+ * @param userId
+ * @param fileName
+ * @param folderType 文件类型 0:文件 1:目录
+ * @param ctx 上下文
+ * @returns {Promise<void>}
+ */
+const checkFileName = async function(filePid, userId, fileName, folderType, ctx = null) {
+  const whereCondition = {
+    folderType,
+    fileName,
+    filePid,
+    userId
+  };
+
+  const count = await FileModel.count({ where: whereCondition });
+  logger.info('查询是否有重复文件名', count);
+  if (count > 0) {
+    if (ctx) {
+      ctx.throw(409, '此目录下已经存在同名文件，请修改名称');
+      return;
+    }
+    throw new Error('此目录下已经存在同名文件，请修改名称')
+  }
+};
+
+/**
+ * redis存储下载对象信息
+ * @param code 下载码
+ * @param downloadFileObj 存储到redis的下载文件对象信息
+ * @returns {Promise<void>}
+ */
+const saveDownloadCode = async function(code, downloadFileObj) {
+  await redisUtils.set(`${REDIS_KEY_DOWNLOAD}:${code}`, downloadFileObj, REDIS_KEY_EXPIRE_SIX_MIN)
+};
+
+/**
+ * 从redis中获取需要下载的文件信息
+ * @param code
+ * @returns {Promise<void>}
+ */
+const getDownloadCode = async function(code) {
+  const fileObj = await redisUtils.get(`${REDIS_KEY_DOWNLOAD}:${code}`);
+  return fileObj;
+}
+
 module.exports = {
   getMimeType,
   isFolderExits,
@@ -473,9 +571,13 @@ module.exports = {
   getFileNameNoSuffix,
   getFileSuffix,
   rename,
+  saveFileTempSize,
   getFileTempSize,
   updateUserSpace,
   union,
   cutFileForVideo,
   transferFile,
+  checkFileName,
+  saveDownloadCode,
+  getDownloadCode,
 }

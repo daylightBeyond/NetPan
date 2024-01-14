@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { Op } = require('sequelize');
 const dayjs = require('dayjs');
 const { v4: uuidv4 } = require('uuid');
 const logger = require('../utils/logger');
@@ -19,6 +20,9 @@ const {
   getFileSuffix,
   getFileTypeBySuffix,
   transferFile,
+  getFileNameNoSuffix,
+  saveFileTempSize, checkFileName,
+  rename: fileRename
 } = require('../utils/fileUtils')
 const { responseCodeEnum } = require('../enums/enums');
 const {
@@ -33,7 +37,7 @@ const {
   UPLOAD_TEMP_FOLDER,
   REDIS_USER_FOLDER,
   USER_FILE_FOLDER,
-  REDIS_KEY_EXPIRE_THIRTY_MIN
+  REDIS_KEY_EXPIRE_THIRTY_MIN, LENGTH_10, REDIS_TEMP_FOLDER, ZERO
 } = require('../constants/constants');
 
 class FileController {
@@ -138,10 +142,12 @@ class FileController {
     const user = ctx.state.user;
     const { userId } = user;
     logger.info('userId', userId);
-    const useSpace = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`);
+    // 实时获取用户上传过的文件大小
+    const useSpace = await redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`);
     logger.info('redis获取useSpace', useSpace);
-    const totalSpace = await ctx.redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:userInfo`);
-    logger.info('redis获取totalSpace', totalSpace);
+    const userInfo = await redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:userInfo`);
+    logger.info('redis获取userInfo', userInfo);
+    const { totalSpace } = userInfo || {};
     // 创建初始文件分片的目录
     logger.info('fileId', fileId);
     const fileChunkDir = path.join(chunkDir, userId, fileId, 'chunks');
@@ -160,11 +166,11 @@ class FileController {
         // 秒传
         if (dbFileList.length) {
           let dbFile = dbFileList[0];
-          // return;
-          logger.info('dbFile[fileSize]', dbFile['fileSize']);
           logger.info('dbFile.fileSize', dbFile.fileSize);
           // 判断文件大小
           if (dbFile['fileSize'] + useSpace > totalSpace) {
+            ctx.throw(responseCodeEnum.CODE_904.key, responseCodeEnum.CODE_904.value);
+            return;
             ctx.app.emit(responseCodeEnum.CODE_904.value);
             return;
           }
@@ -200,7 +206,7 @@ class FileController {
               uploadMsg: uploadStatusEnum.UPLOAD_FINISH.desc
             }
           };
-          fs.unlinkSync(file.filepath); // 异步删除临时文件
+          fs.unlinkSync(file.filepath); // 同步删除临时文件
           return;
         }
       }
@@ -211,11 +217,13 @@ class FileController {
       await moveFile(file.filepath, fileChunkDir, chunkIndex);
 
       // 判断磁盘空间
-      const curTempSize = getFileTempSize(userId, fileId);
+      const curTempSize = await getFileTempSize(userId, fileId);
       logger.info('当前临时文件大小', curTempSize, 'byte');
-      // if (file.size + curTempSize + useSpace > totalSpace) {
-      //     throw new Error(responseCodeEnum.CODE_904.value);
-      // }
+      if (file.size + curTempSize + useSpace > totalSpace) {
+        ctx.throw(responseCodeEnum.CODE_904.key, responseCodeEnum.CODE_904.value);
+        return;
+        // throw new Error(responseCodeEnum.CODE_904.value);
+      }
 
       // 暂存临时目录
       const tempFolderName = UPLOAD_TEMP_FOLDER;
@@ -227,7 +235,9 @@ class FileController {
 
       // 分成多片时，处于中间的分片
       if (chunkIndex < chunks - 1) {
-        await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+        await saveFileTempSize(userId, fileId, file.size);
+        // await saveFileTempSize(`${REDIS_TEMP_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN)
+        // await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
         ctx.body = {
           code: 200,
           success: true,
@@ -241,7 +251,7 @@ class FileController {
       }
 
       // 最后一片上传完成，记录数据库，异步合并分片
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+      // await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
 
       // 判断是否所有文件分片都已上传, 最后一个分片上传完成，记录数据库，异步合并分片
       const month = dayjs(new Date()).format(dateTimePatternEnum.YYYYMM);
@@ -264,7 +274,7 @@ class FileController {
         filePid,
         userId,
         fileMd5,
-        fileSize: file.size,
+        fileSize: file.size, // TODO 待修改
         fileName,
         filePath: month + '/' + fileName,
         createTime: curDate,
@@ -279,7 +289,7 @@ class FileController {
       // 将这条文件信息插入表中
       await FileModel.create(insertFileInfo);
 
-      const totalSize = getFileTempSize(userId, fileId);
+      const totalSize = await getFileTempSize(userId, fileId);
       logger.info('获取总使用文件大小', totalSize);
       // 根据用户ID更新用户空间信息
       await updateUserSpace(userId, totalSize);
@@ -304,16 +314,17 @@ class FileController {
 
   /**
    * 获取文件封面
+   * 前端传的参数就是 fileCover 文件封面路径
    * @param ctx
    * @returns {Promise<void>}
    */
   async getImage(ctx) {
     logger.info('获取文件封面请求参数', ctx.params);
     const { imageFolder, imageName } = ctx.params;
-    // if (isEmpty(imageFolder) || isEmpty(imageName) || !pathIsOk(imageFolder) || !pathIsOk(imageName)) {
-    //   ctx.throw(401, '文件路径无效或文件名不存在');
-    //   return;
-    // }
+    if (isEmpty(imageFolder) || isEmpty(imageName) || !pathIsOk(imageFolder) || !pathIsOk(imageName)) {
+      ctx.throw(401, '文件路径无效或文件名不存在');
+      return;
+    }
     try {
       let imageSuffix = getFileSuffix(imageName).toLowerCase();
       const filePath = USER_FILE_FOLDER + imageFolder + '/' + imageName;
@@ -325,7 +336,7 @@ class FileController {
       const contentType = 'image/' + imageSuffix;
       const imageData = await fs.promises.readFile(filePath);
       // const imageData = fs.createReadStream(filePath);
-      const base64Image = imageData.toString('base64');
+      // const base64Image = imageData.toString('base64');
       logger.info('imageData', imageData);
       logger.info('封面图片资源类型', typeof imageData);
       ctx.set('Content-Type', contentType);
@@ -337,6 +348,262 @@ class FileController {
     }
 
   };
+
+  /**
+   * 视频预览
+   * 前端传的参数 文件id: fileId
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async getFile(ctx) {
+    const { fileId } = ctx.params;
+    const user = ctx.state.user;
+    const { userId } = user;
+
+    let filePath = null;
+
+    try {
+      if (fileId.endsWith('.ts')) { // 视频ts文件预览
+        const tsArr = fileId.split('_');
+        logger.info('tsArr', tsArr);
+        const realFileId = tsArr[0];
+        logger.info('realFileId', realFileId);
+        const fileInfo = await FileModel.findOne({ where: { userId, realFileId } });
+        logger.info('fileInfo.filePath', fileInfo.filePath);
+        if (fileInfo == null) {
+          ctx.throw(404, '文件资源不存在');
+          return;
+        }
+        let fileName = fileInfo.filePath;
+        fileName = getFileNameNoSuffix(fileName) + '/' + fileId;
+        logger.info('fileName', fileName);
+        filePath = USER_FILE_FOLDER + fileName
+        logger.info('filePath', filePath);
+        ctx.set('Content-Type', 'video/mpt2'); // 设置 td 文件的 MIME 类型
+        ctx.body = '';
+      } else {
+        const fileInfo = await FileModel.findOne({ where: { userId, fileId } });
+        if (fileInfo == null) {
+          ctx.throw(404, '文件资源不存在');
+          return;
+        }
+
+        if (fileCategoryEnums.VIDEO.category == fileInfo.fileCategory) { // 如果是视频 m3u8
+          const fileNameNoSuffix = getFileNameNoSuffix(fileInfo.filePath);
+          logger.info('根据文件路径获取不带后缀的文件名');
+          filePath = USER_FILE_FOLDER + fileNameNoSuffix + '/' + 'index.m3u8';
+          logger.info('获取视频资源路径', filePath);
+        } else { // 其他类型，例如 txt, excel, doc, ppt 等等
+          filePath = USER_FILE_FOLDER + fileInfo.filePath;
+        }
+
+        if (!fs.existsSync(filePath)) {
+          ctx.throw(404, '文件资源不存在');
+          return;
+        }
+
+        const file = fs.createReadStream(filePath);
+        ctx.set('Content-Type', 'application/x-mpegURL'); // 设置 m3u8 文件的 MIME 类型
+        ctx.body = file;
+      }
+    } catch (err) {
+      return handleException(ctx, err, '获取视频资源异常');
+    }
+  };
+
+  /**
+   * 新建目录
+   * 前端传的参数：fileName, filePid
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async newFolder(ctx) {
+    const { fileName, filePid } = ctx.request.body;
+    const user = ctx.state.user;
+    const { userId } = user;
+    try {
+      await checkFileName(filePid, userId, fileName, fileFolderTypeEnum.FOLDER.code);
+      const curDate = new Date();
+      const insertParams = {
+        fileId: generateUUid(LENGTH_10),
+        userId,
+        filePid,
+        fileName,
+        folderType: fileFolderTypeEnum.FOLDER.code,
+        createTime: curDate,
+        lastUpdateTime: curDate,
+        status: fileStatusEnum.USING.code,
+        delFlag: fileDelFlagEnum.USING.code,
+      };
+      logger.info('新增文件目录数据', insertParams);
+
+      const insertFileInfo = await FileModel.create(insertParams);
+      logger.info('新增目录成功', insertFileInfo);
+
+      // 由于在返回新增的结果时，字段不全，所以重新查一遍再返回前端，如果全部字段返回了，也可以不用查
+      const fileInfo = await FileModel.findOne({ where: insertParams });
+      logger.info('查询新增目录的结果', fileInfo);
+
+      ctx.body = {
+        success: true,
+        code: 200,
+        data: fileInfo,
+        message: '新建目录成功'
+      }
+    } catch (err) {
+      handleException(ctx, err, err.message);
+    }
+  };
+
+  /**
+   * 文件重命名，也有可能时文件夹
+   * 前端传递的参数：fileId, fileName
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async rename(ctx) {
+    let { fileId, fileName } = ctx.request.body;
+    const user = ctx.state.user;
+    const { userId } = user;
+
+    const fileInfo = await FileModel.findOne({ where: { fileId, userId } });
+    logger.info('重命名查询文件', fileInfo);
+    if (fileInfo == null) {
+      ctx.throw(404, '文件不存在');
+      return;
+    }
+
+    try {
+      const filePid = fileInfo.filePid;
+      await checkFileName(filePid, userId, fileName, fileInfo.folderType, ctx);
+      // 获取文件后缀
+      if (fileFolderTypeEnum.FILE.code == fileInfo.folderType) {
+        // 因为前端是传不包含后缀的文件名，这里要加上文件后缀
+        fileName = fileName + getFileSuffix(fileInfo.fileName);
+      }
+      const curData = new Date();
+      const dbInfo = {
+        fileName,
+        lastUpdateTime: curData
+      };
+      await FileModel.update(dbInfo, { where: { userId, fileId }});
+
+      const queryParams = {
+        filePid,
+        userId,
+        fileName,
+      };
+      const count = await FileModel.count({ where: queryParams });
+      logger.info('查询文件名是否重复', count);
+      if (count > 1) {
+        ctx.throw(409, `文件名${fileName}已经存在`); // 409 代表资源冲突
+        return;
+      }
+
+      ctx.body = {
+        success: true,
+        code: 200,
+        data: dbInfo // TODO 这里不应该全部信息都返回前端，需要调整
+      };
+    } catch (err) {
+      handleException(ctx, err, err.message);
+    }
+  };
+
+  /**
+   * 加载所有的文件文件目录信息，用于移动文件时展示
+   * 前端需要传递参数：fileIds (非必填)，filePid
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async loadAllFolder(ctx) {
+    const { fileIds, filePid } = ctx.request.body;
+    const user = ctx.state.user;
+    const { userId } = user;
+
+    const queryInfo = {
+      userId,
+      filePid,
+      folderType: fileFolderTypeEnum.FOLDER.code,
+    };
+
+    if (!fileIds) {
+      queryInfo['excludedFileArray'] = fileIds.split(',');
+    }
+    queryInfo['delFlag'] = fileDelFlagEnum.USING.code;
+    const fileInfoList = await FileModel.findAll({
+      order: ['createTime', 'desc'],
+      where: queryInfo,
+    });
+
+    ctx.body = {
+      success: true,
+      code: 200,
+      data: fileInfoList, // TODO 这里不应该全部返回给前端
+    };
+  };
+
+  /**
+   * 移动文件，修改文件的目录位置
+   * 前端传递的参数：fileIds, filePid
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async changeFileFolder(ctx) {
+    const { fileIds, filePid } = ctx.request.body;
+    const user = ctx.state.user;
+    const { userId } = user;
+
+    if (fileIds == filePid) {
+      ctx.throw(responseCodeEnum.CODE_600.key, responseCodeEnum.CODE_600.value);
+      return;
+    }
+
+    if (String(ZERO) == filePid) {
+      // 这里的作用是防止用户移动文件到原本目录，就抛出错误信息
+      const fileInfo = await FileModel.findOne({ where: { fileId: filePid, userId } });
+      if (fileInfo == null || !(fileDelFlagEnum.USING.code == fileInfo.delFlag)) {
+        ctx.throw(responseCodeEnum.CODE_600.key, responseCodeEnum.CODE_600.value)
+        return;
+      }
+    }
+
+    const fileIdArray = fileIds.split(',');
+    const query = {
+      filePid,
+      userId,
+    }
+    const dbFileList = await FileModel.fildAll({ where: query });
+
+    const dbFileNameMap = dbFileList.reduce((acc, fileInfo) => {
+      acc[fileInfo.fileName] = fileInfo;
+      return acc;
+    }, {});
+
+    logger.info('将文件列表转换成以文件名和文件信息的map', dbFileNameMap);
+
+    // 查询选中的文件
+    const querySelect = {
+      userId,
+      fileId: { [Op.notIn]: fileIdArray },
+    };
+    const selectFileList = await FileModel.findAll({ where: querySelect });
+
+    // 将所选文件重命名
+    for (const item of selectFileList) {
+      const rootFileInfo = dbFileNameMap[item.fileName];
+      // 文件名已经存在，重命名被还原的文件名
+      const updateInfo = {};
+      if (rootFileInfo != null) {
+        const fileName = fileRename(item.fileName);
+        updateInfo['fileName'] = fileName;
+      }
+      updateInfo[filePid] = filePid;
+      await FileModel.update(updateInfo,{ where: { userId, fileId: item.fileId } });
+    }
+  };
+
+
 };
 
 module.exports = new FileController();

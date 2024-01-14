@@ -79,11 +79,21 @@ const Login = () => {
     }
   };
 
+  // 获取图片验证码
+  const changeCheckCode = useCallback(() => {
+    getCheckCode().then(res => {
+      setState({
+        checkCodeUrl: `data:image/svg+xml;utf8,${encodeURIComponent((res?.data))}`,
+        codeUid: res.uid
+      });
+    });
+  }, []);
+
   // 重置表单
   const resetForm = () => {
     form.resetFields();
     changeCheckCode(); // 验证码更新
-  }
+  };
 
   // 注册，登录，重置密码 提交表单
   const onFinish = (values) => {
@@ -142,6 +152,8 @@ const Login = () => {
         }
       }).catch(err => {
         console.log('登录异常', err);
+        // 登录异常时，重新刷新校验码
+        changeCheckCode();
       });
     } else { // 重置密码
       resetPassword().then(res => {
@@ -152,15 +164,7 @@ const Login = () => {
     }
   };
 
-  // 获取图片验证码
-  const changeCheckCode = useCallback(() => {
-    getCheckCode().then(res => {
-      setState({
-        checkCodeUrl: `data:image/svg+xml;utf8,${encodeURIComponent((res?.data))}`,
-        codeUid: res.uid
-      });
-    });
-  }, []);
+
 
   return (
     <div className="login-body">
