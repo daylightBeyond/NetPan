@@ -22,7 +22,8 @@ const {
   transferFile,
   getFileNameNoSuffix,
   saveFileTempSize, checkFileName,
-  rename: fileRename
+  rename: fileRename,
+  findAllSubFolderFileList
 } = require('../utils/fileUtils')
 const { responseCodeEnum } = require('../enums/enums');
 const {
@@ -49,7 +50,7 @@ class FileController {
    * pageNum 页码
    * pageSize 分页大小
    */
-  async queryFile(ctx, next) {
+  async queryFile(ctx) {
     logger.info('开始查询文件列表');
     logger.info('查询文件列表请求参数', ctx.request.body);
     const { category, fileName, pageNum, pageSize, filePid } = ctx.request.body;
@@ -75,21 +76,20 @@ class FileController {
 
       const offset = (pageNum - 1) * pageSize;
 
-      const total = await FileModel.count({ where: params });
-
-      const res = await FileModel.findAll({
+      const { count, rows } = await FileModel.findAndCountAll({
         limit: pageSize,
         offset,
         order: [['lastUpdateTime', 'desc']],
         subQuery: false,
         where: params
       });
-      logger.info(`查询文件列表信息:`, res);
+      logger.info(`查询文件列表数量:`, count);
+      logger.info(`查询文件列表信息:`, rows);
       const data = {
-        list: res,
+        list: rows,
         pageNum,
         pageSize,
-        total
+        total: count
       };
 
       ctx.body = {
@@ -528,11 +528,13 @@ class FileController {
     };
 
     if (!fileIds) {
-      queryInfo['excludedFileArray'] = fileIds.split(',');
+      // queryInfo['excludedFileArray'] = fileIds.split(',');
+      queryInfo['fileId'] = { [Op.notIn]: fileIds.split(',') }
     }
     queryInfo['delFlag'] = fileDelFlagEnum.USING.code;
+    logger.info('获取文件所有夹的查询参数条件', queryInfo);
     const fileInfoList = await FileModel.findAll({
-      order: ['createTime', 'desc'],
+      order: [['createTime', 'desc']],
       where: queryInfo,
     });
 
@@ -603,6 +605,78 @@ class FileController {
     }
   };
 
+  /**
+   * 批量删除文件到回收站
+   * 前端传递参数：userId, fileIds(多个文件id字符串)
+   * @param ctx
+   * @returns {Promise<void>}
+   */
+  async removeFile2RecycleBatch(ctx) {
+    const { fileIds } = ctx;
+    const user = ctx.state.user;
+    const { userId } = user;
+
+    const fileIdArray = fileIds.split(',');
+
+    try {
+      const query = {
+        userId,
+        delFlag: fileDelFlagEnum.USING.code,
+        fileId: { [Op.in]: fileIdArray },
+      };
+
+      const fileInfoList = FileModel.findAll({ where: query });
+      if (!fileInfoList.length) {
+        return;
+      }
+      // 注意：如果前端选中的是文件夹删除，则文件夹里面的所有文件也都要删除
+      // 如果文件夹内还有文件夹，这里只能用递归
+      const delFilePidList = [];
+      for (let fileInfo of fileInfoList) {
+        await findAllSubFolderFileList(delFilePidList, userId, fileInfo.fileId, fileDelFlagEnum.USING.code);
+      }
+
+      logger.info('递归查询被删除的文件夹下所有的文件', delFilePidList);
+
+      // 目录
+      if (!delFilePidList.length) {
+        const updateInfo = {
+          delFlag: fileDelFlagEnum.DEL.code,
+        };
+
+        const conditionBatch = {
+          userId,
+          filePid: { [Op.in]: delFilePidList },
+          delFlag: fileDelFlagEnum.USING.code
+        };
+
+        // 将选中的文件夹下，所有的filePid, 使用标识为使用的数据，使用标识改为删除
+        await FileModel.update(updateInfo, { where: conditionBatch });
+      }
+
+      // 文件
+      // 将选中的文件更新为回收站
+      const fileInfo = {
+        recoveryTime: new Date(),
+        delFlag: fileDelFlagEnum.RECYCLE.code
+      };
+      const condition = {
+        userId,
+        fileId: { [Op.in]: fileIdArray },
+        delFlag: fileDelFlagEnum.USING.code
+      };
+
+      await FileModel.update(fileInfo, { where: condition });
+
+      ctx.body = {
+        success: true,
+        code: 200,
+        message: '删除文件成功'
+      }
+    } catch (err) {
+      handleException(ctx, err, '删除文件失败');
+    }
+  };
 
 };
 

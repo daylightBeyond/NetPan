@@ -10,6 +10,7 @@ const {
   loadAllFolder,
   changeFileFolder,
   // createDownloadUrl,
+  removeFile2RecycleBatch,
 } = require('../controllers/file.controller');
 
 const {
@@ -48,6 +49,7 @@ router.post('/file/loadAllFolder', authMiddleware, loadAllFolder);
 // 移动文件
 router.post('/file/changeFileFolder', authMiddleware, changeFileFolder);
 
-
+// 删除文件
+router.post('/file/delFile', authMiddleware, removeFile2RecycleBatch);
 
 module.exports = router;

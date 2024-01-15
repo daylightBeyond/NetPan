@@ -20,7 +20,7 @@ const {
   REDIS_TEMP_FOLDER, REDIS_KEY_EXPIRE_DAY,
   REDIS_KEY_DOWNLOAD,
 } = require('../constants/constants');
-const { fileTypeEnums, fileStatusEnum, uploadStatusEnum } = require('../enums/fileEnum');
+const { fileTypeEnums, fileStatusEnum, uploadStatusEnum, fileFolderTypeEnum} = require('../enums/fileEnum');
 const { dateTimePatternEnum } = require('../enums/dateTimePatterEnum');
 const { responseCodeEnum } = require('../enums/enums');
 const {resolve} = require("@babel/core/lib/vendor/import-meta-resolve");
@@ -558,7 +558,29 @@ const saveDownloadCode = async function(code, downloadFileObj) {
 const getDownloadCode = async function(code) {
   const fileObj = await redisUtils.get(`${REDIS_KEY_DOWNLOAD}:${code}`);
   return fileObj;
-}
+};
+
+/**
+ * 递归查询文件夹下的所有文件
+ * @param fileIdList
+ * @param userId
+ * @param fileId
+ * @param delFlag
+ * @returns {Promise<void>}
+ */
+const findAllSubFolderFileList = async function(fileIdList, userId, fileId, delFlag) {
+  fileIdList.push(fileId);
+  const query = {
+    userId,
+    filePid: fileId,
+    delFlag,
+    folderType: fileFolderTypeEnum.FOLDER.code
+  };
+  const fileInfoList = await FileModel.findAll({where: query});
+  for (let fileInfo of fileInfoList) {
+      await findAllSubFolderFileList(fileIdList, userId, fileInfo.fileId, delFlag);
+  }
+};
 
 module.exports = {
   getMimeType,
@@ -580,4 +602,5 @@ module.exports = {
   checkFileName,
   saveDownloadCode,
   getDownloadCode,
+  findAllSubFolderFileList,
 }
