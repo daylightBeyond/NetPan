@@ -2,11 +2,12 @@
 import React, { memo, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 // 外部依赖
-import { Upload, Button, Input, message } from 'antd';
+import { Upload, Button, Input, message, Modal } from 'antd';
 import dayjs from 'dayjs';
 // 组件
 import Navigation from "../../components/Navigation/Navigation.jsx";
 import NPTable from "../../components/Table/NPTable.jsx";
+import FolderSelect from "../../components/FolderSelect/FolderSelect.jsx";
 import ShareFile from "./ShareFile.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
 import EditableRow from "./components/EditableRow.jsx";
@@ -15,7 +16,7 @@ import EditableCell from "./components/EditableCell.jsx";
 import useMergeState from "@/hooks/useMergeState";
 import useUploadFileStore from "@/store/uploadFileStore.js";
 // 接口
-import { queryFile, createFolder, rename } from '../../servers/home';
+import { queryFile, createFolder, rename, deleteFile, changeFileFolder } from '../../servers/home';
 // 方法
 import { sizeToStr } from "../../utils/utils";
 // 样式
@@ -39,14 +40,19 @@ const Home = () => {
     selectedRows: [],
 
     editing: false, // 判断是否已经有正在编辑中的行，有的话，就不让新增文件夹
+
+    currentMoveFile: {}, // 当前移动的文件
   });
 
   const {
     currentFolder, shareVisible, loading,
     dataSource, pageNum, pageSize, total, editing,
     selectedRowKeys, selectedRows,
+    currentMoveFile,
   } = state;
 
+  const folderSelectRef = useRef(null);
+  const navigationRef = useRef(null);
   const shareFileRef = useRef(null);
   const editNameRef = useRef(null);
 
@@ -59,6 +65,7 @@ const Home = () => {
   }, [routeParams]);
 
   const queryFileList = (params = {}) => {
+
     const queryParams = {
       pageNum: params.pageNum || 1,
       pageSize: params.pageSize || 10,
@@ -73,7 +80,9 @@ const Home = () => {
           dataSource: list,
           pageNum,
           pageSize,
-          total
+          total,
+          selectedRows: [],
+          selectedRowKeys: []
         });
       }
     })
@@ -98,7 +107,11 @@ const Home = () => {
 
   // 预览
   const preview = (data) => {
-    if (data.folderType == 1) { // 目录
+    console.log('preivew', data);
+    // 目录，跳转
+    if (data.folderType == 1) {
+      navigationRef.current.openFolder(data);
+    } else { // 文件就是预览
 
     }
   };
@@ -190,12 +203,29 @@ const Home = () => {
   };
 
   // 删除文件
-  const handleDelFile = () => {
-
+  const handleDelFile = (row) => {
+    Modal.confirm({
+      title: '批量删除文件',
+      content: `你确定要删除【${row.fileName}】吗？删除的文件可在10天内通过回收站还原`,
+      onOk: () => {
+        const params = {
+          fileIds: row.fileId
+        };
+        deleteFile(params).then(res => {
+          if (res?.success) {
+            message.success('删除文件成功，可在回收站查看');
+            queryFileList();
+          }
+        }).catch(e => {
+          console.log('删除文件异常', e);
+        })
+      }
+    });
   };
 
   // 文件重命名
   const handleRenameFile = (index) => {
+    console.log('dataSource', dataSource);
     // 如果重命名的时候，刚好是新建文件夹，即第一行是编辑的状态
     if (dataSource[0].fileId == '') {
       dataSource.splice(0, 1);
@@ -217,12 +247,13 @@ const Home = () => {
     setState({
       dataSource: [...dataSource],
       editing: true
-    })
+    });
   };
 
-  // 移动文件
-  const handleMoveFile = () => {
-
+  // 移动文件(单个)
+  const handleMoveFile = (data) => {
+    setState({ currentMoveFile: data });
+    folderSelectRef.current.showFolder(currentFolder.fileId);
   };
 
   const columns = [
@@ -386,7 +417,68 @@ const Home = () => {
     });
     editNameRef.current.focus();
     console.log('editNameRef', editNameRef);
-  }
+  };
+
+  // 批量删除文件
+  const deleteFileBatch = () => {
+    if (!selectedRowKeys.length) {
+      return;
+    }
+
+    Modal.confirm({
+      title: '批量删除文件',
+      content: '你确定要啊删除这些文件吗？删除的文件可在10天内通过回收站还原',
+      onOk: () => {
+        const params = {
+          fileIds: selectedRowKeys.join(',')
+        };
+        deleteFile(params).then(res => {
+          if (res?.success) {
+            message.success('批量删除文件成功，可在回收站查看');
+            queryFileList();
+          }
+        }).catch(e => {
+          console.log('批量删除文件异常', e);
+        })
+      }
+    });
+  };
+
+  // 批量移动文件
+  const moveFileBatch = () => {
+    setState({ currentMoveFile: {} });
+    folderSelectRef.current.showFolder(currentFolder.fileId);
+  };
+
+   // 移动文件的回调
+   const folderMoveDone = async (folderId) => {
+     console.log(folderId);
+     if (currentFolder.fileId == folderId) {
+       message.warning('文件正在当前目录，无需移动');
+       return;
+     }
+
+     let fileIdsArray = [];
+     if (currentMoveFile.fileId) { // 单个移动
+       fileIdsArray.push(currentMoveFile.fileId);
+     } else { // 批量移动
+       fileIdsArray = fileIdsArray.concat(selectedRowKeys);
+     }
+     try {
+       const params = {
+         fileIds: fileIdsArray.toString(),
+         filePid: folderId
+       };
+       const res = await changeFileFolder(params);
+       console.log('移动文件', res);
+       if (res.success) {
+         folderSelectRef.current.close();
+        queryFileList();
+       }
+     } catch (e) {
+       console.log(e);
+     }
+   };
 
   // 展示操作按钮
   const handleShowOp = useCallback((row, index) => {
@@ -422,7 +514,7 @@ const Home = () => {
               新建文件夹
             </span>
           </Button>
-          <Button type="primary" danger disabled={!selectedRowKeys.length}>
+          <Button type="primary" danger disabled={!selectedRowKeys.length} onClick={deleteFileBatch}>
             <span className="iconfont icon-del">
               批量删除
             </span>
@@ -430,10 +522,11 @@ const Home = () => {
           <Button
             type="primary"
             style={{
-              backgroundColor: '#f3d19e',
+              backgroundColor: '#e6a23c',
               cursor: selectedRowKeys.length ? '' : 'not-allowed'
             }}
             disabled={!selectedRowKeys.length}
+            onClick={moveFileBatch}
           >
             <span className="iconfont icon-move">
               批量移动
@@ -447,7 +540,7 @@ const Home = () => {
         {/* 导航 */}
         <div className="top-navigation">
           <span className="all-file">
-            <Navigation preview={preview} />
+            <Navigation ref={navigationRef} preview={preview} />
           </span>
         </div>
       </div>
@@ -469,6 +562,12 @@ const Home = () => {
         ref={shareFileRef}
         open={shareVisible}
         changeState={(data) => setState(data)}
+      />
+
+      {/* 移动文件弹窗 */}
+      <FolderSelect
+        ref={folderSelectRef}
+        folderSelect={folderMoveDone}
       />
     </div>
   );

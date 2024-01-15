@@ -1,11 +1,18 @@
 import request from '@/utils/request.js';
 
-// 获取注册验证码
-// 更新用户头像
+// 分享文件
 export const shareFile = (param) => {
   return request({
     method: 'post',
     url: '/share/shareFile',
+    data: param,
+  });
+};
+
+export const getShareFolderInfo = (param) => {
+  return request({
+    method: 'post',
+    url: '/share/getFolderInfo',
     data: param,
   });
 };

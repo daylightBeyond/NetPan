@@ -1,0 +1,35 @@
+.folder-select {
+  .navigation-panel {
+    padding-left: 10px;
+    background: #f1f1f1;
+  }
+
+  .folder-list {
+
+
+    .folder-item {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      .folder-name {
+        display: inline-block;
+        margin-left: 10px;
+      }
+      &:hover {
+        background: #f8f8f8;
+      }
+    }
+
+    max-height: calc(100vh - 200px);
+    min-height: 200px;
+  }
+
+  .tips {
+    text-align: center;
+    line-height: 200px;
+    span {
+      color: #06a7ff;
+    }
+  }
+}

@@ -91,7 +91,7 @@ export const rename = (param) => {
 };
 
 // 获取当前文件目录
-export const getFolderInfo = (param) => {
+export const getFileFolderInfo = (param) => {
   return request({
     method: 'post',
     url: '/file/getFolderInfo',

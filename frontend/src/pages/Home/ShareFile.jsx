@@ -13,7 +13,8 @@ const rules = {
     { validator: verify.shareCode, message: '请输入提取码' },
     { min: 5, message: '至少输入五位提取码' },
   ]
-}
+};
+
 const ShareFile = forwardRef((props, ref) => {
   const { changeState, open, fileData } = props;
   const [form] = Form.useForm();

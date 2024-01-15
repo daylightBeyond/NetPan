@@ -6,9 +6,6 @@ export const loadFileList = (param) => {
     method: 'get',
     url: '/admin/loadFileList',
     param,
-    header: {
-      isToken: false,
-    }
   });
 };
 
@@ -18,9 +15,6 @@ export const delFile = (param) => {
     method: 'get',
     url: '/admin/delFile',
     param,
-    header: {
-      isToken: false,
-    }
   });
 };
 
@@ -30,9 +24,6 @@ export const createDownloadUrl = (param) => {
     method: 'get',
     url: '/admin/createDownloadUrl',
     param,
-    header: {
-      isToken: false,
-    }
   });
 };
 
@@ -45,5 +36,14 @@ export const download = (param) => {
     header: {
       isToken: false,
     }
+  });
+};
+
+// 获取文件信息
+export const getAdminFolderInfo = (param) => {
+  return request({
+    method: 'get',
+    url: '/admin/getFolderInfo',
+    param,
   });
 };
