@@ -1,5 +1,6 @@
 import React, { useEffect, forwardRef, useImperativeHandle } from 'react';
 import { useParams, useLocation, useNavigate} from 'react-router-dom';
+import { Divider } from 'antd';
 import qs from 'qs';
 import useMergeState from "../../hooks/useMergeState";
 import { getFileFolderInfo } from '@/servers/home';
@@ -12,9 +13,9 @@ const Navigation = forwardRef((props, ref) => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log('Navigation--routeParams', routeParams);
+  // console.log('Navigation--routeParams', routeParams);
   // console.log('Navigation--navigate', navigate);
-  console.log('Navigation--location', location);
+  // console.log('Navigation--location', location);
 
   const [state, setState] = useMergeState({
     folderList: [], // 目录集合
@@ -26,7 +27,7 @@ const Navigation = forwardRef((props, ref) => {
   const { folderList, currentFolder } = state;
 
   const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
-  console.log('queryParams', queryParams);
+  // console.log('queryParams', queryParams);
 
   useImperativeHandle(ref, () => {
     return {
@@ -49,44 +50,58 @@ const Navigation = forwardRef((props, ref) => {
         shareId
       }
       const res  = await request(params);
-      console.log('获取文件目录信息', res);
+      // console.log('获取文件目录信息', res);
       if (res.success) {
         // setState({ folderList: res.data });
       }
     } catch (e) {
-
+      console.log(e);
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    // 只有在监听路由和在home下才会执行监听路由操作
+    if (watchProp && location.pathname.indexOf('/home') !== -1) {
+      const path = queryParams.path;
+      setState({ category: routeParams.category });
+
+      if (!path) {
+
+      } else {
+        getNavigationFolder();
+        const pathArr = path.split(',');
+        setState({ currentFolder: { fileId: pathArr[pathArr.length - 1] } });
+      }
+    }
+
     console.log('路由变化', location);
-    if (!watchProp) {
-      return
-    }
-
-    // 只有是在home路由下才需要展示文件夹
-    if (location.pathname.indexOf('/home') !== -1) {
-      return;
-    }
-
-    const path = queryParams.path;
-
-    setState({
-      category: routeParams.category,
-    });
-
-    if (!path) {
-
-    } else {
-      await getNavigationFolder(path);
-      let pathArray = path.split('/');
-      setState({
-        currentFolder: {
-          fileId: pathArray[pathArray.length - 1]
-        }
-      })
-    }
-  }, [location]);
+    // if (!watchProp) {
+    //   return
+    // }
+    //
+    // // 只有是在home路由下才需要展示文件夹
+    // if (location.pathname.indexOf('/home') !== -1) {
+    //   return;
+    // }
+    //
+    // const path = queryParams.path;
+    //
+    // setState({
+    //   category: routeParams.category,
+    // });
+    //
+    // if (!path) {
+    //
+    // } else {
+    //   getNavigationFolder(path);
+    //   let pathArray = path.split('/');
+    //   setState({
+    //     currentFolder: {
+    //       fileId: pathArray[pathArray.length - 1]
+    //     }
+    //   })
+    // }
+  }, []);
 
 
 
@@ -122,9 +137,37 @@ const Navigation = forwardRef((props, ref) => {
     navigate(`${location.pathname}?path=${pathArr.length ? pathArr.join('/') : ''}`);
   };
 
+  const setCurrentFolder = (index) => {
+
+  }
+
   return (
     <div className="top-navigation">
-      全部文件
+      {folderList.length && (
+        <>
+          <span className="back link">返回上一级</span>
+          <Divider type="vertical" />
+        </>
+      )}
+
+      {/* 没有进入文件夹下的全部文件 */}
+      {folderList == 0 && <span className="all-file">全部文件</span>}
+      {/* 进入文件夹下的全部文件，可以跳转的 */}
+      {folderList.length && <span className="link">全部文件</span>}
+
+      {folderList?.map((item, index) => (
+        <span key={item.fileId}>
+          <span className="iconfont icon-right"></span>
+          {index < folderList.length - 1 && (
+            <span className="link" onClick={() => setCurrentFolder(index)}>
+              {item.fileName}
+            </span>
+          )}
+          {index == folderList.length - 1 && (
+            <span className="text">{item.fileName}</span>
+          )}
+        </span>
+      ))}
     </div>
   );
 });

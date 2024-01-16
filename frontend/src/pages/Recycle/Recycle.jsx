@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import useMergeState from "../../hooks/useMergeState";
 import NPTable from "../../components/Table/NPTable.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
-import { recoveryFile, delFile } from '@/servers/recycle';
+import { queryRecycleList, recoveryFile, delFile } from '@/servers/recycle';
 import { sizeToStr } from '@/utils/utils';
 import '@/assets/file.list.less';
 import './style.less';
@@ -12,18 +12,7 @@ import './style.less';
 const Recycle = () => {
   const [modal, contextHolder] = Modal.useModal();
   const [state, setState] = useMergeState({
-    dataSource: [{
-      "fileId": "uEkYtaVT9Y",
-      "filePid": "0",
-      "fileSize": 121928,
-      "fileName": "Snipaste_2024-01-02_16-15-06_E9Ek1.png",
-      "fileCover": "202401/8467430742Lg8w5juGWF_.png",
-      "lastUpdateTime": "2024-01-02 16:16:16",
-      "folderType": 0,
-      "fileCategory": 3,
-      "fileType": 3,
-      "status": 2
-    }],
+    dataSource: [],
     pageNum: 1,
     pageSize: 10,
     total: 0,
@@ -37,11 +26,26 @@ const Recycle = () => {
     selectedRowKeys, selectedRows
   } = state;
 
+  useEffect(() => {
+    queryFileList();
+  }, []);
+
   const queryFileList = useCallback((params = {}) => {
     const queryParams = {
       pageNum: params.pageNum || 1,
       pageSize: params.pageSize || 10,
     };
+    queryRecycleList(queryParams).then(res => {
+      if (res.success) {
+        const { list, total } = res.data;
+        setState(({
+          dataSource: list,
+          total,
+          pageNum,
+          pageSize
+        }))
+      }
+    })
   }, []);
 
   // 恢复

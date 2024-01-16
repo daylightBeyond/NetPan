@@ -7,9 +7,6 @@ export const queryRecycleList = (param) => {
     url: '/recycle/queryRecycleList',
     data: param,
     showLoading: true,
-    headers: {
-      'Content-Type': 'multer/form-data'
-    }
   });
 };
 

@@ -65,7 +65,6 @@ const Home = () => {
   }, [routeParams]);
 
   const queryFileList = (params = {}) => {
-
     const queryParams = {
       pageNum: params.pageNum || 1,
       pageSize: params.pageSize || 10,
@@ -118,26 +117,20 @@ const Home = () => {
 
   // 更改输入值的回调
   const onNameChange = (value, fileId) => {
-    console.log('value', value)
-    console.log('fileId', fileId)
-    console.log('editRef', editNameRef)
-    if (value && value.trim()) {
-      const newDataSource = dataSource.map(item => {
-        if (item.fileId == fileId) {
-          return { ...item, fileNameReal: value.trim() };
-        }
-        return item;
-      })
-      console.log('newDataSource', newDataSource)
+    const newDataSource = dataSource.map(item => {
+      if (item.fileId == fileId) {
+        return { ...item, fileNameReal: value.trim() };
+      }
+      return item;
+    });
 
-      setState({ dataSource: newDataSource });
-    }
+    setState({ dataSource: newDataSource });
   };
 
   const saveNameEdit = async (index) => {
     const { fileId, filePid, fileNameReal } = dataSource[index];
 
-    if (fileNameReal == '' || fileNameReal?.indexOf('/') != -1) {
+    if (fileNameReal == '' || fileNameReal.indexOf('/') != -1) {
       message.warning('文件名不能为空且不能含有斜杠/');
       return;
     }
@@ -151,7 +144,6 @@ const Home = () => {
       fileName: fileNameReal,
     };
     request(params).then(res => {
-      console.log('保存文件', res);
       if (res.success) {
         res.data['showEdit'] = false;
         dataSource[index] = res.data;
@@ -225,7 +217,6 @@ const Home = () => {
 
   // 文件重命名
   const handleRenameFile = (index) => {
-    console.log('dataSource', dataSource);
     // 如果重命名的时候，刚好是新建文件夹，即第一行是编辑的状态
     if (dataSource[0].fileId == '') {
       dataSource.splice(0, 1);
@@ -373,7 +364,6 @@ const Home = () => {
 
   // 新建文件夹
   const newFolder = () => {
-    console.log('editing', editing);
     if (editing) {
       return;
     }
@@ -390,33 +380,6 @@ const Home = () => {
     }, () => {
       editNameRef.current.focus();
     });
-  };
-  const newFolder11 = () => {
-    console.log(dataSource)
-    if (!editing) {
-      return;
-    }
-
-    // const newDataSource =
-      dataSource.forEach((element) => element.showEdit = false);
-    setState({ editing: true });
-    // newDataSource.unshift({
-    //   showEdit: true,
-    //   fileType: 0, // 0 文件夹
-    //   fileId: '',
-    //   filePid: '0'
-    // });
-    dataSource.unshift({
-      showEdit: true, // 是否显示编辑状态
-      fileType: 0, // 0 文件夹
-      fileId: '',
-      filePid: '0'
-    });
-    setState({
-      dataSource: dataSource
-    });
-    editNameRef.current.focus();
-    console.log('editNameRef', editNameRef);
   };
 
   // 批量删除文件

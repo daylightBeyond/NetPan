@@ -3,7 +3,7 @@ const path = require('path');
 const { Op } = require('sequelize');
 const { fileFolderTypeEnum } = require("../enums/fileEnum");
 const { FileModel, UserModel} = require("../models");
-const { logger } = require("../utils/logger");
+const logger = require("../utils/logger");
 const { REDIS_EMAIL_FOLDER, LENGTH_50, USER_FILE_FOLDER} = require("../constants/constants");
 const handleException = require("../utils/handleException");
 const { generateRandomCode, generateUUid } = require("../utils/utils");
@@ -22,7 +22,7 @@ class CommonController {
   };
   /**
    * 获取当前目录信息
-   * 前端传的参数，path: 文件id（因为前端是根据目录的路由），userId: 用户id
+   * 前端传的参数，path: 文件id（因为前端是根据目录的路由）
    * @param ctx
    * @returns {Promise<void>}
    */
