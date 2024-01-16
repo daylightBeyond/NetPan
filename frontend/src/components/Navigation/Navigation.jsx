@@ -9,7 +9,14 @@ import { getAdminFolderInfo } from '@/servers/admin';
 import './style.less';
 
 const Navigation = forwardRef((props, ref) => {
-  const { watchProp, shareId, adminShow, preview } = props;
+  //
+  const {
+    watchProp, // 是否监听路由
+    shareId, // 分享ID
+    adminShow, // 是否展示管理员模块
+    navChange, // 导航切换
+    preview
+  } = props;
   const routeParams = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +31,7 @@ const Navigation = forwardRef((props, ref) => {
     category: '', // 分类
   });
 
-  const { folderList, currentFolder } = state;
+  const { folderList, currentFolder, category } = state;
 
   const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
   // console.log('queryParams', queryParams);
@@ -60,50 +67,31 @@ const Navigation = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
+    console.log('路由变化', location);
+    console.log('路由参数', queryParams);
     // 只有在监听路由和在home下才会执行监听路由操作
     if (watchProp && location.pathname.indexOf('/home') !== -1) {
       const path = queryParams.path;
       setState({ category: routeParams.category });
 
       if (!path) {
-
+        init();
       } else {
-        getNavigationFolder();
+        getNavigationFolder(path);
         const pathArr = path.split(',');
         setState({ currentFolder: { fileId: pathArr[pathArr.length - 1] } });
+        doCallback()
       }
     }
+  }, [location.search]);
 
-    console.log('路由变化', location);
-    // if (!watchProp) {
-    //   return
-    // }
-    //
-    // // 只有是在home路由下才需要展示文件夹
-    // if (location.pathname.indexOf('/home') !== -1) {
-    //   return;
-    // }
-    //
-    // const path = queryParams.path;
-    //
-    // setState({
-    //   category: routeParams.category,
-    // });
-    //
-    // if (!path) {
-    //
-    // } else {
-    //   getNavigationFolder(path);
-    //   let pathArray = path.split('/');
-    //   setState({
-    //     currentFolder: {
-    //       fileId: pathArray[pathArray.length - 1]
-    //     }
-    //   })
-    // }
-  }, []);
-
-
+  const init = () => {
+    setState({
+      folderList: [],
+      currentFolder: { fileId: '0' }
+    })
+    doCallback();
+  };
 
   const openFolder = (data) => {
     const { fileId, fileName } = data;
@@ -139,11 +127,18 @@ const Navigation = forwardRef((props, ref) => {
 
   const setCurrentFolder = (index) => {
 
-  }
+  };
+
+  const doCallback = () => {
+    navChange && navChange({
+      categoryId: category,
+      curFolder: currentFolder
+    })
+  };
 
   return (
     <div className="top-navigation">
-      {folderList.length && (
+      {folderList.length > 0 && (
         <>
           <span className="back link">返回上一级</span>
           <Divider type="vertical" />
@@ -151,9 +146,9 @@ const Navigation = forwardRef((props, ref) => {
       )}
 
       {/* 没有进入文件夹下的全部文件 */}
-      {folderList == 0 && <span className="all-file">全部文件</span>}
+      {folderList.length == 0 && <span className="all-file">全部文件</span>}
       {/* 进入文件夹下的全部文件，可以跳转的 */}
-      {folderList.length && <span className="link">全部文件</span>}
+      {folderList.length > 0 && <span className="link">全部文件</span>}
 
       {folderList?.map((item, index) => (
         <span key={item.fileId}>

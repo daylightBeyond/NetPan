@@ -29,6 +29,7 @@ const Home = () => {
 
   const [state, setState] = useMergeState({
     currentFolder: { fileId: 0 },
+    category: '',
     shareVisible: false, // 分享弹窗是否显示
     dataSource: [],
     pageNum: 1,
@@ -62,6 +63,7 @@ const Home = () => {
 
   useEffect(() => {
     queryFileList({ pageNum: 1, pageSize: 10 });
+    console.log('111')
   }, [routeParams]);
 
   const queryFileList = (params = {}) => {
@@ -69,7 +71,8 @@ const Home = () => {
       pageNum: params.pageNum || 1,
       pageSize: params.pageSize || 10,
       category: routeParams.category,
-      fileName: params.fileName
+      fileName: params.fileName,
+      filePid: currentFolder.fileId
     };
     queryFile(queryParams).then(res => {
       // console.log('查询文件列表', res);
@@ -459,6 +462,12 @@ const Home = () => {
     setState(() => {});
   }, []);
 
+  const navChange = (data) => {
+    const { categoryId, curFolder } = data;
+    setState({ currentFolder: curFolder });
+    queryFileList()
+  };
+
   return (
     <div className="wrapper-home">
       <div className="top">
@@ -503,7 +512,7 @@ const Home = () => {
         {/* 导航 */}
         <div className="top-navigation">
           <span className="all-file">
-            <Navigation ref={navigationRef} preview={preview} />
+            <Navigation ref={navigationRef} navChange={navChange} preview={preview} />
           </span>
         </div>
       </div>

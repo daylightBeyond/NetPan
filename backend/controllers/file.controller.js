@@ -84,7 +84,7 @@ class FileController {
         where: params
       });
       logger.info(`查询文件列表数量:`, count);
-      logger.info(`查询文件列表信息:`, rows);
+      // logger.info(`查询文件列表信息:`, rows);
       const data = {
         list: rows,
         pageNum,
@@ -612,7 +612,8 @@ class FileController {
    * @returns {Promise<void>}
    */
   async removeFile2RecycleBatch(ctx) {
-    const { fileIds } = ctx;
+    const { fileIds } = ctx.request.body;
+    console.log('fileIds', fileIds);
     const user = ctx.state.user;
     const { userId } = user;
 
@@ -625,7 +626,10 @@ class FileController {
         fileId: { [Op.in]: fileIdArray },
       };
 
-      const fileInfoList = FileModel.findAll({ where: query });
+      logger.info('查询删除的条件', query);
+
+      const fileInfoList = await FileModel.findAll({ where: query });
+      logger.info('查询到需要删除的文件', fileInfoList);
       if (!fileInfoList.length) {
         return;
       }
