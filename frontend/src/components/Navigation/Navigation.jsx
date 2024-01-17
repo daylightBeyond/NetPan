@@ -1,4 +1,4 @@
-import React, { useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { useParams, useLocation, useNavigate} from 'react-router-dom';
 import { Divider } from 'antd';
 import qs from 'qs';
@@ -27,14 +27,11 @@ const Navigation = forwardRef((props, ref) => {
   const [state, setState] = useMergeState({
     folderList: [], // 目录集合
     currentFolder: {fileId: '0'}, // 当前目录
-
-    category: '', // 分类
   });
 
-  const { folderList, currentFolder, category } = state;
+  const { folderList, currentFolder } = state;
 
   const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
-  // console.log('queryParams', queryParams);
 
   useImperativeHandle(ref, () => {
     return {
@@ -55,11 +52,14 @@ const Navigation = forwardRef((props, ref) => {
       const params = {
         path,
         shareId
-      }
+      };
       const res  = await request(params);
-      // console.log('获取文件目录信息', res);
       if (res.success) {
-        // setState({ folderList: res.data });
+        const pathArr = path.split(',');
+        setState({
+          folderList: res.data,
+          currentFolder: { fileId: pathArr[pathArr.length - 1] }
+        }, () => doCallback({ fileId: pathArr[pathArr.length - 1] }));
       }
     } catch (e) {
       console.log(e);
@@ -67,30 +67,28 @@ const Navigation = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
+    console.log('location.search引起的useEffect', location.search);
     console.log('路由变化', location);
     console.log('路由参数', queryParams);
     // 只有在监听路由和在home下才会执行监听路由操作
     if (watchProp && location.pathname.indexOf('/home') !== -1) {
       const path = queryParams.path;
-      setState({ category: routeParams.category });
 
-      if (!path) {
-        init();
-      } else {
+      if (path) {
         getNavigationFolder(path);
-        const pathArr = path.split(',');
-        setState({ currentFolder: { fileId: pathArr[pathArr.length - 1] } });
-        doCallback()
+        // const pathArr = path.split(',');
+        // setState({ currentFolder: { fileId: pathArr[pathArr.length - 1] } });
+        // doCallback()
       }
     }
-  }, [location.search]);
+  }, [queryParams.path]);
 
   const init = () => {
     setState({
       folderList: [],
       currentFolder: { fileId: '0' }
-    })
-    doCallback();
+    });
+    // doCallback()
   };
 
   const openFolder = (data) => {
@@ -100,14 +98,14 @@ const Navigation = forwardRef((props, ref) => {
       folderList: [...folderList, folder],
       currentFolder: folder
     });
-    // setPath();
   };
 
   useEffect(() => {
+    console.log('folderList引起的useEffect', folderList);
     if (folderList.length) {
       setPath();
     }
-  }, [folderList, currentFolder]);
+  }, [folderList]);
 
   const setPath = () => {
     if (!watchProp) {
@@ -125,15 +123,30 @@ const Navigation = forwardRef((props, ref) => {
     navigate(`${location.pathname}?path=${pathArr.length ? pathArr.join('/') : ''}`);
   };
 
-  const setCurrentFolder = (index) => {
+  // 点击导航，这是当前目录
+  const handleCurrentFolder = (index) => {
+    console.log('index', index);
+    console.log('folderList', folderList);
 
+    // index 为 -1 时，是跳到根目录，特殊处理
+    if (index == -1) {
+      // 返回全部
+      setState({
+        currentFolder: { fileId: '0' },
+        folderList: []
+      });
+    } else {
+      setState({
+        currentFolder: folderList[index],
+        folderList: folderList.splice(index + 1, folderList.length)
+      });
+    }
   };
 
-  const doCallback = () => {
+  const doCallback = (currentFolder) => {
     navChange && navChange({
-      categoryId: category,
       curFolder: currentFolder
-    })
+    });
   };
 
   return (
@@ -148,13 +161,13 @@ const Navigation = forwardRef((props, ref) => {
       {/* 没有进入文件夹下的全部文件 */}
       {folderList.length == 0 && <span className="all-file">全部文件</span>}
       {/* 进入文件夹下的全部文件，可以跳转的 */}
-      {folderList.length > 0 && <span className="link">全部文件</span>}
+      {folderList.length > 0 && <span className="link" onClick={() => handleCurrentFolder(-1)}>全部文件</span>}
 
       {folderList?.map((item, index) => (
         <span key={item.fileId}>
           <span className="iconfont icon-right"></span>
           {index < folderList.length - 1 && (
-            <span className="link" onClick={() => setCurrentFolder(index)}>
+            <span className="link" onClick={() => handleCurrentFolder(index)}>
               {item.fileName}
             </span>
           )}

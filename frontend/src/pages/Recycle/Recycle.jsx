@@ -188,7 +188,7 @@ const Recycle = () => {
   ];
 
   return (
-    <div>
+    <div className="recycle">
       <div className="top">
         <Button type="primary" disabled={!selectedRowKeys.length} onClick={revertBatch}>
           <span className="iconfont icon-revert">还原</span>

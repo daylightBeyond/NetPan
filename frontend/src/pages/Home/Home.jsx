@@ -1,17 +1,16 @@
 // 内部依赖
-import React, { memo, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { memo, useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 // 外部依赖
 import { Upload, Button, Input, message, Modal } from 'antd';
 import dayjs from 'dayjs';
+import qs from "qs";
 // 组件
 import Navigation from "../../components/Navigation/Navigation.jsx";
 import NPTable from "../../components/Table/NPTable.jsx";
 import FolderSelect from "../../components/FolderSelect/FolderSelect.jsx";
 import ShareFile from "./ShareFile.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
-import EditableRow from "./components/EditableRow.jsx";
-import EditableCell from "./components/EditableCell.jsx";
 // 其他
 import useMergeState from "@/hooks/useMergeState";
 import useUploadFileStore from "@/store/uploadFileStore.js";
@@ -26,9 +25,13 @@ import './style.less';
 const Home = () => {
   const routeParams = useParams();
   // console.log('routeParams', routeParams);
+  const location = useLocation();
+
+  const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
+
 
   const [state, setState] = useMergeState({
-    currentFolder: { fileId: 0 },
+    currentFolder: { fileId: '0' },
     category: '',
     shareVisible: false, // 分享弹窗是否显示
     dataSource: [],
@@ -62,20 +65,27 @@ const Home = () => {
   const setShowUploader = useUploadFileStore(state => state.setShowUploader);
 
   useEffect(() => {
+    console.log('哈哈哈哈哈哈')
+    // 这一步是防止进入了子文件后，点浏览器刷新，重复调用接口
+    if (queryParams.path) {
+      return;
+    }
     queryFileList({ pageNum: 1, pageSize: 10 });
-    console.log('111')
-  }, [routeParams]);
+    console.log('routeParams引起的useEffect', routeParams);
+    console.log('routeParams引起的useEffect--queryParams', queryParams);
+  }, [routeParams.category]);
 
   const queryFileList = (params = {}) => {
+    console.log('查询列表时的currentFolder', currentFolder);
     const queryParams = {
-      pageNum: params.pageNum || 1,
-      pageSize: params.pageSize || 10,
+      pageNum,
+      pageSize,
       category: routeParams.category,
       fileName: params.fileName,
-      filePid: currentFolder.fileId
+      filePid: currentFolder.fileId,
+      ...params,
     };
     queryFile(queryParams).then(res => {
-      // console.log('查询文件列表', res);
       if (res.success) {
         const { list, pageNum, pageSize, total } = res.data || {};
         setState({
@@ -109,7 +119,7 @@ const Home = () => {
 
   // 预览
   const preview = (data) => {
-    console.log('preivew', data);
+    console.log('preview', data);
     // 目录，跳转
     if (data.folderType == 1) {
       navigationRef.current.openFolder(data);
@@ -154,7 +164,7 @@ const Home = () => {
           dataSource,
           editing: false,
         });
-        queryFileList()
+        queryFileList();
       }
     }).catch(e => {
       console.log('新建文件目录异常', e);
@@ -166,7 +176,6 @@ const Home = () => {
     if (fileData.fileId) { // 重命名的情况
       dataSource[index].showEdit = false
       setState({ dataSource: [...dataSource] });
-      // fileData.showEdit = false;
     } else { // 新增文件夹的情况
       const newData = dataSource.filter(x => x.fileId != fileData.fileId);
       setState({
@@ -176,13 +185,6 @@ const Home = () => {
     }
 
     setState({ editing: false });
-  };
-
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell
-    }
   };
 
   // 分享
@@ -255,7 +257,6 @@ const Home = () => {
       title: "文件名",
       key: "fileName",
       dataIndex: "fileName",
-      // editable: true,
       render: (text, record, index) => {
         const { fileType, folderType, status, fileCover, showEdit, fileNameReal, showOp, fileId, fileSuffix } = record;
         return (
@@ -292,7 +293,7 @@ const Home = () => {
                 value={record.fileNameReal}
                 onChange={(e) => onNameChange(e.target.value, record.fileId)}
                 onPressEnter={() => saveNameEdit(index)}
-                suffix={record.fileSuffix}
+                suffix={fileSuffix}
               />
               <span className={`iconfont icon-right1 ${fileNameReal ? '' : 'not-allow'}`} onClick={() => saveNameEdit(index)}></span>
               <span className="iconfont icon-error" onClick={() => cancelNameEdit(index)}></span>
@@ -326,30 +327,9 @@ const Home = () => {
       key: "fileSize",
       dataIndex: "fileSize",
       width: 200,
-      render: (text) => text ? sizeToStr(text) : '-',
+      render: (text) => text ? sizeToStr(text) : '',
     },
   ];
-
-  const columns11 = columns.map(col => {
-    // if (!col.editable) {
-    //   return col;
-    // }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        // editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave: saveNameEdit,
-      })
-    }
-  });
-
-  const tableOptions = {
-    extHeight: 50,
-    selectType: 'checkbox'
-  };
 
   const onSelectChange = (rowKeys, rows) => {
     setState({
@@ -367,6 +347,7 @@ const Home = () => {
 
   // 新建文件夹
   const newFolder = () => {
+    console.log('editNameRef', editNameRef);
     if (editing) {
       return;
     }
@@ -375,14 +356,13 @@ const Home = () => {
       fileType: 0, // 0 文件夹
       fileNameReal: '',
       fileId: '',
-      filePid: '0'
+      filePid: currentFolder.fileId
     };
     setState({
       dataSource: [newData, ...dataSource],
       editing: true
-    }, () => {
-      editNameRef.current.focus();
     });
+    // editNameRef.current.focus();
   };
 
   // 批量删除文件
@@ -463,9 +443,10 @@ const Home = () => {
   }, []);
 
   const navChange = (data) => {
-    const { categoryId, curFolder } = data;
-    setState({ currentFolder: curFolder });
-    queryFileList()
+    const { curFolder } = data;
+    // debugger
+    setState({ currentFolder: { ...curFolder } }, () => queryFileList({ filePid:  curFolder.fileId }));
+    // queryFileList({ filePid:  curFolder.fileId});
   };
 
   return (
@@ -519,12 +500,10 @@ const Home = () => {
       {/* 文件列表 */}
       <div className="file-list">
         <NPTable
-          // components={components}
           dataSource={dataSource}
           columns={columns}
           total={total}
           rowKey="fileId"
-          options={tableOptions}
           rowSelection={rowSelection}
         />
       </div>

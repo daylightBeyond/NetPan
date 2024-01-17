@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, Form, message } from 'antd';
-import useHomeStore from '@/store/homeStore.js';
 import { updateUserAvatar } from '@/servers/home.js';
 import AvatarUpload from "@/components/Avatar/AvatarUpload.jsx";
 
 const { Item } = Form;
 const UpdateAvatar = (props) => {
   const { changeState, open, updateAvatar } = props;
-
-  // const imgUrl = useHomeStore(state => state.imgUrl);
-  const getUserAvatar = useHomeStore(state => state.getUserAvatar);
 
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -25,7 +21,6 @@ const UpdateAvatar = (props) => {
     form.append('avatar', formData.avatar);
     form.append('userId', userInfo.userId);
     const res = await updateUserAvatar(form);
-    console.log('更新头像', res);
     if (res.success === true) {
       message.success('更新头像成功');
       updateAvatar();
