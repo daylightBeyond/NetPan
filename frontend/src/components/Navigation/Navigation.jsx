@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate} from 'react-router-dom';
 import { Divider } from 'antd';
 import qs from 'qs';
 import useMergeState from "../../hooks/useMergeState";
+import useHomeStore from "../../store/homeStore";
 import { getFileFolderInfo } from '@/servers/home';
 import { getShareFolderInfo } from '@/servers/share';
 import { getAdminFolderInfo } from '@/servers/admin';
@@ -42,28 +43,28 @@ const Navigation = forwardRef((props, ref) => {
   // 获取当前路径的目录
   const getNavigationFolder = async (path) => {
     let request = getFileFolderInfo;
-    try {
-      if (shareId) {
-        request = getShareFolderInfo;
-      }
-      if (adminShow) {
-        request = getAdminFolderInfo;
-      }
-      const params = {
-        path,
-        shareId
-      };
-      const res  = await request(params);
+    if (shareId) {
+      request = getShareFolderInfo;
+    }
+    if (adminShow) {
+      request = getAdminFolderInfo;
+    }
+    const params = {
+      path,
+      shareId
+    };
+    request(params).then(res => {
       if (res.success) {
         const pathArr = path.split(',');
+
         setState({
           folderList: res.data,
           currentFolder: { fileId: pathArr[pathArr.length - 1] }
         }, () => doCallback({ fileId: pathArr[pathArr.length - 1] }));
       }
-    } catch (e) {
+    }).catch(e => {
       console.log(e);
-    }
+    });
   };
 
   useEffect(() => {
@@ -76,9 +77,6 @@ const Navigation = forwardRef((props, ref) => {
 
       if (path) {
         getNavigationFolder(path);
-        // const pathArr = path.split(',');
-        // setState({ currentFolder: { fileId: pathArr[pathArr.length - 1] } });
-        // doCallback()
       }
     }
   }, [queryParams.path]);
@@ -102,10 +100,11 @@ const Navigation = forwardRef((props, ref) => {
 
   useEffect(() => {
     console.log('folderList引起的useEffect', folderList);
-    if (folderList.length) {
+    console.log('folderList引起的useEffect--currentFolder', currentFolder);
+    // if (folderList.length) {
       setPath();
-    }
-  }, [folderList]);
+    // }
+  }, [currentFolder]);
 
   const setPath = () => {
     if (!watchProp) {
@@ -120,7 +119,8 @@ const Navigation = forwardRef((props, ref) => {
     console.log('location', location);
     console.log('pathArr', pathArr);
     // TODO 为了保证一级二级路由正常的显示，最好还是用全局路由监听
-    navigate(`${location.pathname}?path=${pathArr.length ? pathArr.join('/') : ''}`);
+    // navigate(`${location.pathname}?path=${pathArr.length ? pathArr.join('/') : ''}`);
+    navigate(`${location.pathname}${pathArr.length ? '?path=' + pathArr.join('/') : ''}`);
   };
 
   // 点击导航，这是当前目录
@@ -136,9 +136,11 @@ const Navigation = forwardRef((props, ref) => {
         folderList: []
       });
     } else {
+      const newFolderList = folderList;
+      folderList.splice(index + 1, folderList.length)
       setState({
-        currentFolder: folderList[index],
-        folderList: folderList.splice(index + 1, folderList.length)
+        currentFolder: newFolderList,
+        folderList: folderList
       });
     }
   };
