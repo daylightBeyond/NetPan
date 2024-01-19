@@ -18,8 +18,6 @@ const contentTypeJson = 'application/json';
 // blob Blob对象
 const responseTypeJson = 'json';
 
-
-let loading = null;
 const instance = axios.create({
   // 公共的请求地址前缀
   baseURL,
@@ -42,9 +40,6 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    if(loading) {
-      loading.close();
-    }
     message.error(error || '请求发送失败');
     return Promise.reject(error);
   }
@@ -54,9 +49,6 @@ instance.interceptors.response.use(
   (response) => {
     // console.log('响应拦截器返回', response);
     const { errorCallback, showError = true, responseType } = response.config;
-    if(loading) {
-      loading.close();
-    }
     const responseData = response.data;
 
     // 未设置状态码则默认为成功状态

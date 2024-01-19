@@ -85,6 +85,7 @@ const Home = () => {
       filePid: currentFolder.fileId,
       ...params,
     };
+    setState({ loading: true });
     queryFile(queryParams).then(res => {
       if (res.success) {
         const { list, pageNum, pageSize, total } = res.data || {};
@@ -94,7 +95,8 @@ const Home = () => {
           pageSize,
           total,
           selectedRows: [],
-          selectedRowKeys: []
+          selectedRowKeys: [],
+          loading: false
         });
       }
     })
@@ -500,6 +502,7 @@ const Home = () => {
       {/* 文件列表 */}
       <div className="file-list">
         <NPTable
+          loading={loading}
           dataSource={dataSource}
           columns={columns}
           total={total}

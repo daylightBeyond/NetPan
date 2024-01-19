@@ -10,7 +10,6 @@ import { getAdminFolderInfo } from '@/servers/admin';
 import './style.less';
 
 const Navigation = forwardRef((props, ref) => {
-  //
   const {
     watchProp, // 是否监听路由
     shareId, // 分享ID
@@ -41,7 +40,7 @@ const Navigation = forwardRef((props, ref) => {
   });
 
   // 获取当前路径的目录
-  const getNavigationFolder = async (path) => {
+  const getNavigationFolder = (path) => {
     let request = getFileFolderInfo;
     if (shareId) {
       request = getShareFolderInfo;
@@ -55,8 +54,7 @@ const Navigation = forwardRef((props, ref) => {
     };
     request(params).then(res => {
       if (res.success) {
-        const pathArr = path.split(',');
-
+        const pathArr = path.split('/');
         setState({
           folderList: res.data,
           currentFolder: { fileId: pathArr[pathArr.length - 1] }
@@ -123,6 +121,31 @@ const Navigation = forwardRef((props, ref) => {
     navigate(`${location.pathname}${pathArr.length ? '?path=' + pathArr.join('/') : ''}`);
   };
 
+  // 返回上一级
+  const backParent = () => {
+    let curIndex = null;
+    console.log('currentFolder', currentFolder);
+    // const length = folderList.length;
+    // folderList.splice(length, length);
+    folderList.pop();
+    // debugger;
+    setState({
+      currentFolder: folderList.length ? folderList[folderList.length - 1] : { fileId: '0' },
+      folderList,
+    })
+    setTimeout(() => { console.log('currentFolder', currentFolder) }, 1000);
+    return;
+    // debugger;
+    for (let i = 0; i < folderList.length; i++) {
+      if (folderList[i].fileId == currentFolder.fileId) {
+        curIndex = i;
+        break;
+      }
+    }
+
+    handleCurrentFolder(curIndex);
+  };
+
   // 点击导航，这是当前目录
   const handleCurrentFolder = (index) => {
     console.log('index', index);
@@ -134,12 +157,12 @@ const Navigation = forwardRef((props, ref) => {
       setState({
         currentFolder: { fileId: '0' },
         folderList: []
-      });
+      }, () => doCallback({ fileId: '0' }));
     } else {
-      const newFolderList = folderList;
-      folderList.splice(index + 1, folderList.length)
+      const newFolderList = folderList.slice();
+      folderList.splice(index + 1, folderList.length);
       setState({
-        currentFolder: newFolderList,
+        currentFolder: newFolderList[index],
         folderList: folderList
       });
     }
@@ -155,7 +178,7 @@ const Navigation = forwardRef((props, ref) => {
     <div className="top-navigation">
       {folderList.length > 0 && (
         <>
-          <span className="back link">返回上一级</span>
+          <span className="back link" onClick={backParent}>返回上一级</span>
           <Divider type="vertical" />
         </>
       )}
