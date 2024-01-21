@@ -1,18 +1,19 @@
 import React, { memo, useEffect, useRef } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { Button, Popover, Dropdown } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Button, Popover, Dropdown, Modal, Progress } from 'antd';
 import useMergeState from "@/hooks/useMergeState";
 import useHomeStore from '@/store/homeStore.js';
 import useUploadFileStore from "@/store/uploadFileStore";
+import { logout } from '../../servers/home';
 import { menus } from '@/constants/router-constants.js';
 import Avatar from '../../components/Avatar/Avatar.jsx';
 import UpdateAvatar from "./UpdateAvatar.jsx";
 import UpdatePassword from "./UpdatePassword.jsx";
 import Uploader from "./Uploader.jsx";
-// import './style.less';
+import { sizeToStr } from "../../utils/utils";
+import './style.less';
 
-const FrameWork = (props) => {
+const FrameWork = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,10 +30,19 @@ const FrameWork = (props) => {
   const { currentMenu, currentPath, avatarVisible, passwordVisible } = state;
   // useHomeStore
   const getUserAvatar = useHomeStore(state => state.getUserAvatar);
+  const userSpaceInfo = useHomeStore(state => state.userSpaceInfo);
+  const getUserSpace = useHomeStore(state => state.getUserSpace);
 
   // useUploadFileStore
   const showUploader = useUploadFileStore(state => state.showUploader);
   const setShowUploader = useUploadFileStore(state => state.setShowUploader);
+
+  useEffect(() => {
+    getUserSpace();
+  }, []);
+
+  console.log('**userSpaceInfo**', userSpaceInfo.useSpace / userSpaceInfo.totalSpace)
+
   useEffect(() => {
     console.log('location', location)
 
@@ -90,7 +100,17 @@ const FrameWork = (props) => {
 
   const exit = () => {
     console.log('333')
-
+    Modal.confirm({
+      title: '退出',
+      content: '你确定要退出吗',
+      onOk() {
+        logout().then(res => {
+          sessionStorage.removeItem('userInfo');
+          sessionStorage.removeItem('token');
+          navigate('/login', { replace: true });
+        })
+      },
+    })
   }
 
   const funcMap = {
@@ -136,8 +156,7 @@ const FrameWork = (props) => {
           >
             <div className='user-info'>
               <div className="avatar">
-                  <Avatar userId={userInfo.userId}/>
-                {/* touxiang */}
+                <Avatar userId={userInfo.userId} />
               </div>
               <div className="nick-name">{userInfo.username}</div>
             </div>
@@ -179,7 +198,15 @@ const FrameWork = (props) => {
             )}
             <div className="space-info">
               <div>空间使用</div>
-              <div className="percent"></div>
+              <div className="percent">
+                <Progress percent={((userSpaceInfo.useSpace / userSpaceInfo.totalSpace) * 100).toFixed(2)} size="small" />
+              </div>
+              <div className="space-use">
+                <div className="use">
+                  {sizeToStr(userSpaceInfo.useSpace)}/{sizeToStr(userSpaceInfo.totalSpace)}
+                </div>
+                <span className="iconfont icon-refresh" onClick={getUserSpace} style={{ color: '#06a7ff' }}></span>
+              </div>
             </div>
           </div>
         </div>

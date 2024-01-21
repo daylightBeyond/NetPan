@@ -25,7 +25,8 @@ const instance = axios.create({
   headers: {
     isToken: true,
     'Content-Type': contentTypeJson
-  }
+  },
+  withCredentials: true
 });
 
 instance.interceptors.request.use(

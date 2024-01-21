@@ -43,14 +43,19 @@ const mailConfig = {
 
 class UserController {
   async test(ctx) {
-    try {
-      const users = await UserModel.findAll('a');
-      console.log('users', users);
-      ctx.body = { users, aa: REDIS_EMAIL_FOLDER };
-    } catch (err) {
-      console.log('数据库查找异常', err)
-      return handleException(ctx, err, '数据库查找异常');
-    }
+    const path = '/202401/Snipaste_2024-01-01_17-26-38.png';
+    ctx.redirect(path);
+    // ctx.send(path);
+    // ctx.body = { relativeUrl };
+    // return;
+    // try {
+    //   const users = await UserModel.findAll('a');
+    //   console.log('users', users);
+    //   ctx.body = { users, aa: REDIS_EMAIL_FOLDER };
+    // } catch (err) {
+    //   console.log('数据库查找异常', err)
+    //   return handleException(ctx, err, '数据库查找异常');
+    // }
   };
 
   // 获取验证码
@@ -330,26 +335,32 @@ class UserController {
 
   // 获取用户网盘空间使用情况
   async getUseSpace(ctx) {
-    console.log('请求', ctx.query);
-    const { userId } = ctx.query;
+    // console.log('请求', ctx.query);
+    // const { userId } = ctx.query;
+    logger.info('获取用户网盘空间使用信息--开始');
+
+    const user = ctx.state.user;
+    const { userId } = user;
+
+    logger.info('获取用户ID', userId);
 
     try {
-      // logger.info('开始通过用户id查询用户信息', userId);
-      const [res] = await UserModel.findOne({ where: userId });
+      const res = await UserModel.findOne({ where: { userId } });
       logger.info('根据用户id查询用户信息', res);
 
       // 查询用户上传文件的总大小
-      const result = await FileModel.sum('fileSize', { where: { userId } });
-      logger.info('用户上传文件总大小fileSizeSum', result);
+      const fileSizeSum = await FileModel.sum('fileSize', { where: { userId } });
+      logger.info('用户上传文件总大小fileSizeSum', fileSizeSum);
 
       ctx.body = {
         code: 200,
         success: true,
         data: {
-          useSpace: result['fileSizeSum'],
+          useSpace: fileSizeSum || 0,
           totalSpace: res['totalSpace']
         }
       };
+      logger.info('获取用户网盘空间使用信息--结束');
     } catch (err) {
       return handleException(ctx, err, '获取用户信息异常');
     }

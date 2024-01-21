@@ -69,7 +69,7 @@ const Icon = (props) => {
 Icon.defaultProps = {
   fileType: 0,
   width: 32,
-  fit: 'cover',
+  fit: 'fill',
   className: ''
 };
 

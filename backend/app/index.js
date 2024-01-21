@@ -1,5 +1,6 @@
 const Koa = require('koa2');
 const cors = require('koa2-cors');
+const staticServe = require('koa-static');
 const sequelize = require('../db/index'); // 引入 Sequelize 实例
 const router = require('../router/index');
 
@@ -27,7 +28,16 @@ app.context.logger = logger;
 // 全局注册 redisUtils
 app.context.redisUtils = redisUtils;
 // 配置跨域
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3002', // 替换成前端的实际地址和端口
+  credentials: true,
+  // allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+  // allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+}));
+
+// 托管静态资源,设置静态文件服务的根目录
+app.use(staticServe('/app/netpan/file'));
+
 // 配置前端请求
 // 下面是文件上传时的配置
 app.use(koaBody({
@@ -39,6 +49,8 @@ app.use(koaBody({
     multiparty: true, // 允许上传多个文件
   }
 }));
+
+
 
 // 挂载路由
 app.use(router.routes()).use(router.allowedMethods());

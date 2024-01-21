@@ -9,7 +9,6 @@ const {
   rename,
   loadAllFolder,
   changeFileFolder,
-  // createDownloadUrl,
   removeFile2RecycleBatch,
 } = require('../controllers/file.controller');
 

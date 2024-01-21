@@ -68,7 +68,7 @@ class FileController {
         params.fileCategory = fileCategory.category;
       }
       if (fileName) {
-        params.fileName = fileName;
+        params.fileName = { [Op.like]: `%${fileName}%` };
       }
       if (filePid) {
         params.filePid = filePid;
@@ -574,9 +574,13 @@ class FileController {
     const query = {
       filePid,
       userId,
-    }
-    const dbFileList = await FileModel.fildAll({ where: query });
+    };
+    // 此处是防止移动的文件 移动到 新的文件夹下时，如果有同样名字的文件，那么，移动的文件需要重命名
+    const dbFileList = await FileModel.findAll({ where: query });
 
+    logger.info('文件列表', dbFileList);
+
+    // 将相同名字的文件转成map类型，文件名作为key，文件信息作为值
     const dbFileNameMap = dbFileList.reduce((acc, fileInfo) => {
       acc[fileInfo.fileName] = fileInfo;
       return acc;
@@ -590,10 +594,11 @@ class FileController {
       fileId: { [Op.notIn]: fileIdArray },
     };
     const selectFileList = await FileModel.findAll({ where: querySelect });
-
+    logger.info('勾选的移动的文件', selectFileList);
     // 将所选文件重命名
     for (const item of selectFileList) {
       const rootFileInfo = dbFileNameMap[item.fileName];
+      logger.info('移动的目的文件夹的重复的文件', rootFileInfo);
       // 文件名已经存在，重命名被还原的文件名
       const updateInfo = {};
       if (rootFileInfo != null) {
@@ -601,6 +606,7 @@ class FileController {
         updateInfo['fileName'] = fileName;
       }
       updateInfo[filePid] = filePid;
+      logger.info('需要更新的文件信息', updateInfo);
       await FileModel.update(updateInfo,{ where: { userId, fileId: item.fileId } });
     }
   };

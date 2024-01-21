@@ -18,6 +18,33 @@ export const delFile = (param) => {
   });
 };
 
+// 获取文件信息
+export const getAdminFolderInfo = (param) => {
+  return request({
+    method: 'get',
+    url: '/admin/getFolderInfo',
+    param,
+  });
+};
+
+// 获取视频类文件预览
+export const getVideoUrl = (param) => {
+  return request({
+    method: 'get',
+    url: '/admin/ts/getVideoInfo',
+    param,
+  });
+};
+
+// 非视频类文件预览
+export const getFileUrl = (param) => {
+  return request({
+    method: 'get',
+    url: '/admin/getFile',
+    param,
+  });
+};
+
 // 创建下载链接
 export const createDownloadUrl = (param) => {
   return request({
@@ -36,14 +63,5 @@ export const download = (param) => {
     header: {
       isToken: false,
     }
-  });
-};
-
-// 获取文件信息
-export const getAdminFolderInfo = (param) => {
-  return request({
-    method: 'get',
-    url: '/admin/getFolderInfo',
-    param,
   });
 };

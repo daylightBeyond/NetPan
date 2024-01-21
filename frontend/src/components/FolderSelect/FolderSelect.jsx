@@ -1,5 +1,6 @@
-import React, { useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import { Modal } from "antd";
+import Navigation from "../Navigation/Navigation.jsx";
 import Icon from "../Icon/Icon.jsx";
 import useMergeState from "@/hooks/useMergeState";
 import { loadAllFolder } from '@/servers/home';
@@ -12,11 +13,13 @@ const FolderSelect = forwardRef((props, ref) => {
 
     filePid: '0',
     folderList: [],
-    currentFileIds: '0',
+    currentFileIds: {},
     currentFolder: {},
   });
 
   const { open, filePid, folderList, currentFileIds, currentFolder } = state;
+
+  const navigationRef = useRef(null);
 
   useImperativeHandle(ref, () => {
     return {
@@ -33,12 +36,13 @@ const FolderSelect = forwardRef((props, ref) => {
     getAllFolder();
   };
 
-  const getAllFolder = () => {
-    const params = {
+  const getAllFolder = (params) => {
+    const queryParams = {
       filePid,
-      fileIds: currentFileIds
+      fileIds: currentFileIds,
+      ...params
     };
-    loadAllFolder(params).then(res => {
+    loadAllFolder(queryParams).then(res => {
       console.log('加载所有目录', res);
       if (res.success) {
         setState({
@@ -52,7 +56,6 @@ const FolderSelect = forwardRef((props, ref) => {
 
   // 确定选择目录
   const onOk = () => {
-    // onCancel();
     folderSelect && folderSelect(filePid);
   };
 
@@ -62,7 +65,17 @@ const FolderSelect = forwardRef((props, ref) => {
 
   // 选择文件进行导航跳转
   const selectFolder = (data) => {
+    navigationRef.current.openFolder(data);
+  };
 
+  // 导航改变回调
+  const navChange = (data) => {
+    const { curFolder } = data;
+    setState({
+      currentFolder: curFolder,
+      filePid: curFolder.fileId
+    });
+    getAllFolder({ filePid:  curFolder.fileId });
   };
 
   return (
@@ -75,7 +88,9 @@ const FolderSelect = forwardRef((props, ref) => {
       onCancel={onCancel}
       className="folder-select"
     >
-      <div className="navigation-panel"></div>
+      <div className="navigation-panel">
+        <Navigation ref={navigationRef} navChange={navChange} watchProp={false}/>
+      </div>
       {
         folderList.length ? (
           <div className="folder-list">
@@ -91,9 +106,9 @@ const FolderSelect = forwardRef((props, ref) => {
             ))}
           </div>
         ) : (
-          <>
+          <div className="tips">
             移动<span>{currentFolder.fileName}</span>
-          </>
+          </div>
         )
       }
     </Modal>

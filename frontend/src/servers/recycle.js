@@ -6,7 +6,6 @@ export const queryRecycleList = (param) => {
     method: 'post',
     url: '/recycle/queryRecycleList',
     data: param,
-    showLoading: true,
   });
 };
 
@@ -16,7 +15,6 @@ export const delFile = (param) => {
     method: 'post',
     url: '/recycle/delFile',
     data: param,
-    showLoading: true,
     headers: {
       'Content-Type': 'multer/form-data'
     }
@@ -29,7 +27,6 @@ export const recoveryFile = (param) => {
     method: 'post',
     url: '/recycle/recoveryFile',
     data: param,
-    showLoading: true,
     headers: {
       'Content-Type': 'multer/form-data'
     }

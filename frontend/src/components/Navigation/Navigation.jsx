@@ -15,14 +15,10 @@ const Navigation = forwardRef((props, ref) => {
     shareId, // 分享ID
     adminShow, // 是否展示管理员模块
     navChange, // 导航切换
-    preview
   } = props;
   const routeParams = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log('Navigation--routeParams', routeParams);
-  // console.log('Navigation--navigate', navigate);
-  // console.log('Navigation--location', location);
 
   const [state, setState] = useMergeState({
     folderList: [], // 目录集合
@@ -58,7 +54,8 @@ const Navigation = forwardRef((props, ref) => {
         setState({
           folderList: res.data,
           currentFolder: { fileId: pathArr[pathArr.length - 1] }
-        }, () => doCallback({ fileId: pathArr[pathArr.length - 1] }));
+        })
+        doCallback({ fileId: pathArr[pathArr.length - 1] })
       }
     }).catch(e => {
       console.log(e);
@@ -66,9 +63,6 @@ const Navigation = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
-    console.log('location.search引起的useEffect', location.search);
-    console.log('路由变化', location);
-    console.log('路由参数', queryParams);
     // 只有在监听路由和在home下才会执行监听路由操作
     if (watchProp && location.pathname.indexOf('/home') !== -1) {
       const path = queryParams.path;
@@ -79,15 +73,8 @@ const Navigation = forwardRef((props, ref) => {
     }
   }, [queryParams.path]);
 
-  const init = () => {
-    setState({
-      folderList: [],
-      currentFolder: { fileId: '0' }
-    });
-    // doCallback()
-  };
-
   const openFolder = (data) => {
+    console.log('openFolder--data', data);
     const { fileId, fileName } = data;
     const folder = { fileId, fileName };
     setState({
@@ -97,16 +84,13 @@ const Navigation = forwardRef((props, ref) => {
   };
 
   useEffect(() => {
-    console.log('folderList引起的useEffect', folderList);
-    console.log('folderList引起的useEffect--currentFolder', currentFolder);
-    // if (folderList.length) {
-      setPath();
-    // }
+    setPath();
   }, [currentFolder]);
 
   const setPath = () => {
     if (!watchProp) {
       // TODO 设置不监听路由回调方法
+      doCallback(currentFolder)
       return;
     }
     const pathArr = [];
@@ -123,27 +107,19 @@ const Navigation = forwardRef((props, ref) => {
 
   // 返回上一级
   const backParent = () => {
-    let curIndex = null;
-    console.log('currentFolder', currentFolder);
-    // const length = folderList.length;
-    // folderList.splice(length, length);
     folderList.pop();
-    // debugger;
+    const len = folderList.length;
+    const tempCurFolder = len > 0 ? folderList[len - 1] : { fileId: '0' };
     setState({
-      currentFolder: folderList.length ? folderList[folderList.length - 1] : { fileId: '0' },
+      currentFolder: tempCurFolder,
       folderList,
-    })
-    setTimeout(() => { console.log('currentFolder', currentFolder) }, 1000);
-    return;
-    // debugger;
-    for (let i = 0; i < folderList.length; i++) {
-      if (folderList[i].fileId == currentFolder.fileId) {
-        curIndex = i;
-        break;
-      }
-    }
+    });
 
-    handleCurrentFolder(curIndex);
+    // 因为在 folderList.length 为0 时，currentFolder 没有变成 { fileId: '0' }，暂时也不知道什么原因
+    // 所以只能在 folderList 长度为0 的时候调用一次查询的方法
+    if (len == 0) {
+      doCallback({ fileId: '0' });
+    }
   };
 
   // 点击导航，这是当前目录
@@ -157,7 +133,8 @@ const Navigation = forwardRef((props, ref) => {
       setState({
         currentFolder: { fileId: '0' },
         folderList: []
-      }, () => doCallback({ fileId: '0' }));
+      });
+      doCallback({ fileId: '0' });
     } else {
       const newFolderList = folderList.slice();
       folderList.splice(index + 1, folderList.length);
@@ -209,7 +186,6 @@ Navigation.defaultProps = {
   watchProp: true,
   shareId: '',
   adminShow: false,
-  preview () {},
 };
 
 export default Navigation;

@@ -1,0 +1,50 @@
+.window {
+  .window-mask {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(100vh);
+    z-index: 1000;
+    opacity: 0.5;
+    background-color: #000;
+    position: fixed;
+  }
+
+  .close {
+    z-index: 1001;
+    cursor: pointer;
+    top: 40px;
+    right: 30px;
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+    background-color: #606266;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .iconfont {
+      font-size: 20px;
+      color: #fffdef;
+      z-index: 99999;
+    }
+  }
+
+  .window-content {
+    top: 0px;
+    z-index: 1001;
+    position: absolute;
+    background-color: #fff;;
+    .title {
+      text-align: center;
+      line-height: 40px;
+      border-bottom: 1px solid #dddddd;
+      font-weight: bold;
+    }
+    .content-body {
+      height: calc(100vh - 41px);
+      display: flex;
+      overflow: auto;
+    }
+  }
+}

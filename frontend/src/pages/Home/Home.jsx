@@ -11,28 +11,27 @@ import NPTable from "../../components/Table/NPTable.jsx";
 import FolderSelect from "../../components/FolderSelect/FolderSelect.jsx";
 import ShareFile from "./ShareFile.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
+import Preview from "../../components/Preview/index.jsx";
 // 其他
 import useMergeState from "@/hooks/useMergeState";
 import useUploadFileStore from "@/store/uploadFileStore.js";
 // 接口
-import { queryFile, createFolder, rename, deleteFile, changeFileFolder } from '../../servers/home';
+import { queryFile, createFolder, rename, deleteFile, changeFileFolder, testUrl } from '../../servers/home';
 // 方法
 import { sizeToStr } from "../../utils/utils";
+import categoryInfo from "../../constants/category-info";
 // 样式
 import '@/assets/file.list.less';
 import './style.less';
 
 const Home = () => {
   const routeParams = useParams();
-  // console.log('routeParams', routeParams);
   const location = useLocation();
 
   const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
 
-
   const [state, setState] = useMergeState({
     currentFolder: { fileId: '0' },
-    category: '',
     shareVisible: false, // 分享弹窗是否显示
     dataSource: [],
     pageNum: 1,
@@ -46,48 +45,68 @@ const Home = () => {
     editing: false, // 判断是否已经有正在编辑中的行，有的话，就不让新增文件夹
 
     currentMoveFile: {}, // 当前移动的文件
+
+    fileAcceptType: '*', // 上传文件接收的类型
+    fileName: undefined, // 搜索时的文件名关键词
   });
 
   const {
     currentFolder, shareVisible, loading,
     dataSource, pageNum, pageSize, total, editing,
     selectedRowKeys, selectedRows,
-    currentMoveFile,
+    currentMoveFile, fileAcceptType, fileName
   } = state;
 
   const folderSelectRef = useRef(null);
   const navigationRef = useRef(null);
   const shareFileRef = useRef(null);
   const editNameRef = useRef(null);
+  const previewRef = useRef(null);
 
   // store的变量和方法
+  const queryFileFlag = useUploadFileStore(state => state.queryFileFlag);
+  const setQueryFileFlag = useUploadFileStore(state => state.setQueryFileFlag);
   const addFile = useUploadFileStore(state => state.addFile);
   const setShowUploader = useUploadFileStore(state => state.setShowUploader);
 
+  // 路由参数变化查询文件列表
   useEffect(() => {
-    console.log('哈哈哈哈哈哈')
+    // 获取上传文件的类型
+    const categoryItem = categoryInfo[routeParams.category];
+    setState({ fileAcceptType: categoryItem ? categoryItem.accept : '*' });
+
+    // testUrl().then(res => {
+    //   console.log('res', res);
+    // })
+
     // 这一步是防止进入了子文件后，点浏览器刷新，重复调用接口
     if (queryParams.path) {
       return;
     }
     queryFileList({ pageNum: 1, pageSize: 10 });
-    console.log('routeParams引起的useEffect', routeParams);
-    console.log('routeParams引起的useEffect--queryParams', queryParams);
   }, [routeParams.category]);
+
+  // 文件上传后引发的查询文件列表
+  useEffect(() => {
+    // queryFileFlag 为 true 时才重新调用查询文件接口
+    if (queryFileFlag) {
+      queryFileList({ pageNum: 1, pageSize: 10 });
+    }
+  }, [queryFileFlag]);
 
   const queryFileList = (params = {}) => {
     console.log('查询列表时的currentFolder', currentFolder);
     const queryParams = {
       pageNum,
       pageSize,
+      fileName,
       category: routeParams.category,
-      fileName: params.fileName,
       filePid: currentFolder.fileId,
       ...params,
     };
     setState({ loading: true });
     queryFile(queryParams).then(res => {
-      if (res.success) {
+      if (res?.success) {
         const { list, pageNum, pageSize, total } = res.data || {};
         setState({
           dataSource: list,
@@ -98,6 +117,9 @@ const Home = () => {
           selectedRowKeys: [],
           loading: false
         });
+      }
+      if (queryFileFlag) {
+        setQueryFileFlag(false);
       }
     })
   };
@@ -116,6 +138,7 @@ const Home = () => {
   const uploadProps = {
     multiple: true,
     showUploadList: false,
+    accept: fileAcceptType,
     customRequest
   };
 
@@ -125,9 +148,15 @@ const Home = () => {
     // 目录，跳转
     if (data.folderType == 1) {
       navigationRef.current.openFolder(data);
-    } else { // 文件就是预览
-
+      return;
     }
+    // 文件
+    if (data.status != 2) {
+      message.warning('文件未完成转码，无法预览');
+      return;
+    }
+    console.log('previewRef', previewRef)
+    previewRef.current.showPreview(data, 0);
   };
 
   // 更改输入值的回调
@@ -392,6 +421,13 @@ const Home = () => {
     });
   };
 
+  const handleSearch = (e) => {
+    console.log('va;eeaeaea', e);
+    const value = e.target.value;
+    setState({ fileName: value });
+    queryFileList({ fileName: value });
+  };
+
   // 批量移动文件
   const moveFileBatch = () => {
     setState({ currentMoveFile: {} });
@@ -446,9 +482,8 @@ const Home = () => {
 
   const navChange = (data) => {
     const { curFolder } = data;
-    // debugger
-    setState({ currentFolder: { ...curFolder } }, () => queryFileList({ filePid:  curFolder.fileId }));
-    // queryFileList({ filePid:  curFolder.fileId});
+    setState({ currentFolder: curFolder });
+    queryFileList({ filePid:  curFolder.fileId });
   };
 
   return (
@@ -488,28 +523,52 @@ const Home = () => {
             </span>
           </Button>
           <div className="search-panel">
-            <Input placeholder="输入文件名搜索"/>
+            <Input placeholder="输入文件名搜索" onPressEnter={handleSearch}/>
           </div>
-          <div className="iconfont icon-refresh" onClick={queryFileList}></div>
+          <div className="iconfont icon-refresh" onClick={() => queryFileList()}></div>
         </div>
         {/* 导航 */}
         <div className="top-navigation">
           <span className="all-file">
-            <Navigation ref={navigationRef} navChange={navChange} preview={preview} />
+            <Navigation ref={navigationRef} navChange={navChange} />
           </span>
         </div>
       </div>
-      {/* 文件列表 */}
-      <div className="file-list">
-        <NPTable
-          loading={loading}
-          dataSource={dataSource}
-          columns={columns}
-          total={total}
-          rowKey="fileId"
-          rowSelection={rowSelection}
-        />
-      </div>
+
+      {dataSource.length > 0 ? (
+        // 文件列表
+        <div className="file-list">
+          <NPTable
+            loading={loading}
+            dataSource={dataSource}
+            columns={columns}
+            total={total}
+            rowKey="fileId"
+            rowSelection={rowSelection}
+          />
+        </div>
+      ) : (
+        <div className="no-data">
+          <div className="no-data-inner">
+            <Icon iconName="no_data" width={120} />
+            <div className="tips">当前目录为空，上传你的第一个文件吧</div>
+            <div className="op-list">
+              <Upload {...uploadProps}>
+                <div className="op-item">
+                  <Icon iconName="file" width={60} />
+                  <div>上传文件</div>
+                </div>
+              </Upload>
+              {routeParams.category == 'all' && (
+                <div onClick={newFolder} className="op-item">
+                  <Icon iconName="folder" width={60} />
+                  <div>新建目录</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 分享 */}
       <ShareFile
@@ -523,6 +582,9 @@ const Home = () => {
         ref={folderSelectRef}
         folderSelect={folderMoveDone}
       />
+
+      {/* 预览 */}
+      <Preview ref={previewRef} />
     </div>
   );
 };

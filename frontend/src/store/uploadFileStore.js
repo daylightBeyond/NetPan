@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import SparkMd5 from 'spark-md5';
 import uploadStatus from "@/constants/upload-status.js";
-import { uploadFile as upload } from '../servers/home';
+import useHomeStore from "./homeStore";
+import { uploadFile as upload, getUseSpace } from '../servers/home';
+
 /*
  * 这里的一些操作原本都是在 Uploader 组件中的操作，
  * 只是由于组件通信不方便，通过状态管理的方法来解决
@@ -15,6 +17,11 @@ const useUploadFileStore = create((set, get) => ({
   delList: [],
   // 文件切片的大小
   chunkSize: 4 * 1024 * 1024, // 4MB
+  // 上传文件之后引发查询文件列表的变量
+  queryFileFlag: false,
+  setQueryFileFlag: (data) => {
+    set({ queryFileFlag: data })
+  },
   setShowUploader: (data) => {
     console.log('切换', data);
     set({ showUploader: data });
@@ -25,6 +32,9 @@ const useUploadFileStore = create((set, get) => ({
     const { file, filePid } = fileData;
 
     const { fileList, computedMd5, getFileByUid, uploadFile } = useUploadFileStore.getState();
+
+    // 每次开发时都需要将 是否查询文件列表的参数置为 false，防止重复查询
+    set({  queryFileFlag: false });
 
     const fileItem = {
       // 文件，文件大小，文件流，文件名
@@ -253,11 +263,15 @@ const useUploadFileStore = create((set, get) => ({
           chunkIndex: i,
         };
         updateFileState(updateStatus);
-        if (updateResult.data.status == uploadStatus.upload_seconds.value || updateResult.data.status == uploadStatus.upload_finish.value) {
+        if (
+          updateResult.data.status == uploadStatus.upload_seconds.value ||
+          updateResult.data.status == uploadStatus.upload_finish.value
+        ) {
           updateFileState({ uploadProgress: 100 });
-          // currentFile.uploadProgress = 100;
+          const { uploadCallback } = useUploadFileStore.getState();
+          // 需要在上传完文件之后重新查询下文件，并且更新用户使用空间
           // 上传完文件的回调 => TODO 更新用户的使用空间
-          // uploadCallback
+          // uploadCallback();
           break;
         }
       }
@@ -265,6 +279,19 @@ const useUploadFileStore = create((set, get) => ({
       console.error('文件上传异常', e);
     }
   },
+  // 需要在上传完文件之后重新查询下文件，并且更新用户使用空间
+  uploadCallback: () => {
+    // 触发查询文件列表
+    set({ queryFileFlag: true });
+    // 查询用户使用空间
+    const { getUserSpace } = useHomeStore.getState();
+    getUserSpace();
+  },
+
+  // 更新网盘空间
+  // getUserSpace: () => {
+  //   getUseSpace()
+  // },
 }));
 
 export default useUploadFileStore;

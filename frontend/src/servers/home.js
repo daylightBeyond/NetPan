@@ -1,5 +1,13 @@
 import request from '@/utils/request.js';
 
+export const testUrl = (param) => {
+  return request({
+    method: 'get',
+    url: '/test',
+    param,
+  });
+};
+
 // 获取注册验证码
 // 更新用户头像
 export const updateUserAvatar = (param) => {
@@ -7,7 +15,6 @@ export const updateUserAvatar = (param) => {
     method: 'post',
     url: '/updateUserAvatar',
     data: param,
-    showLoading: true,
     headers: {
       'Content-Type': 'multer/form-data'
     }
@@ -20,7 +27,6 @@ export const updatePassword = (param) => {
     method: 'post',
     url: '/updatePassword',
     data: param,
-    showLoading: true
   });
 };
 
@@ -30,7 +36,14 @@ export const logout = (param) => {
     method: 'get',
     url: '/logout',
     param,
-    showLoading: true
+  });
+};
+
+export const getUseSpace = (param) => {
+  return request({
+    method: 'get',
+    url: '/getUseSpace',
+    param,
   });
 };
 
@@ -117,6 +130,33 @@ export const changeFileFolder = (param) => {
   });
 };
 
+// 删除文件
+export const deleteFile = (param) => {
+  return request({
+    method: 'post',
+    url: '/file/delFile',
+    data: param,
+  });
+};
+
+// 获取视频类文件预览
+export const getVideoUrl = (param) => {
+  return request({
+    method: 'post',
+    url: '/file/ts/getVideoInfo',
+    data: param,
+  });
+};
+
+// 非视频类文件的预览
+export const getFileUrl = (param) => {
+  return request({
+    method: 'post',
+    url: '/file/getFile',
+    data: param,
+  });
+};
+
 // 创建下载链接
 export const createDownLoadUrl = (param) => {
   return request({
@@ -132,14 +172,5 @@ export const downloadFile = (param) => {
     method: 'get',
     url: '/file/download',
     param,
-  });
-};
-
-// 删除文件
-export const deleteFile = (param) => {
-  return request({
-    method: 'post',
-    url: '/file/delFile',
-    data: param,
   });
 };
