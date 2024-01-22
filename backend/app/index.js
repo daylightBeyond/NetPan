@@ -28,12 +28,13 @@ app.context.logger = logger;
 // 全局注册 redisUtils
 app.context.redisUtils = redisUtils;
 // 配置跨域
-app.use(cors({
-  origin: 'http://localhost:3002', // 替换成前端的实际地址和端口
-  credentials: true,
-  // allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-  // allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-}));
+app.use(cors());
+// app.use(cors({
+//   origin: 'http://localhost:3002', // 替换成前端的实际地址和端口
+//   credentials: true,
+//   // allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   // allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+// }));
 
 // 托管静态资源,设置静态文件服务的根目录
 app.use(staticServe('/app/netpan/file'));

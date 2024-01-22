@@ -27,10 +27,10 @@ router.post('/file/uploadFile', authMiddleware, uploadFile);
 router.get('/file/getImage/:imageFolder/:imageName', authMiddleware, getImage);
 
 // 视频文件预览
-router.get('/file/ts/getVideoInfo/:fileId', authMiddleware, getFile);
+router.get('/file/ts/getVideoInfo/:userId/:fileId', getFile);
 
 // 非文件类型预览
-router.get('/file/getFile/:fileId', authMiddleware, getFile);
+router.get('/file/getFile/:userId/:fileId', getFile);
 
 // 新建目录
 router.post('/file/newFolder', authMiddleware, newFolder);

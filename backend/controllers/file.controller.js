@@ -356,9 +356,9 @@ class FileController {
    * @returns {Promise<void>}
    */
   async getFile(ctx) {
-    const { fileId } = ctx.params;
-    const user = ctx.state.user;
-    const { userId } = user;
+    const { fileId, userId } = ctx.params;
+    // const user = ctx.state.user;
+    // const { userId } = user;
 
     let filePath = null;
 
@@ -368,7 +368,7 @@ class FileController {
         logger.info('tsArr', tsArr);
         const realFileId = tsArr[0];
         logger.info('realFileId', realFileId);
-        const fileInfo = await FileModel.findOne({ where: { userId, realFileId } });
+        const fileInfo = await FileModel.findOne({ where: { userId, fileId: realFileId } });
         logger.info('fileInfo.filePath', fileInfo.filePath);
         if (fileInfo == null) {
           ctx.throw(404, '文件资源不存在');
@@ -379,8 +379,9 @@ class FileController {
         logger.info('fileName', fileName);
         filePath = USER_FILE_FOLDER + fileName
         logger.info('filePath', filePath);
-        ctx.set('Content-Type', 'video/mpt2'); // 设置 td 文件的 MIME 类型
-        ctx.body = '';
+        ctx.set('Content-Type', 'video/mpt2'); // 设置 ts 文件的 MIME 类型
+        const file = fs.createReadStream(filePath);
+        ctx.body = file;
       } else {
         const fileInfo = await FileModel.findOne({ where: { userId, fileId } });
         if (fileInfo == null) {

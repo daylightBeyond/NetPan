@@ -271,7 +271,7 @@ const useUploadFileStore = create((set, get) => ({
           const { uploadCallback } = useUploadFileStore.getState();
           // 需要在上传完文件之后重新查询下文件，并且更新用户使用空间
           // 上传完文件的回调 => TODO 更新用户的使用空间
-          // uploadCallback();
+          uploadCallback();
           break;
         }
       }

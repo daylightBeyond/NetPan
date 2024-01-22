@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal, Button, Input, message } from "antd";
-import { delFile, createDownloadUrl, download } from '@/servers/admin';
+import { delFile, createDownloadUrl, downloadFile } from '@/servers/admin';
 import useMergeState from "../../hooks/useMergeState";
 import Navigation from "../../components/Navigation/Navigation.jsx";
 import NPTable from "../../components/Table/NPTable.jsx";
@@ -96,7 +96,7 @@ const FileList = () => {
     const param = row.userId + '/' + row.fileId;
     createDownloadUrl(param).then(res => {
       if (res.success) {
-        window.location.href = download + '/' + res.data;
+        window.location.href = downloadFile + '/' + res.data;
       }
     });
   };

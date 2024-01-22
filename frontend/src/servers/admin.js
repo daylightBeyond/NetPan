@@ -31,8 +31,7 @@ export const getAdminFolderInfo = (param) => {
 export const getVideoUrl = (param) => {
   return request({
     method: 'get',
-    url: '/admin/ts/getVideoInfo',
-    param,
+    url: '/admin/ts/getVideoInfo/' + param,
   });
 };
 
@@ -40,8 +39,7 @@ export const getVideoUrl = (param) => {
 export const getFileUrl = (param) => {
   return request({
     method: 'get',
-    url: '/admin/getFile',
-    param,
+    url: '/admin/getFile/' + param,
   });
 };
 
@@ -49,19 +47,14 @@ export const getFileUrl = (param) => {
 export const createDownloadUrl = (param) => {
   return request({
     method: 'get',
-    url: '/admin/createDownloadUrl',
-    param,
+    url: '/admin/createDownloadUrl/' + param,
   });
 };
 
 // 下载文件
-export const download = (param) => {
+export const downloadFile = (param) => {
   return request({
     method: 'get',
-    url: '/admin/download',
-    param,
-    header: {
-      isToken: false,
-    }
+    url: '/admin/download/' + param,
   });
 };

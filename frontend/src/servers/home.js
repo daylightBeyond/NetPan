@@ -142,27 +142,24 @@ export const deleteFile = (param) => {
 // 获取视频类文件预览
 export const getVideoUrl = (param) => {
   return request({
-    method: 'post',
-    url: '/file/ts/getVideoInfo',
-    data: param,
+    method: 'get',
+    url: '/file/ts/getVideoInfo/' + param,
   });
 };
 
 // 非视频类文件的预览
 export const getFileUrl = (param) => {
   return request({
-    method: 'post',
-    url: '/file/getFile',
-    data: param,
+    method: 'get',
+    url: '/file/getFile/' + param,
   });
 };
 
 // 创建下载链接
-export const createDownLoadUrl = (param) => {
+export const createDownloadUrl = (param) => {
   return request({
     method: 'get',
-    url: '/file/createDownLoadUrl',
-    param,
+    url: '/file/createDownLoadUrl/' + param,
   });
 };
 
@@ -170,7 +167,6 @@ export const createDownLoadUrl = (param) => {
 export const downloadFile = (param) => {
   return request({
     method: 'get',
-    url: '/file/download',
-    param,
+    url: '/file/download/' + param,
   });
 };

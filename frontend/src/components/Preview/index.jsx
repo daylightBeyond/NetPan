@@ -2,29 +2,29 @@ import React, { useEffect, useImperativeHandle, forwardRef, useRef } from 'react
 import useMergeState from "../../hooks/useMergeState";
 import PreviewImage from "./PreviewImage.jsx";
 import PreviewVideo from "./PreviewVideo.jsx";
+import PreviewDoc from "./PreviewDoc.jsx";
+import PreviewExcel from "./PreviewExcel.jsx";
 import Window from "../Window/Window.jsx";
 import { getImage } from "../../servers/home";
-import * as homeRequest from '../../servers/home';
-import * as adminRequest from '../../servers/admin';
-import * as shareRequest from '../../servers/share';
+
 const FILE_URL_MAP = {
   0: {
-    fileUrl: homeRequest.getFileUrl,
-    videoUrl: homeRequest.getVideoUrl,
-    createDownLoadUrl: homeRequest.createDownLoadUrl,
-    downloadUrl: homeRequest.downloadFile,
+    fileUrl: '/file/getFile/',
+    videoUrl: '/file/ts/getVideoInfo/',
+    createDownloadUrl: '/file/createDownLoadUrl/',
+    downloadUrl: '/file/download/',
   },
   1: {
-    fileUrl: adminRequest.getFileUrl,
-    videoUrl: adminRequest.getVideoUrl,
-    createDownLoadUrl: adminRequest.createDownLoadUrl,
-    downloadUrl: adminRequest.downloadFile,
+    fileUrl: '/admin/getFile/',
+    videoUrl: '/admin/ts/getVideoInfo/',
+    createDownloadUrl: '/admin/createDownLoadUrl/',
+    downloadUrl: '/admin/download/',
   },
   2: {
-    fileUrl: shareRequest.getFileUrl,
-    videoUrl: shareRequest.getVideoUrl,
-    createDownLoadUrl: shareRequest.createDownLoadUrl,
-    downloadUrl: shareRequest.downloadFile,
+    fileUrl: '/share/getFile/',
+    videoUrl: '/share/ts/getVideoInfo/',
+    createDownloadUrl: '/share/createDownLoadUrl/',
+    downloadUrl: '/share/download/',
   },
 }
 
@@ -51,16 +51,18 @@ const Preview = forwardRef((props, ref) => {
 
   const imageViewRef = useRef(null);
 
-  useEffect(() => {
-    if (fileInfo.filePath) {
-      getImage(fileInfo.filePath).then(res => {
-        console.log('预览图片', res);
-        // 将后端返回的二进制流图片转换成blob
-        const blob = new Blob([res]);
-        setState({ imageUrl: URL.createObjectURL(blob) });
-      })
-    }
-  }, [fileInfo]);
+  const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+
+  // useEffect(() => {
+  //   if (fileInfo.filePath && fileInfo.fileCategory == 3) {
+  //     getImage(fileInfo.filePath).then(res => {
+  //       console.log('预览图片', res);
+  //       // 将后端返回的二进制流图片转换成blob
+  //       const blob = new Blob([res]);
+  //       setState({ imageUrl: URL.createObjectURL(blob) });
+  //     })
+  //   }
+  // }, [fileInfo]);
 
   useImperativeHandle(ref, () => {
     return {
@@ -78,6 +80,12 @@ const Preview = forwardRef((props, ref) => {
     // 文件分类 1:视频 2:音频 3:图片 4:文档 5:其他
     if (data.fileCategory == 3) { // 图片
       console.log('imageViewRef', imageViewRef);
+      getImage(data.filePath).then(res => {
+        console.log('预览图片', res);
+        // 将后端返回的二进制流图片转换成blob
+        const blob = new Blob([res]);
+        setState({ imageUrl: URL.createObjectURL(blob) });
+      })
       imageViewRef.current?.show(0);
     } else {
       setState({ windowShow: true });
@@ -88,8 +96,10 @@ const Preview = forwardRef((props, ref) => {
       }
 
       if (type == 0) {
-
+        _url = _url + userInfo.userId + '/' + data.fileId
       }
+
+      setState({ url: _url  });
     }
   };
 
@@ -113,14 +123,20 @@ const Preview = forwardRef((props, ref) => {
           {fileInfo.fileCategory == 1 && (
             <PreviewVideo url={url} />
           )}
+
+          {/* fileType 1:视频 2:音频 3:图片 4:pdf 5:doc 6:excel 7:txt 8:code 9:zip 10:其他 */}
+
+          {fileInfo.fileType == 5 && (
+            <PreviewDoc url={url} />
+          )}
+
+          {fileInfo.fileType == 6 && (
+            <PreviewExcel url={url} />
+          )}
         </Window>
       )}
     </>
   );
 });
-
-// Preview.defaultProps = {
-//   imageList: [],
-// }
 
 export default Preview;

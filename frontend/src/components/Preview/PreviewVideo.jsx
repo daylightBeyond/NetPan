@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DPlayer from 'dplayer';
-import './previewVideo.less';
+import './previewStyle.less';
 // 视频预览
 const PreviewVideo = (props) => {
   const { url } = props;
@@ -9,10 +9,31 @@ const PreviewVideo = (props) => {
     video: null
   });
 
-  const [player, serPlayer] = useState(null);
+  // const [player, serPlayer] = useState(null);
+  const player = useRef(null);
 
   useEffect(() => {
-    initPlayer();
+    // initPlayer();
+    const dp = new DPlayer({
+      element: player.current,
+      theme: '#b7daff',
+      screenshot: true,
+      video: {
+        url: `/api${url}`,
+        type: 'customHls',
+        customType: {
+          customHls: function (video, player) {
+            const hls = new Hls();
+            hls.loadSource(video.src);
+            hls.attachMedia(video);
+          }
+        }
+      }
+    });
+
+    return () => {
+      dp.destroy();
+    }
   }, []);
 
   const initPlayer = () => {
@@ -21,7 +42,7 @@ const PreviewVideo = (props) => {
       theme: '#b7daff',
       screenshot: true,
       video: {
-        url: `/api/${url}`,
+        url: `/api${url}`,
         type: 'customHls',
         customType: {
           customHls: function (video, player) {
@@ -29,14 +50,13 @@ const PreviewVideo = (props) => {
             hls.loadSource(video.src);
             hls.attachMedia(video);
           }
-
         }
       }
     })
   };
 
   return (
-    <div id="player">
+    <div id="player" ref={player}>
 
     </div>
   );
@@ -44,6 +64,6 @@ const PreviewVideo = (props) => {
 
 PreviewVideo.defaultProps = {
   url: ''
-}
+};
 
 export default PreviewVideo;

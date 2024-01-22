@@ -6,7 +6,7 @@ const Window = (props) => {
     show, // 是否展示该全局弹窗
     width,
     title,
-    closeWindow,
+    close,
     children
   } = props;
 
@@ -26,8 +26,8 @@ const Window = (props) => {
   const left = windowWidth - width;
   const widowContentLeft = left < 0 ? 0 : left / 2;
 
-  const close = () => {
-    closeWindow && closeWindow();
+  const closeWindow = () => {
+    close && close();
   };
 
   return (
@@ -35,7 +35,7 @@ const Window = (props) => {
       {show && (
         <div className="window">
           <div className="window-mask"></div>
-          <div className="close" onClick={close}>
+          <div className="close" onClick={closeWindow}>
             <span className="iconfont icon-close2"></span>
           </div>
 
