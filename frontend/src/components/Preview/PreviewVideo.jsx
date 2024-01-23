@@ -2,18 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import DPlayer from 'dplayer';
 import './previewStyle.less';
 // 视频预览
-const PreviewVideo = (props) => {
-  const { url } = props;
-
-  const [videoInfo, setVideoInfo] = useState({
-    video: null
-  });
-
-  // const [player, serPlayer] = useState(null);
+const PreviewVideo = ({ url }) => {
   const player = useRef(null);
 
   useEffect(() => {
-    // initPlayer();
     const dp = new DPlayer({
       element: player.current,
       theme: '#b7daff',
@@ -56,9 +48,7 @@ const PreviewVideo = (props) => {
   };
 
   return (
-    <div id="player" ref={player}>
-
-    </div>
+    <div id="player" ref={player}></div>
   );
 };
 

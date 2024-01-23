@@ -2,6 +2,7 @@ import React, { useEffect, useImperativeHandle, forwardRef, useRef } from 'react
 import useMergeState from "../../hooks/useMergeState";
 import PreviewImage from "./PreviewImage.jsx";
 import PreviewVideo from "./PreviewVideo.jsx";
+import PreviewPdf from "./PreviewPdf.jsx";
 import PreviewDoc from "./PreviewDoc.jsx";
 import PreviewExcel from "./PreviewExcel.jsx";
 import Window from "../Window/Window.jsx";
@@ -125,6 +126,11 @@ const Preview = forwardRef((props, ref) => {
           )}
 
           {/* fileType 1:视频 2:音频 3:图片 4:pdf 5:doc 6:excel 7:txt 8:code 9:zip 10:其他 */}
+          {/* PreviewPdf */}
+
+          {fileInfo.fileType == 4 && (
+            <PreviewPdf url={url} />
+          )}
 
           {fileInfo.fileType == 5 && (
             <PreviewDoc url={url} />

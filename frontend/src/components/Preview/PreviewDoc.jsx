@@ -3,8 +3,7 @@ import * as docx from 'docx-preview';
 import request from "../../utils/request";
 import './previewStyle.less';
 
-const PreviewDoc = (props) => {
-  const { url } = props;
+const PreviewDoc = ({ url }) => {
   console.log('url--doc', url);
   const docRef = useRef(null);
 

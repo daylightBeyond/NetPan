@@ -3,8 +3,7 @@ import * as XLSX from 'xlsx';
 import request from "../../utils/request";
 import './previewStyle.less';
 
-const PreviewDoc = (props) => {
-  const { url } = props;
+const PreviewExcel = ({ url }) => {
   const [excelContent, setExcelContent] = useState(null);
 
   useEffect(() => {
@@ -26,8 +25,8 @@ const PreviewDoc = (props) => {
   );
 };
 
-PreviewDoc.defaultProps = {
+PreviewExcel.defaultProps = {
   url: ''
 };
 
-export default PreviewDoc;
+export default PreviewExcel;

@@ -41,8 +41,6 @@ const FrameWork = () => {
     getUserSpace();
   }, []);
 
-  console.log('**userSpaceInfo**', userSpaceInfo.useSpace / userSpaceInfo.totalSpace)
-
   useEffect(() => {
     console.log('location', location)
 

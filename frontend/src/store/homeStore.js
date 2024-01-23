@@ -23,7 +23,6 @@ const useHomeStore = create((set, get) => ({
   // 获取用户使用空间
   getUserSpace: () => {
     getUseSpace().then(res => {
-      console.log('res', res);
       if (res.success) {
         const { totalSpace, useSpace } = res.data;
         set({
