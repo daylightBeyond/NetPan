@@ -27,13 +27,6 @@ const PreviewImage = forwardRef((props, ref) => {
 
   return (
     <div className="image-revier">
-      {/*{previewImageIndex != null && (*/}
-      {/*  <Image*/}
-      {/*    width={200}*/}
-      {/*    src={imageList}*/}
-      {/*    // preview={}*/}
-      {/*  />*/}
-      {/*)}*/}
       <Modal
         open={previewVisible}
         footer={null}

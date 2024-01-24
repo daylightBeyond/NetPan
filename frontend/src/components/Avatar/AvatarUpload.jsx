@@ -52,11 +52,6 @@ const AvatarUpload = ({ userId, setFormData }) => {
     <div className="avatar-upload">
       <div className="avatar-show">
         <img src={localFile ? localFile : imgUrl} alt="头像" />
-        {/*{localFile ? (*/}
-        {/*  <img src={localFile} alt="头像"/>*/}
-        {/*) : (*/}
-        {/*  <img src={imgUrl} alt="头像"/>*/}
-        {/*)}*/}
       </div>
 
       <div className="select-btn">

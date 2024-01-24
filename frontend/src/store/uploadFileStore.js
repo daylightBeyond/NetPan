@@ -121,7 +121,7 @@ const useUploadFileStore = create((set, get) => ({
     const blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
     const chunks = Math.ceil(file.size / chunkSize); // 计算总共可以切成多少片
     let currentChunk = 0; // 当前分片
-    const spark = new SparkMd5();
+    const spark = new SparkMd5.ArrayBuffer();
     const fileReader = new FileReader();
     // 切片
     // 使用外部传递的 setProgress 来更新进度

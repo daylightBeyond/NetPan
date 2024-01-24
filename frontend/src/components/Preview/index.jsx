@@ -5,6 +5,8 @@ import PreviewVideo from "./PreviewVideo.jsx";
 import PreviewPdf from "./PreviewPdf.jsx";
 import PreviewDoc from "./PreviewDoc.jsx";
 import PreviewExcel from "./PreviewExcel.jsx";
+import PreviewTxt from "./PreviewTxt.jsx";
+import PreviewMusic from "./PreviewMusic.jsx";
 import Window from "../Window/Window.jsx";
 import { getImage } from "../../servers/home";
 
@@ -53,17 +55,6 @@ const Preview = forwardRef((props, ref) => {
   const imageViewRef = useRef(null);
 
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-
-  // useEffect(() => {
-  //   if (fileInfo.filePath && fileInfo.fileCategory == 3) {
-  //     getImage(fileInfo.filePath).then(res => {
-  //       console.log('预览图片', res);
-  //       // 将后端返回的二进制流图片转换成blob
-  //       const blob = new Blob([res]);
-  //       setState({ imageUrl: URL.createObjectURL(blob) });
-  //     })
-  //   }
-  // }, [fileInfo]);
 
   useImperativeHandle(ref, () => {
     return {
@@ -129,7 +120,7 @@ const Preview = forwardRef((props, ref) => {
           {/* PreviewPdf */}
 
           {fileInfo.fileType == 4 && (
-            <PreviewPdf url={url} />
+            <PreviewPdf filePath={fileInfo.filePath} />
           )}
 
           {fileInfo.fileType == 5 && (
@@ -138,6 +129,14 @@ const Preview = forwardRef((props, ref) => {
 
           {fileInfo.fileType == 6 && (
             <PreviewExcel url={url} />
+          )}
+
+          {(fileInfo.fileType == 7 || fileInfo.fileType == 8) && (
+            <PreviewTxt url={url} fileName={fileInfo.fileName} />
+          )}
+
+          {fileInfo.fileCategory == 2 && (
+            <PreviewMusic url={url} fileName={fileInfo.fileName} />
           )}
         </Window>
       )}

@@ -4,7 +4,6 @@ import request from "../../utils/request";
 import './previewStyle.less';
 
 const PreviewDoc = ({ url }) => {
-  console.log('url--doc', url);
   const docRef = useRef(null);
 
   useEffect(() => {

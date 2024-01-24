@@ -28,25 +28,6 @@ const PreviewVideo = ({ url }) => {
     }
   }, []);
 
-  const initPlayer = () => {
-    const dp = new DPlayer({
-      element: player,
-      theme: '#b7daff',
-      screenshot: true,
-      video: {
-        url: `/api${url}`,
-        type: 'customHls',
-        customType: {
-          customHls: function (video, player) {
-            const hls = new Hls();
-            hls.loadSource(video.src);
-            hls.attachMedia(video);
-          }
-        }
-      }
-    })
-  };
-
   return (
     <div id="player" ref={player}></div>
   );

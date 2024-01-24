@@ -1,48 +1,38 @@
-import React, { useEffect, useRef } from 'react';
-import { Button, Select } from 'antd';
-import * as docx from 'docx-preview';
+import React, { useEffect, useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import request from "../../utils/request";
 import './previewStyle.less';
+import 'react-syntax-highlighter/dist/esm/styles/prism/tomorrow';
 
-const PreviewTxt = ({ url }) => {
-  console.log('url--doc', url);
-  const docRef = useRef(null);
+const PreviewTxt = ({ url, fileName }) => {
+  const fileType = fileName.slice(fileName.lastIndexOf('.') + 1);
+  const [blobResult, setBlobResult] = useState('');
 
   useEffect(() => {
     request({
       method: 'get',
       url,
       responseType: 'blob'
-    }).then(res => {
+    }).then(async res => {
       if (res) {
-        docx.renderAsync(res, docRef.current);
+        const text = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+          reader.readAsText(res);
+        });
+
+        setBlobResult(text);
       }
     })
   }, []);
 
-  const changeEncode = (value) => {
-
-  };
-
-  const copy = () => {
-
-  };
-
   return (
     <div className="code">
-      <div className="top-op">
-        <div className="encode-select">
-          <Select allowClear onChange={changeEncode}>
-            <Select.Option key="utf8">utf8编码</Select.Option>
-            <Select.Option key="gbk">gbk编码</Select.Option>
-          </Select>
-          <div className="tips">乱码了？切换编码</div>
-        </div>
-
-        <div className="copy-btn">
-          <Button type="primary" onClick={copy}>复制</Button>
-        </div>
-      </div>
+      <SyntaxHighlighter language={fileType}>
+        {blobResult}
+      </SyntaxHighlighter>
     </div>
   );
 };
