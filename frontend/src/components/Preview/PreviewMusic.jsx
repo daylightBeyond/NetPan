@@ -3,6 +3,7 @@ import Aplayer from 'aplayer';
 import './previewStyle.less';
 import 'aplayer/dist/APlayer.min.css';
 import cover from '@/assets/icon-image/music.png';
+
 const PreviewMusic = ({ url, fileName }) => {
   const playerRef = useRef(null);
 

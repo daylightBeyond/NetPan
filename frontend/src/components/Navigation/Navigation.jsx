@@ -32,6 +32,7 @@ const Navigation = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => {
     return {
       openFolder,
+      clearFolder,
     }
   });
 
@@ -83,13 +84,19 @@ const Navigation = forwardRef((props, ref) => {
     });
   };
 
+  const clearFolder = () => {
+    setState({
+      folderList: [],
+      currentFolder: { fileId: '0' }
+    });
+  };
+
   useEffect(() => {
     setPath();
   }, [currentFolder]);
 
   const setPath = () => {
     if (!watchProp) {
-      // TODO 设置不监听路由回调方法
       doCallback(currentFolder)
       return;
     }
@@ -100,9 +107,12 @@ const Navigation = forwardRef((props, ref) => {
     console.log('routeParams', routeParams);
     console.log('location', location);
     console.log('pathArr', pathArr);
-    // TODO 为了保证一级二级路由正常的显示，最好还是用全局路由监听
-    // navigate(`${location.pathname}?path=${pathArr.length ? pathArr.join('/') : ''}`);
-    navigate(`${location.pathname}${pathArr.length ? '?path=' + pathArr.join('/') : ''}`);
+    const menuCode = location.pathname.split('/')[1];
+    navigate(`${location.pathname}${pathArr.length ? '?path=' + pathArr.join('/') : ''}`, {
+      state: {
+        menuCode,
+      }
+    });
   };
 
   // 返回上一级
@@ -124,9 +134,6 @@ const Navigation = forwardRef((props, ref) => {
 
   // 点击导航，这是当前目录
   const handleCurrentFolder = (index) => {
-    console.log('index', index);
-    console.log('folderList', folderList);
-
     // index 为 -1 时，是跳到根目录，特殊处理
     if (index == -1) {
       // 返回全部

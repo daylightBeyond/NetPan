@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, forwardRef } from 'react';
 import { Progress } from 'antd';
 // 其他
 import useUploadFileStore from "@/store/uploadFileStore";
@@ -11,7 +11,7 @@ import { sizeToStr } from '@/utils/utils';
 // 样式
 import './style.less';
 
-const Uploader = () => {
+const Uploader = forwardRef((props, ref) => {
   // store的变量和方法
   const fileList = useUploadFileStore(state => state.fileList);
 
@@ -28,7 +28,7 @@ const Uploader = () => {
   };
 
   return (
-    <div className="uploader-panel">
+    <div ref={ref} className="uploader-panel">
       <div className="uploader-title">
         <span>上传任务</span>
         <span className="tips">（仅展示本次上传任务）</span>
@@ -131,6 +131,6 @@ const Uploader = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Uploader;

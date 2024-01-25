@@ -27,6 +27,8 @@ const FrameWork = () => {
     passwordVisible: false, // 控制更新密码弹窗
   });
 
+  const popoverRef = useRef(null);
+
   const { currentMenu, currentPath, avatarVisible, passwordVisible } = state;
   // useHomeStore
   const getUserAvatar = useHomeStore(state => state.getUserAvatar);
@@ -48,6 +50,20 @@ const FrameWork = () => {
       setMenu(location.state.menuCode, location.pathname);
     }
   }, [location]);
+
+  // 处理 Popover 点击空白处，自动关闭弹窗
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (popoverRef.current && !popoverRef.current.contains(e.target)) {
+        setShowUploader(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showUploader]);
 
   const jump = (data) => {
     // console.log('jump--data', data);
@@ -115,7 +131,7 @@ const FrameWork = () => {
     '1': updateAvatar,
     '2': updatePassword,
     '3': exit,
-  }
+  };
 
   const handleDropDown = (val) => {
     console.log('val', val);
@@ -134,15 +150,16 @@ const FrameWork = () => {
           <span className="iconfont icon-pan"></span>
           <div className="name">Net云盘</div>
         </div>
-        <div className="right-panel">
+        <div className="right-panel" >
           <Popover
             open={showUploader}
             trigger="click"
             placement="bottom"
-            onClick={() => {
-              setShowUploader(!showUploader)
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowUploader(!showUploader);
             }}
-            content={<Uploader />}
+            content={<Uploader ref={popoverRef} />}
             overlayStyle={{ marginTop: '25px', padding: 0, width: '800px' }}
           >
             <span className="iconfont icon-transfer"></span>

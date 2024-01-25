@@ -66,11 +66,12 @@ class CommonController {
    * @returns {Promise<void>}
    */
   async createDownloadUrl(ctx) {
-    const { fileId } = ctx.params;
-    const user = ctx.state.user;
-    const { userId } = user;
+    const { fileId, userId } = ctx.params;
+    // const user = ctx.state.user;
+    // const { userId } = user;
 
     const fileInfo = await FileModel.findOne({ where: { fileId, userId } });
+    logger.info('提供下载的文件信息')
     if (fileInfo == null) {
       ctx.throw(404, '资源不存在');
       return;
@@ -84,10 +85,11 @@ class CommonController {
     const code = generateUUid(LENGTH_50);
     const downloadObj = {
       code,
-      filepath: fileInfo.filepath,
+      filePath: fileInfo.filePath,
       fileName: fileInfo.fileName
     };
 
+    logger.info('存储到redis的下载对象信息', downloadObj);
     await saveDownloadCode(code, downloadObj);
 
     ctx.body = {
@@ -104,14 +106,18 @@ class CommonController {
    */
   async download(ctx) {
     const { code } = ctx.params;
+    logger.info('文件提取码', code);
     const downloadObj = await getDownloadCode(code);
+    logger.info('从redis提取下载对象信息', downloadObj);
     if (downloadObj == null) {
       return;
     }
 
     const filePath = USER_FILE_FOLDER + downloadObj.filePath;
-    const fileName = downloadObj.fileName;
+    logger.info('下载路径', filePath);
 
+    const fileName = downloadObj.fileName;
+    logger.info('下载的文件名', fileName);
     ctx.set({
       'Content-Type': 'application/x-msdownload; charset=UTF-8',
       'Content-Disposition': `attachment; filename=${encodeURIComponent(fileName)}`

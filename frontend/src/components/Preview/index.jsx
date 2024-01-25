@@ -7,6 +7,7 @@ import PreviewDoc from "./PreviewDoc.jsx";
 import PreviewExcel from "./PreviewExcel.jsx";
 import PreviewTxt from "./PreviewTxt.jsx";
 import PreviewMusic from "./PreviewMusic.jsx";
+import PreviewDownload from "./PreviewDownload.jsx";
 import Window from "../Window/Window.jsx";
 import { getImage } from "../../servers/home";
 
@@ -38,18 +39,21 @@ const FILE_URL_MAP = {
  * @constructor
  */
 const Preview = forwardRef((props, ref) => {
-
   const [state, setState] = useMergeState({
     fileInfo: {}, // 预览的文件信息
     imageUrl: [],
 
-    windowShow: false,
-    url: null,
+    windowShow: false, // 控制自定义的全局弹窗组件显示
+    url: null, // 预览的文件请求url
+
+    createDownloadUrl: null,
+    downloadUrl: null,
   });
 
   const {
     fileInfo, imageUrl,
-    windowShow, url
+    windowShow, url,
+    createDownloadUrl, downloadUrl
   } = state;
 
   const imageViewRef = useRef(null);
@@ -82,16 +86,22 @@ const Preview = forwardRef((props, ref) => {
     } else {
       setState({ windowShow: true });
       let _url = FILE_URL_MAP[type].fileUrl;
-
+      let _createDownloadUrl = FILE_URL_MAP[type].createDownloadUrl;
+      let _downloadUrl = FILE_URL_MAP[type].downloadUrl;
       if (data.fileCategory == 1) {
         _url = FILE_URL_MAP[type].videoUrl
       }
 
       if (type == 0) {
         _url = _url + userInfo.userId + '/' + data.fileId
+        _createDownloadUrl = _createDownloadUrl + userInfo.userId + '/' + data.fileId;
       }
 
-      setState({ url: _url  });
+      setState({
+        url: _url,
+        createDownloadUrl: _createDownloadUrl,
+        downloadUrl: 'api' + _downloadUrl,
+      });
     }
   };
 
@@ -137,6 +147,10 @@ const Preview = forwardRef((props, ref) => {
 
           {fileInfo.fileCategory == 2 && (
             <PreviewMusic url={url} fileName={fileInfo.fileName} />
+          )}
+
+          {(fileInfo.fileCategory == 5 && fileInfo.fileType != 8) && (
+            <PreviewDownload createDownloadUrl={createDownloadUrl} downloadUrl={downloadUrl} fileInfo={fileInfo} />
           )}
         </Window>
       )}

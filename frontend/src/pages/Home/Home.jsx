@@ -1,5 +1,5 @@
 // 内部依赖
-import React, { memo, useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import React, { memo, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 // 外部依赖
 import { Upload, Button, Input, message, Modal } from 'antd';
@@ -75,9 +75,13 @@ const Home = () => {
     const categoryItem = categoryInfo[routeParams.category];
     setState({ fileAcceptType: categoryItem ? categoryItem.accept : '*' });
 
-    // testUrl().then(res => {
-    //   console.log('res', res);
-    // })
+    // 这一步是为了二级路由在 全部 的情况下，进入了下一层文件夹下，然后再跳转到别的二级路由，
+    // 例如: 视频，图片 的这些情况，需要清空 当前 currentFolder 的信息，
+    // 并且 Navigation 组件也需要清空
+    if (routeParams.category !== 'all') {
+      setState({ currentFolder: { fileId: '0' } });
+      navigationRef.current.clearFolder();
+    }
 
     // 这一步是防止进入了子文件后，点浏览器刷新，重复调用接口
     if (queryParams.path) {
@@ -144,7 +148,6 @@ const Home = () => {
 
   // 预览
   const preview = (data) => {
-    console.log('preview', data);
     // 目录，跳转
     if (data.folderType == 1) {
       navigationRef.current.openFolder(data);
@@ -155,7 +158,6 @@ const Home = () => {
       message.warning('文件未完成转码，无法预览');
       return;
     }
-    console.log('previewRef', previewRef)
     previewRef.current.showPreview(data, 0);
   };
 
@@ -378,7 +380,6 @@ const Home = () => {
 
   // 新建文件夹
   const newFolder = () => {
-    console.log('editNameRef', editNameRef);
     if (editing) {
       return;
     }
@@ -422,7 +423,6 @@ const Home = () => {
   };
 
   const handleSearch = (e) => {
-    console.log('va;eeaeaea', e);
     const value = e.target.value;
     setState({ fileName: value });
     queryFileList({ fileName: value });

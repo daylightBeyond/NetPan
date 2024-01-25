@@ -1,5 +1,9 @@
 export const sizeToStr = (limit) => {
   let size = '';
+  if (limit == null || limit == undefined) {
+    return 0;
+  }
+
   if (limit < 0.1 * 1024) {
     size = limit.toFixed(2) + 'B';                    // 小于0.1KB, 则转换成 B
   } else if (limit < 0.1 * 1024 * 1024) {
@@ -17,4 +21,22 @@ export const sizeToStr = (limit) => {
     return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2);
   }
   return size;
+};
+
+export const downloadByUrl = (href, title) => {
+    try {
+      const domA = document.createElement('a');
+      domA.setAttribute('href', href);
+      if ('download' in domA) {
+        domA.setAttribute('download', title);
+      }
+      domA.style.display = 'none';
+      // 触发点击
+      document.body.appendChild(domA);
+      domA.click();
+      // 然后移除
+      document.body.removeChild(domA);
+    } catch (e) {
+      console.log('暂无文件', e);
+    }
 };

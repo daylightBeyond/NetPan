@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import SparkMd5 from 'spark-md5';
 import uploadStatus from "@/constants/upload-status.js";
 import useHomeStore from "./homeStore";
-import { uploadFile as upload, getUseSpace } from '../servers/home';
+import { uploadFile as upload } from '../servers/home';
 
 /*
  * 这里的一些操作原本都是在 Uploader 组件中的操作，
@@ -23,7 +23,6 @@ const useUploadFileStore = create((set, get) => ({
     set({ queryFileFlag: data })
   },
   setShowUploader: (data) => {
-    console.log('切换', data);
     set({ showUploader: data });
   },
   // 添加文件信息
@@ -100,7 +99,6 @@ const useUploadFileStore = create((set, get) => ({
       return;
     }
     console.log(getFileByUid(md5FileUid).md5);
-    // return;
     await uploadFile(md5FileUid, updateFileState);
   },
   /**
@@ -135,8 +133,8 @@ const useUploadFileStore = create((set, get) => ({
     return new Promise(async(resolve, reject) => {
       let resultFile = getFileByUid(file.uid)
       console.log('resultFile', resultFile);
-      // fileReader.onload onerror 是异步的
 
+      // fileReader.onload onerror 是异步的
       // 文件加载完成
       fileReader.onload = (e) => {
         spark.append(e.target.result);
@@ -158,23 +156,17 @@ const useUploadFileStore = create((set, get) => ({
             status: uploadStatus.uploading.value,
             md5
           };
-          setProgress(updateStatus);
-          // resultFile.md5Progress = 100;
-          // setProgress(100);
-          // resultFile.status = uploadStatus.uploading.value;
-          // resultFile.md5 = md5;
+          setProgress(updateStatus)
           resolve(fileItem.uid);
         }
       };
       // 文件读取错误
       fileReader.onerror = () => {
-        // resultFile.md5Progress = -1;
         const updateStatus = {
           progress: -1,
           status: uploadStatus.fail.value
         };
         setProgress(updateStatus);
-        // resultFile.status = uploadStatus.fail.value;
         resolve(fileItem.uid);
       };
     }).catch(error => {
@@ -224,8 +216,6 @@ const useUploadFileStore = create((set, get) => ({
         console.log('params', formData);
         // 错误的回调
         const errorCallback = (errorMsg) => {
-          // currentFile.status = uploadStatus.fail.value;
-          // currentFile.errorMsg = errorMsg;
           const updateStatus = {
             status: uploadStatus.fail.value,
             errorMsg: errorMsg,
@@ -246,17 +236,12 @@ const useUploadFileStore = create((set, get) => ({
             uploadProgress: Math.floor((currentFile.uploadSize / fileSize) * 100)
           };
           updateFileState(updateStatus);
-          // currentFile.uploadSize = i * chunkSize + loaded;
-          // currentFile.uploadProgress = Math.floor((currentFile.uploadSize / fileSize) * 100);
         };
         const updateResult = await upload(formData, { errorCallback, uploadProgressCallback });
         console.log('updateResult', updateResult);
         if(updateResult == null) {
           break;
         }
-        // currentFile.fileId = updateResult.data.fileId;
-        // currentFile.status = uploadStatus[updateResult.data.status].value;
-        // currentFile.chunkIndex = i;
         const updateStatus = {
           fileId: updateResult.data.fileId,
           status: uploadStatus[updateResult.data.status].value,
@@ -287,11 +272,6 @@ const useUploadFileStore = create((set, get) => ({
     const { getUserSpace } = useHomeStore.getState();
     getUserSpace();
   },
-
-  // 更新网盘空间
-  // getUserSpace: () => {
-  //   getUseSpace()
-  // },
 }));
 
 export default useUploadFileStore;
