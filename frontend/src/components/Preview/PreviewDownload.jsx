@@ -13,9 +13,10 @@ const PreviewDownload = ({
       method: 'get',
       url: createDownloadUrl,
     });
-    console.log('下载', res);
-    console.log('downloadUrl', downloadUrl + res.data);
-    downloadByUrl(downloadUrl + res.data, fileInfo.fileName);
+    if (res?.success) {
+      const url = downloadUrl + res.data;
+      downloadByUrl(url, fileInfo.fileName);
+    }
   };
 
   return (

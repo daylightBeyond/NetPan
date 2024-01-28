@@ -16,9 +16,9 @@ import Preview from "../../components/Preview/index.jsx";
 import useMergeState from "@/hooks/useMergeState";
 import useUploadFileStore from "@/store/uploadFileStore.js";
 // 接口
-import { queryFile, createFolder, rename, deleteFile, changeFileFolder, testUrl } from '../../servers/home';
+import { queryFile, createFolder, rename, deleteFile, changeFileFolder, createDownloadUrl } from '../../servers/home';
 // 方法
-import { sizeToStr } from "../../utils/utils";
+import { sizeToStr, downloadByUrl } from "../../utils/utils";
 import categoryInfo from "../../constants/category-info";
 // 样式
 import '@/assets/file.list.less';
@@ -68,6 +68,7 @@ const Home = () => {
   const setQueryFileFlag = useUploadFileStore(state => state.setQueryFileFlag);
   const addFile = useUploadFileStore(state => state.addFile);
   const setShowUploader = useUploadFileStore(state => state.setShowUploader);
+  const setFileTotalSize = useUploadFileStore(state => state.setFileTotalSize);
 
   // 路由参数变化查询文件列表
   useEffect(() => {
@@ -135,6 +136,7 @@ const Home = () => {
   const customRequest = (options) => {
     console.log('options', options);
     const { file } = options;
+    setFileTotalSize(file.size);
     addFile({ file, filePid: currentFolder.fileId });
     setShowUploader(true);
   };
@@ -228,8 +230,15 @@ const Home = () => {
   };
 
   // 下载文件
-  const handleDownloadFile = () => {
-
+  const handleDownloadFile = (row) => {
+    const { userId, fileId, fileName } = row;
+    const param =  userId + '/' + fileId;
+    createDownloadUrl(param).then(res => {
+      if (res?.success) {
+        const url = 'api/file/download/' + res.data;
+        downloadByUrl(url, fileName);
+      }
+    })
   };
 
   // 删除文件
@@ -337,7 +346,7 @@ const Home = () => {
               {showOp && fileId && status === 2 && (
                 <>
                   <span className="iconfont icon-share1" onClick={() => share(record)}>分享</span>
-                  <span className="iconfont icon-download" onClick={() => handleDownloadFile(index)}>下载</span>
+                  <span className="iconfont icon-download" onClick={() => handleDownloadFile(record)}>下载</span>
                   <span className="iconfont icon-del" onClick={() => handleDelFile(record)}>删除</span>
                   <span className="iconfont icon-edit" onClick={() => handleRenameFile(index)}>重命名</span>
                   <span className="iconfont icon-move" onClick={() => handleMoveFile(record)}>移动</span>

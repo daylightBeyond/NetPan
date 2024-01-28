@@ -20,7 +20,7 @@ const {
   REDIS_TEMP_FOLDER, REDIS_KEY_EXPIRE_DAY,
   REDIS_KEY_DOWNLOAD,
 } = require('../constants/constants');
-const { fileTypeEnums, fileStatusEnum, uploadStatusEnum, fileFolderTypeEnum} = require('../enums/fileEnum');
+const { fileTypeEnums, fileStatusEnum, uploadStatusEnum, fileFolderTypeEnum, fileDelFlagEnum} = require('../enums/fileEnum');
 const { dateTimePatternEnum } = require('../enums/dateTimePatterEnum');
 const { responseCodeEnum } = require('../enums/enums');
 const {resolve} = require("@babel/core/lib/vendor/import-meta-resolve");
@@ -207,8 +207,9 @@ const getFileSuffix = function(fileName) {
 
   const index = fileName.lastIndexOf('.');
   if (index == -1) {
-    return fileName;
+    return '';
   }
+  logger.info('截取文件后缀开始的索引位置', index);
   return fileName.slice(index);
 };
 
@@ -248,7 +249,6 @@ const getFileTempSize = async function(userId, fileId) {
     const currentTempRedisKey = `${REDIS_TEMP_FOLDER}:${userId}:${fileId}:tempFileSize`;
     const currentSize = await getFileSizeFromRedis(currentTempRedisKey);
     resolve(currentSize);
-    // return currentSize;
   });
 
 
@@ -319,6 +319,7 @@ const updateUserSpace = async function (userId, useSpace, totalSpace = 0) {
   userInfo['useSpace'] = userInfo['useSpace'] + useSpace;
 
   await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:userInfo`, userInfo, REDIS_KEY_EXPIRE_DAY);
+  await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`, userInfo['useSpace'], REDIS_KEY_EXPIRE_DAY);
 };
 
 /**
@@ -526,7 +527,8 @@ const checkFileName = async function(filePid, userId, fileName, folderType, ctx 
     folderType,
     fileName,
     filePid,
-    userId
+    userId,
+    delFlag: fileDelFlagEnum.USING.code
   };
 
   const count = await FileModel.count({ where: whereCondition });
@@ -561,7 +563,7 @@ const getDownloadCode = async function(code) {
 };
 
 /**
- * 递归查询文件夹下的所有文件
+ * 递归查询文件夹下的所有文件夹id，注意是文件夹，也是文件的pid
  * @param fileIdList
  * @param userId
  * @param fileId
@@ -577,6 +579,7 @@ const findAllSubFolderFileList = async function(fileIdList, userId, fileId, delF
     folderType: fileFolderTypeEnum.FOLDER.code
   };
   const fileInfoList = await FileModel.findAll({where: query});
+  logger.info('根据文件id查询所有子文件', fileInfoList);
   for (let fileInfo of fileInfoList) {
       await findAllSubFolderFileList(fileIdList, userId, fileInfo.fileId, delFlag);
   }

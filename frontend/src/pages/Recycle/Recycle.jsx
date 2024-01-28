@@ -50,6 +50,7 @@ const Recycle = () => {
 
   // 恢复
   const revert = (row) => {
+    console.log('--row--', row);
     modal.confirm({
       title: '还原',
       content: `你确定要还原【${row.fileName}】吗？`,
@@ -57,8 +58,9 @@ const Recycle = () => {
     });
   };
 
-  const revertOk = (row) => {
-    const params = { fileId: row.fileId };
+  const revertOk = () => {
+    const fileIds = selectedRowKeys.toString();
+    const params = { fileIds };
     recoveryFile(params).then(res => {
       if (res.success) {
         message.success('还原成功');
@@ -81,12 +83,13 @@ const Recycle = () => {
     modal.confirm({
       title: '删除',
       content: `你确定要删除【${row.fileName}】吗？`,
-      onOk: () => deleteOk(row),
+      onOk: () => deleteOk(),
     });
   };
 
-  const deleteOk = (row) => {
-    const params = { fileId: row.fileId };
+  const deleteOk = () => {
+    const fileIds = selectedRowKeys.toString();
+    const params = { fileIds };
     delFile(params).then(res => {
       if (res.success) {
         message.success('删除文件成功');
@@ -162,7 +165,7 @@ const Recycle = () => {
             <span className="op">
               {showOp && (
                 <>
-                  <span className="iconfont icon-link" onClick={() => revert(row)}>还原</span>
+                  <span className="iconfont icon-revert" onClick={() => revert(row)}>还原</span>
                   <span className="iconfont icon-cancel" onClick={() => deleteFile(row)}>删除</span>
                 </>
               )}
@@ -191,16 +194,20 @@ const Recycle = () => {
     <div className="recycle">
       <div className="top">
         <Button type="primary" disabled={!selectedRowKeys.length} onClick={revertBatch}>
-          <span className="iconfont icon-revert">还原</span>
+          <span>
+            <span className="iconfont icon-revert"></span>
+            还原
+          </span>
         </Button>
         <Button type="primary" danger disabled={!selectedRowKeys.length} onClick={deleteFileBatch}>
-          <span className="iconfont icon-del">批量删除</span>
+          <span>
+            <span className="iconfont icon-del"></span>
+            批量删除
+          </span>
         </Button>
       </div>
 
-      <div
-        className="file-list"
-      >
+      <div className="file-list">
         <NPTable
           dataSource={dataSource}
           columns={columns}

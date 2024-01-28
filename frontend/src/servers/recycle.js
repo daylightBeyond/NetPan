@@ -15,9 +15,6 @@ export const delFile = (param) => {
     method: 'post',
     url: '/recycle/delFile',
     data: param,
-    headers: {
-      'Content-Type': 'multer/form-data'
-    }
   });
 };
 
@@ -27,8 +24,5 @@ export const recoveryFile = (param) => {
     method: 'post',
     url: '/recycle/recoveryFile',
     data: param,
-    headers: {
-      'Content-Type': 'multer/form-data'
-    }
   });
 };

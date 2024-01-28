@@ -1,4 +1,5 @@
 const ZERO = 0;
+const ZERO_STR = '0';
 const LENGTH_4 = 4;
 const LENGTH_6 = 6;
 const LENGTH_10 = 10;
@@ -43,6 +44,7 @@ const M3U8_NAME = 'index.m3u8';
 
 module.exports = {
   ZERO,
+  ZERO_STR,
   LENGTH_4,
   LENGTH_6,
   LENGTH_10,

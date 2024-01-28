@@ -38,7 +38,7 @@ const {
   UPLOAD_TEMP_FOLDER,
   REDIS_USER_FOLDER,
   USER_FILE_FOLDER,
-  REDIS_KEY_EXPIRE_THIRTY_MIN, LENGTH_10, REDIS_TEMP_FOLDER, ZERO
+  REDIS_KEY_EXPIRE_THIRTY_MIN, LENGTH_10, REDIS_TEMP_FOLDER, ZERO, ZERO_STR
 } = require('../constants/constants');
 
 class FileController {
@@ -113,7 +113,7 @@ class FileController {
    * fileMd5 (必传，前端处理的)
    * chunkIndex 分片索引
    * chunks 总公共多少片
-   *
+   * fileTotalSize: 上传的文件总大小
    * 上传文件逻辑：
    * 1. 接受第一片文件信息时，根据md5值查询数据库，如果查得到，说明是相同的文件，则是秒传
    * 1. 由于前端上传的文件到服务器后，服务器会自动给文件重命名，所以首先将文件移动到
@@ -128,17 +128,10 @@ class FileController {
     logger.info('请求文件参数', ctx.request.files);
     logger.info('请求普通参数', ctx.request.body);
     const { file } = ctx.request.files;
-    let { fileName, fileId, filePid, fileMd5, chunks, chunkIndex } = ctx.request.body;
+    let { fileName, fileId, filePid, fileMd5, chunks, chunkIndex, fileTotalSize } = ctx.request.body;
 
-    // 如果前端没传fileId 这里跟前端配合，前端的 fileId字段可能是 'undefined'
-    if(fileId == 'null' || fileId == 'undefined') {
-      // 随机生成 10 位数的 fileId
-      fileId = generateUUid();
-      logger.info('随机生成文件id', fileId);
-    }
+    fileTotalSize = Number(fileTotalSize);
 
-    // 当前日期
-    const curDate = dayjs().format(dateTimePatternEnum.YYYY_MM_DD_HH_MM_SS);
     const user = ctx.state.user;
     const { userId } = user;
     logger.info('userId', userId);
@@ -147,17 +140,36 @@ class FileController {
     logger.info('redis获取useSpace', useSpace);
     const userInfo = await redisUtils.get(`${REDIS_USER_FOLDER}:${userId}:userInfo`);
     logger.info('redis获取userInfo', userInfo);
+    // 用户总空间大小
     const { totalSpace } = userInfo || {};
+
+    // 判断使用空间是否超过的总的空间
+    logger.info('加上本次上传的文件大小的使用空间', fileTotalSize + useSpace);
+    if (fileTotalSize + useSpace >= totalSpace) {
+      try {
+        ctx.throw(401, responseCodeEnum.CODE_904.value);
+      } catch (err) {
+        handleException(ctx, err, err.message);
+        return;
+      }
+    }
+
+    // 如果前端没传fileId 这里跟前端配合，前端的 fileId字段可能是 'undefined'
+    if(fileId == 'null' || fileId == 'undefined') {
+      // 随机生成 10 位数的 fileId
+      fileId = generateUUid();
+      logger.info('随机生成文件id', fileId);
+    }
+
     // 创建初始文件分片的目录
     logger.info('fileId', fileId);
     const fileChunkDir = path.join(chunkDir, userId, fileId, 'chunks');
     logger.info('文件临时分片的目录', fileChunkDir);
+    // 当前日期
+    const curDate = dayjs().format(dateTimePatternEnum.YYYY_MM_DD_HH_MM_SS);
 
     // 临时文件目录
     let userFolderPath = null;
-    // 上传成功标志
-    let uploadSuccess = true;
-
     try {
       // 当文件上传的是第一个切片时，根据文件的md5值和文件的status判断是否已经上传过了
       if (chunkIndex == 0) {
@@ -168,12 +180,10 @@ class FileController {
           let dbFile = dbFileList[0];
           logger.info('dbFile.fileSize', dbFile.fileSize);
           // 判断文件大小
-          if (dbFile['fileSize'] + useSpace > totalSpace) {
-            ctx.throw(responseCodeEnum.CODE_904.key, responseCodeEnum.CODE_904.value);
-            return;
-            ctx.app.emit(responseCodeEnum.CODE_904.value);
-            return;
-          }
+          // if (Number(fileTotalSize) + useSpace > totalSpace) {
+          //   ctx.throw(401, responseCodeEnum.CODE_904.value);
+          //   return;
+          // }
           // 文件重命名
           fileName = await autoRename(filePid, userId, fileName, fileDelFlagEnum.USING.code);
           logger.info('文件新名字', fileName);
@@ -196,7 +206,7 @@ class FileController {
           await FileModel.create(dbFile);
 
           // 更新用户使用空间
-          await updateUserSpace(userId, dbFile['fileSize']);
+          await updateUserSpace(userId, fileTotalSize);
           ctx.body = {
             code: 200,
             success: true,
@@ -217,13 +227,12 @@ class FileController {
       await moveFile(file.filepath, fileChunkDir, chunkIndex);
 
       // 判断磁盘空间
-      const curTempSize = await getFileTempSize(userId, fileId);
-      logger.info('当前临时文件大小', curTempSize, 'byte');
-      if (file.size + curTempSize + useSpace > totalSpace) {
-        ctx.throw(responseCodeEnum.CODE_904.key, responseCodeEnum.CODE_904.value);
-        return;
-        // throw new Error(responseCodeEnum.CODE_904.value);
-      }
+      // const curTempSize = await getFileTempSize(userId, fileId);
+      // logger.info('当前临时文件大小', curTempSize, 'byte');
+      // if (file.size + curTempSize + useSpace > totalSpace) {
+      //   ctx.throw(responseCodeEnum.CODE_904.key, responseCodeEnum.CODE_904.value);
+      //   return;
+      // }
 
       // 暂存临时目录
       const tempFolderName = UPLOAD_TEMP_FOLDER;
@@ -235,9 +244,7 @@ class FileController {
 
       // 分成多片时，处于中间的分片
       if (chunkIndex < chunks - 1) {
-        await saveFileTempSize(userId, fileId, file.size);
-        // await saveFileTempSize(`${REDIS_TEMP_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN)
-        // await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
+        // await saveFileTempSize(userId, fileId, file.size);
         ctx.body = {
           code: 200,
           success: true,
@@ -249,9 +256,6 @@ class FileController {
         };
         return uploadStatusEnum.UPLOADING.desc;
       }
-
-      // 最后一片上传完成，记录数据库，异步合并分片
-      // await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:${fileId}:tempFileSize`, curTempSize, REDIS_KEY_EXPIRE_THIRTY_MIN);
 
       // 判断是否所有文件分片都已上传, 最后一个分片上传完成，记录数据库，异步合并分片
       const month = dayjs(new Date()).format(dateTimePatternEnum.YYYYMM);
@@ -274,7 +278,7 @@ class FileController {
         filePid,
         userId,
         fileMd5,
-        fileSize: file.size, // TODO 待修改
+        fileSize: fileTotalSize,
         fileName,
         filePath: month + '/' + fileName,
         createTime: curDate,
@@ -289,10 +293,10 @@ class FileController {
       // 将这条文件信息插入表中
       await FileModel.create(insertFileInfo);
 
-      const totalSize = await getFileTempSize(userId, fileId);
-      logger.info('获取总使用文件大小', totalSize);
+      // const totalSize = await getFileTempSize(userId, fileId);
+      // logger.info('获取总使用文件大小', totalSize);
       // 根据用户ID更新用户空间信息
-      await updateUserSpace(userId, totalSize);
+      await updateUserSpace(userId, fileTotalSize);
 
       // 文件转码
       await transferFile(fileId, user);
@@ -308,7 +312,7 @@ class FileController {
       };
 
     } catch (err) {
-      return handleException(ctx, err, '文件上传异常');
+      return handleException(ctx, err, err || '文件上传异常');
     }
   };
 
@@ -493,6 +497,7 @@ class FileController {
         filePid,
         userId,
         fileName,
+        delFlag: fileDelFlagEnum.USING.code
       };
       const count = await FileModel.count({ where: queryParams });
       logger.info('查询文件名是否重复', count);
@@ -562,53 +567,65 @@ class FileController {
       return;
     }
 
-    if (String(ZERO) == filePid) {
+    if (ZERO_STR == filePid) {
       // 这里的作用是防止用户移动文件到原本目录，就抛出错误信息
-      const fileInfo = await FileModel.findOne({ where: { fileId: filePid, userId } });
+      const fileInfo = await FileModel.findOne({ where: { filePid, userId } });
+      logger.info('查询移动的目的文件夹下所有的文件', fileInfo);
       if (fileInfo == null || !(fileDelFlagEnum.USING.code == fileInfo.delFlag)) {
         ctx.throw(responseCodeEnum.CODE_600.key, responseCodeEnum.CODE_600.value)
         return;
       }
     }
 
-    const fileIdArray = fileIds.split(',');
-    const query = {
-      filePid,
-      userId,
-    };
-    // 此处是防止移动的文件 移动到 新的文件夹下时，如果有同样名字的文件，那么，移动的文件需要重命名
-    const dbFileList = await FileModel.findAll({ where: query });
+    try {
+      const fileIdArray = fileIds.split(',');
+      logger.info('fileId集合', fileIdArray);
+      const query = {
+        filePid,
+        userId,
+      };
+      // 此处是防止移动的文件 移动到 新的文件夹下时，如果有同样名字的文件，那么，移动的文件需要重命名
+      const dbFileList = await FileModel.findAll({ where: query });
+      logger.info('目的文件夹下的文件列表', dbFileList);
 
-    logger.info('文件列表', dbFileList);
+      // 将相同名字的文件转成map类型，文件名作为key，文件信息作为值
+      const dbFileNameMap = dbFileList.reduce((preFileInfo, fileInfo) => {
+        preFileInfo[fileInfo.fileName] = fileInfo;
+        return preFileInfo;
+      }, {});
+      logger.info('将文件列表转换成以文件名和文件信息的map', dbFileNameMap);
 
-    // 将相同名字的文件转成map类型，文件名作为key，文件信息作为值
-    const dbFileNameMap = dbFileList.reduce((acc, fileInfo) => {
-      acc[fileInfo.fileName] = fileInfo;
-      return acc;
-    }, {});
-
-    logger.info('将文件列表转换成以文件名和文件信息的map', dbFileNameMap);
-
-    // 查询选中的文件
-    const querySelect = {
-      userId,
-      fileId: { [Op.notIn]: fileIdArray },
-    };
-    const selectFileList = await FileModel.findAll({ where: querySelect });
-    logger.info('勾选的移动的文件', selectFileList);
-    // 将所选文件重命名
-    for (const item of selectFileList) {
-      const rootFileInfo = dbFileNameMap[item.fileName];
-      logger.info('移动的目的文件夹的重复的文件', rootFileInfo);
-      // 文件名已经存在，重命名被还原的文件名
-      const updateInfo = {};
-      if (rootFileInfo != null) {
-        const fileName = fileRename(item.fileName);
-        updateInfo['fileName'] = fileName;
+      // 查询选中的文件
+      const querySelect = {
+        userId,
+        fileId: { [Op.in]: fileIdArray },
+      };
+      logger.info('查询选中的文件sql条件', querySelect);
+      const selectFileList = await FileModel.findAll({ where: querySelect });
+      logger.info('勾选的需要移动的文件', selectFileList);
+      // 将所选文件重命名
+      for (const item of selectFileList) {
+        const rootFileInfo = dbFileNameMap[item.fileName];
+        logger.info('移动的目的文件夹的重复的文件', rootFileInfo);
+        // 文件名已经存在，重命名被还原的文件名
+        const updateInfo = {};
+        if (!isEmpty(rootFileInfo)) {
+          const fileName = fileRename(item.fileName);
+          logger.info('相同文件名字的重命名', fileName);
+          updateInfo['fileName'] = fileName;
+        }
+        updateInfo['filePid'] = filePid;
+        logger.info('需要更新的文件信息', updateInfo);
+        await FileModel.update(updateInfo,{ where: { userId, fileId: item.fileId } });
       }
-      updateInfo[filePid] = filePid;
-      logger.info('需要更新的文件信息', updateInfo);
-      await FileModel.update(updateInfo,{ where: { userId, fileId: item.fileId } });
+
+      ctx.body = {
+        code: 200,
+        success: true,
+        message: '移动文件成功'
+      };
+    } catch (err) {
+      handleException(ctx, err, err.message || '移动文件失败');
     }
   };
 
@@ -620,7 +637,7 @@ class FileController {
    */
   async removeFile2RecycleBatch(ctx) {
     const { fileIds } = ctx.request.body;
-    console.log('fileIds', fileIds);
+    logger.info('fileIds', fileIds);
     const user = ctx.state.user;
     const { userId } = user;
 
@@ -646,13 +663,13 @@ class FileController {
       for (let fileInfo of fileInfoList) {
         await findAllSubFolderFileList(delFilePidList, userId, fileInfo.fileId, fileDelFlagEnum.USING.code);
       }
-
       logger.info('递归查询被删除的文件夹下所有的文件', delFilePidList);
 
-      // 目录
-      if (!delFilePidList.length) {
+
+      // 目录，即文件夹
+      if (delFilePidList.length) {
         const updateInfo = {
-          delFlag: fileDelFlagEnum.DEL.code,
+          delFlag: fileDelFlagEnum.RECYCLE.code,
         };
 
         const conditionBatch = {
@@ -667,13 +684,15 @@ class FileController {
 
       // 文件
       // 将选中的文件更新为回收站
+      const delFileIdList = [...delFilePidList];
+
       const fileInfo = {
         recoveryTime: new Date(),
         delFlag: fileDelFlagEnum.RECYCLE.code
       };
       const condition = {
         userId,
-        fileId: { [Op.in]: fileIdArray },
+        fileId: { [Op.in]: delFileIdList },
         delFlag: fileDelFlagEnum.USING.code
       };
 

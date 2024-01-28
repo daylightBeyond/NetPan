@@ -1,5 +1,6 @@
 import React, { memo, useState, useImperativeHandle, forwardRef } from 'react';
 import { Modal, Form, Radio, Input, Button, message } from 'antd';
+import useMergeState from "../../hooks/useMergeState";
 import { shareFile } from '@/servers/share';
 import verify from "@/utils/verify";
 
@@ -20,9 +21,17 @@ const ShareFile = forwardRef((props, ref) => {
   const [form] = Form.useForm();
 
   // 是否展示分享表单，0：分享表单，1：分享结果
-  const [showType, setShowType] = useState(0);
-  const [resultInfo, setResultInfo] = useState({});
+  // const [showType, setShowType] = useState(0);
+  // const [resultInfo, setResultInfo] = useState({});
   const shareUrl = document.location.origin + '/share/';
+
+  const [state, setState] = useMergeState({
+    showType: 0,
+    resultInfo: {},
+    fileData: {},
+  });
+
+  const { showType, resultInfo } = state;
 
   useImperativeHandle(ref, () => {
     return {
@@ -31,8 +40,11 @@ const ShareFile = forwardRef((props, ref) => {
   });
   const show = (data) => {
     console.log('父组件传入的数据', data);
-    setShowType(0);
-    setResultInfo({});
+    setState({
+      showType: 0,
+      resultInfo: {},
+
+    });
     changeState({ shareVisible: true });
     form.resetFields();
     form.setFieldsValue(data);
@@ -52,9 +64,7 @@ const ShareFile = forwardRef((props, ref) => {
       if (res.success) {
         return;
       }
-      setShowType(1);
-      setResultInfo(res.data);
-
+      setState({ showType: 1, resultInfo: res.data });
     } catch (e) {
       console.error(e);
     }
@@ -70,6 +80,8 @@ const ShareFile = forwardRef((props, ref) => {
       .then(() => message.success('复制成功'))
       .catch((err) => console.error('Failed to copy: ', err));
   };
+
+  // console.log('form', form.getFieldValue('fileName'))
 
   return (
     <Modal

@@ -67,8 +67,6 @@ class CommonController {
    */
   async createDownloadUrl(ctx) {
     const { fileId, userId } = ctx.params;
-    // const user = ctx.state.user;
-    // const { userId } = user;
 
     const fileInfo = await FileModel.findOne({ where: { fileId, userId } });
     logger.info('提供下载的文件信息')

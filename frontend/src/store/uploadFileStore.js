@@ -19,11 +19,16 @@ const useUploadFileStore = create((set, get) => ({
   chunkSize: 4 * 1024 * 1024, // 4MB
   // 上传文件之后引发查询文件列表的变量
   queryFileFlag: false,
+  // 上传的文件总大小
+  fileTotalSize: 0,
   setQueryFileFlag: (data) => {
     set({ queryFileFlag: data })
   },
   setShowUploader: (data) => {
     set({ showUploader: data });
+  },
+  setFileTotalSize: (data) => {
+    set({ fileTotalSize: data });
   },
   // 添加文件信息
   addFile: async (fileData) => {
@@ -177,7 +182,7 @@ const useUploadFileStore = create((set, get) => ({
   // 上传文件
   uploadFile: async (uid, updateFileState, chunkIndex) => {
     chunkIndex = chunkIndex ? chunkIndex : 0;
-    const { getFileByUid, chunkSize, delList } = useUploadFileStore.getState();
+    const { getFileByUid, chunkSize, delList, fileTotalSize } = useUploadFileStore.getState();
     // 分片上传
     let currentFile = getFileByUid(uid);
     console.log('currentFile', currentFile);
@@ -212,6 +217,7 @@ const useUploadFileStore = create((set, get) => ({
         // 第一片上传成功，后端会返回fileId，直接带进来
         formData.append('fileId', currentFile.fileId);
         formData.append('filePid', currentFile.filePid);
+        formData.append('fileTotalSize', fileTotalSize);
 
         console.log('params', formData);
         // 错误的回调

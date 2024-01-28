@@ -60,7 +60,11 @@ const FolderSelect = forwardRef((props, ref) => {
   };
 
   const onCancel = () => {
-    setState({ open: false });
+    setState({
+      open: false,
+      filePid: '0',
+      folderList: [],
+    });
   };
 
   // 选择文件进行导航跳转

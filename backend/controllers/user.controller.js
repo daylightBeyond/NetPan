@@ -234,7 +234,7 @@ class UserController {
       // 查询用户上传文件的总大小
       const fileSizeSum = await FileModel.sum('fileSize', { where: { userId } });
       logger.info('登录时获取用户上传文件总大小fileSizeSum', fileSizeSum || 0);
-      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`, fileSizeSum, REDIS_KEY_EXPIRE_DAY);
+      await redisUtils.set(`${REDIS_USER_FOLDER}:${userId}:fileSizeSum`, fileSizeSum || 0, REDIS_KEY_EXPIRE_DAY);
 
       const body = {
         code: 200,
@@ -335,13 +335,9 @@ class UserController {
 
   // 获取用户网盘空间使用情况
   async getUseSpace(ctx) {
-    // console.log('请求', ctx.query);
-    // const { userId } = ctx.query;
     logger.info('获取用户网盘空间使用信息--开始');
-
     const user = ctx.state.user;
     const { userId } = user;
-
     logger.info('获取用户ID', userId);
 
     try {
