@@ -26,13 +26,13 @@ const uploadStatus = {
   upload_finish: {
     value: 'upload_finish',
     desc: '上传完成',
-    color: '#67c323a',
+    color: '#67c23a',
     icon: 'ok',
   },
   upload_seconds: {
     value: 'upload_seconds',
     desc: '秒传',
-    color: '#67c323a',
+    color: '#67c23a',
     icon: 'ok',
   },
 };

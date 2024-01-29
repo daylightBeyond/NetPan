@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import useMergeState from "../../hooks/useMergeState";
 import NPTable from "../../components/Table/NPTable.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
+import useHomeStore from "../../store/homeStore";
 import { queryRecycleList, recoveryFile, delFile } from '@/servers/recycle';
 import { sizeToStr } from '@/utils/utils';
 import '@/assets/file.list.less';
@@ -25,6 +26,8 @@ const Recycle = () => {
     dataSource, pageNum, pageSize, total,
     selectedRowKeys, selectedRows
   } = state;
+
+  const getUserSpace = useHomeStore(state => state.getUserSpace);
 
   useEffect(() => {
     queryFileList();
@@ -94,7 +97,8 @@ const Recycle = () => {
       if (res.success) {
         message.success('删除文件成功');
         queryFileList();
-        // TODO 调恢复空间接口，其实就是重新调取获取空间的接口
+        // 调恢复空间接口，其实就是重新调取获取空间的接口
+        getUserSpace();
       }
     });
   };

@@ -24,7 +24,6 @@ const useHomeStore = create((set, get) => ({
   getUserSpace: () => {
     getUseSpace().then(res => {
       if (res.success) {
-        const { totalSpace, useSpace } = res.data;
         set({
           userSpaceInfo: {...res.data}
         });

@@ -14,17 +14,21 @@ import './style.less';
 const Uploader = forwardRef((props, ref) => {
   // store的变量和方法
   const fileList = useUploadFileStore(state => state.fileList);
+  const deleteFile = useUploadFileStore(state => state.deleteFile);
 
   const startUpload = (uid) => {
 
   };
 
+  // 暂停上传
   const pauseUpload = (uid) => {
 
   };
 
+  // 删除
   const delUpload = (uid, index) => {
-
+    console.log('uid', uid);
+    deleteFile(uid);
   };
 
   return (
@@ -97,31 +101,31 @@ const Uploader = forwardRef((props, ref) => {
                           onClick={() => pauseUpload(item.uid)}
                         />
                       )}
-                      {item.status != uploadStatus.init.value &&
-                        item.status != uploadStatus.upload_finish.value &&
-                        item.status != uploadStatus.upload_seconds.value && (
-                          <Icon
-                            className="del btn-item"
-                            iconName="del"
-                            title="删除"
-                            width={28}
-                            onClick={() => delUpload(item.uid, index)}
-                          />
-                        )
-                      }
-                      {item.status == uploadStatus.upload_finish.value &&
-                        item.status == uploadStatus.upload_seconds.value && (
-                          <Icon
-                            className="clean btn-item"
-                            iconName="clean"
-                            title="清除"
-                            width={28}
-                            onClick={() => delUpload(item.uid, index)}
-                          />
-                        )
-                      }
                     </>
                   )}
+                  {item.status != uploadStatus.init.value &&
+                    item.status != uploadStatus.upload_finish.value &&
+                    item.status != uploadStatus.upload_seconds.value && (
+                      <Icon
+                        className="del btn-item"
+                        iconName="del"
+                        title="删除"
+                        width={28}
+                        onClick={() => deleteFile(item.uid, index)}
+                      />
+                    )
+                  }
+                  {(item.status == uploadStatus.upload_finish.value ||
+                    item.status == uploadStatus.upload_seconds.value) && (
+                      <Icon
+                        className="clean btn-item"
+                        iconName="clean"
+                        title="清除"
+                        width={28}
+                        onClick={() => deleteFile(item.uid, index)}
+                      />
+                    )
+                  }
                 </div>
               </div>
             </div>

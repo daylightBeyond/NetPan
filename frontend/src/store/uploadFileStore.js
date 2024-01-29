@@ -80,6 +80,7 @@ const useUploadFileStore = create((set, get) => ({
       uploadProgress, errMsg,
     }) => {
        await set(state => {
+         console.log('----state.fileList', state.fileList)
         const updatedFileList = state.fileList.map(item =>
           item.uid === file.uid
           ?  {
@@ -95,6 +96,7 @@ const useUploadFileStore = create((set, get) => ({
             }
           : item
         );
+         console.log('--updatedFileList', updatedFileList)
         return { ...state, fileList: updatedFileList };
       });
     };
@@ -147,9 +149,7 @@ const useUploadFileStore = create((set, get) => ({
         if (currentChunk < chunks) {
           console.log(`${file.name}, ${currentChunk}分片解析完成，开始第${currentChunk + 1}`);
           const percent = Math.floor((currentChunk / chunks) * 100);
-          // resultFile.md5Progress = percent;
           // 使用外部传递的 setProgress 来更新进度
-          // debugger;
           setProgress({ progress: percent });
           console.log('percent', percent);
           loadNext();
@@ -191,7 +191,7 @@ const useUploadFileStore = create((set, get) => ({
     const chunks = Math.ceil(fileSize / chunkSize);
     console.log('chunks', chunks);
     try {
-      for (let i = chunkIndex; i < chunks; i++) {
+      for (let i = chunkIndex; i <= chunks; i++) {
         console.log(`上传第${i}片分片`);
         let delIndex = delList.indexOf((uid));
         if (delIndex != -1) {
@@ -231,7 +231,6 @@ const useUploadFileStore = create((set, get) => ({
         // 上传进度回调
         const uploadProgressCallback = (event) => {
           console.log('上传接口回调event', event);
-          // debugger
           let loaded = event.loaded;
           console.log('上传loaded', loaded);
           if (loaded > fileSize) {
@@ -258,10 +257,18 @@ const useUploadFileStore = create((set, get) => ({
           updateResult.data.status == uploadStatus.upload_seconds.value ||
           updateResult.data.status == uploadStatus.upload_finish.value
         ) {
-          updateFileState({ uploadProgress: 100 });
-          const { uploadCallback } = useUploadFileStore.getState();
+          console.log('最后上传完的文件情况', updateResult);
+          const lastFileChunkUpdate = {
+            uploadProgress: 100,
+          }
+          console.log('需要更新的信息', lastFileChunkUpdate);
+          updateFileState(lastFileChunkUpdate);
+          const { uploadCallback, fileList } = useUploadFileStore.getState();
+          console.log('上传完之后的currentFile', currentFile);
+          console.log('上传完之后的fileList', fileList);
+          // set({ fileList: [...fileList] });
           // 需要在上传完文件之后重新查询下文件，并且更新用户使用空间
-          // 上传完文件的回调 => TODO 更新用户的使用空间
+          // 上传完文件的回调
           uploadCallback();
           break;
         }
@@ -277,6 +284,13 @@ const useUploadFileStore = create((set, get) => ({
     // 查询用户使用空间
     const { getUserSpace } = useHomeStore.getState();
     getUserSpace();
+  },
+  deleteFile: (uid) => {
+    const { fileList } = useUploadFileStore.getState();
+    const index = fileList.findIndex(item => item.uid === uid);
+    fileList.splice(index, 1);
+    console.log('fileList', fileList)
+    set({ fileList: [...fileList] });
   },
 }));
 

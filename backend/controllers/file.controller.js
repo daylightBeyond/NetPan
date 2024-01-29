@@ -212,8 +212,8 @@ class FileController {
             success: true,
             data: {
               fileId: fileId,
-              status: uploadStatusEnum.UPLOAD_FINISH.value,
-              uploadMsg: uploadStatusEnum.UPLOAD_FINISH.desc
+              status: uploadStatusEnum.UPLOAD_SECONDS.value,
+              uploadMsg: uploadStatusEnum.UPLOAD_SECONDS.desc
             }
           };
           fs.unlinkSync(file.filepath); // 同步删除临时文件
