@@ -22,13 +22,38 @@ const useUploadFileStore = create((set, get) => ({
   // 上传的文件总大小
   fileTotalSize: 0,
   setQueryFileFlag: (data) => {
-    set({ queryFileFlag: data })
+    set({ queryFileFlag: data });
   },
   setShowUploader: (data) => {
     set({ showUploader: data });
   },
   setFileTotalSize: (data) => {
     set({ fileTotalSize: data });
+  },
+  updateFileState: async (payload = {}) => {
+    const {
+      progress, status, md5, fileId, chunkIndex, uploadSize,
+      uploadProgress, errMsg, file
+    } = payload;
+
+    await set(state => {
+      const updatedFileList = state.fileList.map(item =>
+        item.uid === file.uid
+          ?  {
+            ...item,
+            md5Progress: progress,
+            status: status || item.status,
+            md5: md5 || item.md5,
+            fileId: fileId || item.fileId,
+            chunkIndex: chunkIndex || item.chunkIndex,
+            uploadSize: uploadSize || item.uploadSize,
+            uploadProgress: uploadProgress || item.uploadProgress,
+            errMsg: errMsg || item.errMsg
+          }
+          : item
+      );
+      return { ...state, fileList: updatedFileList };
+    });
   },
   // 添加文件信息
   addFile: async (fileData) => {
@@ -75,38 +100,36 @@ const useUploadFileStore = create((set, get) => ({
     }
 
     // 更新页面上传状态
-    const updateFileState = async ({
-      progress, status, md5, fileId, chunkIndex, uploadSize,
-      uploadProgress, errMsg,
-    }) => {
-       await set(state => {
-         console.log('----state.fileList', state.fileList)
-        const updatedFileList = state.fileList.map(item =>
-          item.uid === file.uid
-          ?  {
-              ...item,
-              md5Progress: progress,
-              status: status || item.status,
-              md5: md5 || item.md5,
-              fileId: fileId || item.fileId,
-              chunkIndex: chunkIndex || item.chunkIndex,
-              uploadSize: uploadSize || item.uploadSize,
-              uploadProgress: uploadProgress || item.uploadProgress,
-              errMsg: errMsg || item.errMsg
-            }
-          : item
-        );
-         console.log('--updatedFileList', updatedFileList)
-        return { ...state, fileList: updatedFileList };
-      });
-    };
+    // const updateFileState = async ({
+    //   progress, status, md5, fileId, chunkIndex, uploadSize,
+    //   uploadProgress, errMsg,
+    // }) => {
+    //    await set(state => {
+    //     const updatedFileList = state.fileList.map(item =>
+    //       item.uid === file.uid
+    //       ?  {
+    //           ...item,
+    //           md5Progress: progress,
+    //           status: status || item.status,
+    //           md5: md5 || item.md5,
+    //           fileId: fileId || item.fileId,
+    //           chunkIndex: chunkIndex || item.chunkIndex,
+    //           uploadSize: uploadSize || item.uploadSize,
+    //           uploadProgress: uploadProgress || item.uploadProgress,
+    //           errMsg: errMsg || item.errMsg
+    //         }
+    //       : item
+    //     );
+    //     return { ...state, fileList: updatedFileList };
+    //   });
+    // };
 
-    let md5FileUid = await computedMd5(fileItem, updateFileState);
+    let md5FileUid = await computedMd5(fileItem);
     if (md5FileUid == null) {
       return;
     }
     console.log(getFileByUid(md5FileUid).md5);
-    await uploadFile(md5FileUid, updateFileState);
+    await uploadFile(md5FileUid);
   },
   /**
    * 根据uid获取文件，为什么不通过file传参的形式，
@@ -120,8 +143,8 @@ const useUploadFileStore = create((set, get) => ({
     return file;
   },
   // 计算文件md5值
-  computedMd5: (fileItem, setProgress) => {
-    const { chunkSize, getFileByUid } = useUploadFileStore.getState();
+  computedMd5: (fileItem) => {
+    const { chunkSize, getFileByUid, updateFileState } = useUploadFileStore.getState();
     const file = fileItem.file;
     const blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice;
     const chunks = Math.ceil(file.size / chunkSize); // 计算总共可以切成多少片
@@ -129,7 +152,7 @@ const useUploadFileStore = create((set, get) => ({
     const spark = new SparkMd5.ArrayBuffer();
     const fileReader = new FileReader();
     // 切片
-    // 使用外部传递的 setProgress 来更新进度
+    // 使用外部传递的 updateFileState 来更新进度
     const loadNext = () => {
       const start = currentChunk * chunkSize;
       const end = start + chunkSize >= file.size ? file.size : start + chunkSize;
@@ -147,31 +170,33 @@ const useUploadFileStore = create((set, get) => ({
         spark.append(e.target.result);
         currentChunk++;
         if (currentChunk < chunks) {
-          console.log(`${file.name}, ${currentChunk}分片解析完成，开始第${currentChunk + 1}`);
+          console.log(`${file.name}, ${currentChunk}分片解析完成，开始第${currentChunk + 1}, 一共有${chunks}片`);
           const percent = Math.floor((currentChunk / chunks) * 100);
-          // 使用外部传递的 setProgress 来更新进度
-          setProgress({ progress: percent });
+          // 使用外部传递的 updateFileState 来更新进度
+          updateFileState({ progress: percent, file: resultFile });
           console.log('percent', percent);
           loadNext();
         } else {
           const md5 = spark.end();
           spark.destroy();
           const updateStatus = {
+            file: resultFile,
             progress: 100,
             status: uploadStatus.uploading.value,
             md5
           };
-          setProgress(updateStatus)
+          updateFileState(updateStatus);
           resolve(fileItem.uid);
         }
       };
       // 文件读取错误
       fileReader.onerror = () => {
         const updateStatus = {
+          file: resultFile,
           progress: -1,
           status: uploadStatus.fail.value
         };
-        setProgress(updateStatus);
+        updateFileState(updateStatus);
         resolve(fileItem.uid);
       };
     }).catch(error => {
@@ -180,9 +205,9 @@ const useUploadFileStore = create((set, get) => ({
     })
   },
   // 上传文件
-  uploadFile: async (uid, updateFileState, chunkIndex) => {
+  uploadFile: async (uid, chunkIndex) => {
     chunkIndex = chunkIndex ? chunkIndex : 0;
-    const { getFileByUid, chunkSize, delList, fileTotalSize } = useUploadFileStore.getState();
+    const { getFileByUid, chunkSize, delList, fileTotalSize, updateFileState } = useUploadFileStore.getState();
     // 分片上传
     let currentFile = getFileByUid(uid);
     console.log('currentFile', currentFile);
@@ -200,7 +225,9 @@ const useUploadFileStore = create((set, get) => ({
         }
         // 因为状态可能会变，需要每次都拿一次
         currentFile = getFileByUid(uid);
-        if (currentFile.pause) {
+        if (!currentFile || currentFile.pause) {
+          // 记录暂停文件的索引
+          sessionStorage.setItem(uid, i);
           break;
         }
         let start = i * chunkSize;
@@ -221,15 +248,16 @@ const useUploadFileStore = create((set, get) => ({
 
         console.log('params', formData);
         // 错误的回调
-        const errorCallback = (errorMsg) => {
+        const errorCallback = async (errorMsg) => {
           const updateStatus = {
+            file: currentFile,
             status: uploadStatus.fail.value,
             errorMsg: errorMsg,
           };
-          updateFileState(updateStatus);
+          await updateFileState(updateStatus);
         };
         // 上传进度回调
-        const uploadProgressCallback = (event) => {
+        const uploadProgressCallback = async (event) => {
           console.log('上传接口回调event', event);
           let loaded = event.loaded;
           console.log('上传loaded', loaded);
@@ -237,10 +265,11 @@ const useUploadFileStore = create((set, get) => ({
             loaded = fileSize;
           }
           const updateStatus = {
+            file: currentFile,
             uploadSize: i * chunkSize + loaded,
             uploadProgress: Math.floor((currentFile.uploadSize / fileSize) * 100)
           };
-          updateFileState(updateStatus);
+          await updateFileState(updateStatus);
         };
         const updateResult = await upload(formData, { errorCallback, uploadProgressCallback });
         console.log('updateResult', updateResult);
@@ -248,24 +277,28 @@ const useUploadFileStore = create((set, get) => ({
           break;
         }
         const updateStatus = {
+          file: currentFile,
           fileId: updateResult.data.fileId,
           status: uploadStatus[updateResult.data.status].value,
           chunkIndex: i,
         };
-        updateFileState(updateStatus);
+        await updateFileState(updateStatus);
         if (
           updateResult.data.status == uploadStatus.upload_seconds.value ||
           updateResult.data.status == uploadStatus.upload_finish.value
         ) {
           console.log('最后上传完的文件情况', updateResult);
           const lastFileChunkUpdate = {
+            file: currentFile,
             uploadProgress: 100,
           }
           console.log('需要更新的信息', lastFileChunkUpdate);
-          updateFileState(lastFileChunkUpdate);
+          await updateFileState(lastFileChunkUpdate);
           const { uploadCallback, fileList } = useUploadFileStore.getState();
           console.log('上传完之后的currentFile', currentFile);
           console.log('上传完之后的fileList', fileList);
+          // 上传完文件之后，清除uid对应的索引
+          sessionStorage.removeItem(uid);
           // set({ fileList: [...fileList] });
           // 需要在上传完文件之后重新查询下文件，并且更新用户使用空间
           // 上传完文件的回调
@@ -285,12 +318,28 @@ const useUploadFileStore = create((set, get) => ({
     const { getUserSpace } = useHomeStore.getState();
     getUserSpace();
   },
+  // 删除文件列表
   deleteFile: (uid) => {
     const { fileList } = useUploadFileStore.getState();
     const index = fileList.findIndex(item => item.uid === uid);
     fileList.splice(index, 1);
-    console.log('fileList', fileList)
     set({ fileList: [...fileList] });
+  },
+  pauseUploadFile: (uid) => {
+    const { fileList } = useUploadFileStore.getState();
+    const index = fileList.findIndex(item => item.uid === uid);
+    fileList[index].pause = true;
+    fileList[index].status = uploadStatus.pause.value;
+    set({ fileList: [...fileList] });
+  },
+  startUploadFile: async (uid) => {
+    const { fileList, uploadFile } = useUploadFileStore.getState();
+    const index = fileList.findIndex(item => item.uid === uid);
+    fileList[index].pause = false;
+    fileList[index].status = uploadStatus.uploading.value;
+    set({ fileList: [...fileList] });
+    const chunkIndex = sessionStorage.getItem(uid);
+    await uploadFile(uid, chunkIndex);
   },
 }));
 

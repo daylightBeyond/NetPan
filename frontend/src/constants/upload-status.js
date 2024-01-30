@@ -35,5 +35,11 @@ const uploadStatus = {
     color: '#67c23a',
     icon: 'ok',
   },
+  pause: {
+    value: 'pause',
+    desc: '暂停',
+    color: '#409eff',
+    icon: 'pause'
+  }
 };
 export default uploadStatus;

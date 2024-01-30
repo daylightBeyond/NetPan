@@ -24,19 +24,19 @@ export const sizeToStr = (limit) => {
 };
 
 export const downloadByUrl = (href, title) => {
-    try {
-      const domA = document.createElement('a');
-      domA.setAttribute('href', href);
-      if ('download' in domA) {
-        domA.setAttribute('download', title);
-      }
-      domA.style.display = 'none';
-      // 触发点击
-      document.body.appendChild(domA);
-      domA.click();
-      // 然后移除
-      document.body.removeChild(domA);
-    } catch (e) {
-      console.log('暂无文件', e);
+  try {
+    const domA = document.createElement('a');
+    domA.setAttribute('href', href);
+    if ('download' in domA) {
+      domA.setAttribute('download', title);
     }
+    domA.style.display = 'none';
+    // 触发点击
+    document.body.appendChild(domA);
+    domA.click();
+    // 然后移除
+    document.body.removeChild(domA);
+  } catch (e) {
+    console.log('暂无文件', e);
+  }
 };

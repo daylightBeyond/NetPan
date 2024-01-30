@@ -23,7 +23,8 @@ const Icon = (props) => {
     cover,
     width,
     fit,
-    className
+    className,
+    ...restProps
   } = props;
 
   const [imgSrc, setImgSrc] = useState('');
@@ -60,6 +61,7 @@ const Icon = (props) => {
     <span
       className={`icon ${className}`}
       style={{ width, height: width }}
+      {...restProps}
     >
       <img src={imgSrc} style={{ objectFit: fit }} />
     </span>

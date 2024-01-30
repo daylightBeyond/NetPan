@@ -15,18 +15,23 @@ const Uploader = forwardRef((props, ref) => {
   // store的变量和方法
   const fileList = useUploadFileStore(state => state.fileList);
   const deleteFile = useUploadFileStore(state => state.deleteFile);
+  const pauseUploadFile = useUploadFileStore(state => state.pauseUploadFile);
+  const startUploadFile = useUploadFileStore(state => state.startUploadFile);
 
-  const startUpload = (uid) => {
-
+  const startUpload = (e, uid) => {
+    e.stopPropagation();
+    startUploadFile(uid);
   };
 
   // 暂停上传
-  const pauseUpload = (uid) => {
-
+  const pauseUpload = (e, uid) => {
+    e.stopPropagation();
+    pauseUploadFile(uid);
   };
 
   // 删除
-  const delUpload = (uid, index) => {
+  const delUpload = (e, uid) => {
+    e.stopPropagation();
     console.log('uid', uid);
     deleteFile(uid);
   };
@@ -83,25 +88,23 @@ const Uploader = forwardRef((props, ref) => {
                 )}
                 <div className="op-btn">
                   {item.status == uploadStatus.uploading.value && (
-                    <>
-                      {item.pause ? (
-                        <Icon
-                          className="btn-item"
-                          iconName="upload"
-                          title="上传"
-                          width={28}
-                          onClick={() => startUpload(item.uid)}
-                        />
-                      ) : (
-                        <Icon
-                          className="btn-item"
-                          iconName="pause"
-                          title="暂停"
-                          width={28}
-                          onClick={() => pauseUpload(item.uid)}
-                        />
-                      )}
-                    </>
+                    item.pause ? (
+                      <Icon
+                        className="btn-item"
+                        iconName="upload"
+                        title="上传"
+                        width={28}
+                        onClick={(e) => startUpload(e, item.uid)}
+                      />
+                    ) : (
+                      <Icon
+                        className="btn-item"
+                        iconName="pause"
+                        title="暂停"
+                        width={28}
+                        onClick={(e) => pauseUpload(e, item.uid)}
+                      />
+                    )
                   )}
                   {item.status != uploadStatus.init.value &&
                     item.status != uploadStatus.upload_finish.value &&
@@ -111,7 +114,7 @@ const Uploader = forwardRef((props, ref) => {
                         iconName="del"
                         title="删除"
                         width={28}
-                        onClick={() => deleteFile(item.uid, index)}
+                        onClick={(e) => delUpload(e, item.uid)}
                       />
                     )
                   }
@@ -122,7 +125,7 @@ const Uploader = forwardRef((props, ref) => {
                         iconName="clean"
                         title="清除"
                         width={28}
-                        onClick={() => deleteFile(item.uid, index)}
+                        onClick={(e) => delUpload(e, item.uid)}
                       />
                     )
                   }

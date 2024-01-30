@@ -71,39 +71,39 @@ const routes = [
       },
     ]
   },
-  {
-    path: "settings",
-    name: "设置",
-    element: <FrameWork />,
-    children: [
-      {
-        path: 'sysSetting',
-        name: '系统设置',
-        meta: {
-          needLogin: true,
-          menuCode: "settings",
-        },
-        element: <SysSetting />
-      },
-      {
-        path: 'userList',
-        name: '用户管理',
-        meta: {
-          needLogin: true,
-          menuCode: "share",
-        },
-        element: <UserList />
-      },
-      {
-        path: 'fileList',
-        name: '用户文件',
-        meta: {
-          needLogin: true,
-          menuCode: "share",
-        },
-        element: <FileList />
-      },
-    ]
-  },
+  // {
+  //   path: "settings",
+  //   name: "设置",
+  //   element: <FrameWork />,
+  //   children: [
+  //     {
+  //       path: 'sysSetting',
+  //       name: '系统设置',
+  //       meta: {
+  //         needLogin: true,
+  //         menuCode: "settings",
+  //       },
+  //       element: <SysSetting />
+  //     },
+  //     {
+  //       path: 'userList',
+  //       name: '用户管理',
+  //       meta: {
+  //         needLogin: true,
+  //         menuCode: "share",
+  //       },
+  //       element: <UserList />
+  //     },
+  //     {
+  //       path: 'fileList',
+  //       name: '用户文件',
+  //       meta: {
+  //         needLogin: true,
+  //         menuCode: "share",
+  //       },
+  //       element: <FileList />
+  //     },
+  //   ]
+  // },
 ];
 export default routes;
