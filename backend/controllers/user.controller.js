@@ -36,8 +36,8 @@ const { ADMIN_EMAIL, JWT_SECRET, JWT_EXPIRE } = process.env;
 const mailConfig = {
   service: 'qq', // QQ 邮箱服务提供商
   auth: {
-    user: '2020658964@qq.com', // 发送验证码的邮箱地址
-    pass: 'uosizujbcqnkeadb', // 发送验证码的邮箱密码或授权码
+    user: 'test@qq.com', // 发送验证码的邮箱地址
+    pass: '11111', // 发送验证码的邮箱密码或授权码
   }
 };
 
