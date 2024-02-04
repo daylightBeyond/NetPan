@@ -71,27 +71,27 @@ export const menus = [
       },
     ],
   },
-  {
-    path: "/settings/fileList",
-    icon: "settings",
-    name: "设置",
-    menuCode: "settings",
-    allShow: true,
-    children: [
-      {
-        name: "用户文件",
-        path: "/settings/fileList",
-      },
-      {
-        name: "用户管理",
-        path: "/settings/userList",
-      },
-      {
-        name: "系统设置",
-        path: "/settings/sysSetting",
-      },
-    ],
-  },
+  // {
+  //   path: "/settings/fileList",
+  //   icon: "settings",
+  //   name: "设置",
+  //   menuCode: "settings",
+  //   allShow: true,
+  //   children: [
+  //     {
+  //       name: "用户文件",
+  //       path: "/settings/fileList",
+  //     },
+  //     {
+  //       name: "用户管理",
+  //       path: "/settings/userList",
+  //     },
+  //     {
+  //       name: "系统设置",
+  //       path: "/settings/sysSetting",
+  //     },
+  //   ],
+  // },
 ];
 
 export const subMenus = {
