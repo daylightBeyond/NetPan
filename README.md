@@ -75,6 +75,10 @@ CREATE TABLE `user_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 
+### 3 安装环境
+1. 服务端环境需要安装 redis, mysql, ffpmeg
+2. 由于 backend 后端部分中的文件路径，我使用的是linux环境，如果使用的是windows，则需要更改磁盘路径，例如在 `.env, constants`中的配置信息
+3. 我使用的是虚拟机，可以配置稍微给高点，不然上传大文件肯定会出问题
 
 ### 配置qq邮箱授权码发送验证码
 此处可自动百度
